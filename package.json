@@ -1,0 +1,19 @@
+{
+  "name": "pumendoza-landing",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "astro build && node -e 'const fs=require(\"fs\"),assert=require(\"assert\");const h=fs.readFileSync(\"dist/index.html\",\"utf-8\");assert(h.includes(\"logo-pum.png\"));const m=fs.readFileSync(\"dist/manos-a-la-obra/index.html\",\"utf-8\");assert(m.includes(\"logo-manos.png\"));assert(h.includes(\"Ver Ubicaci\"));console.log(\"Tests passed!\");'"
+  },
+  "dependencies": {
+    "astro": "^5.5.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "daisyui": "^5.0.0",
+    "tailwindcss": "^4.0.0"
+  }
+}

@@ -1,0 +1,35 @@
+---
+interface Props {
+  href: string;
+  imgSrc: string;
+  imgAlt: string;
+  imgWidth: number;
+  imgHeight: number;
+  imgClass?: string;
+}
+
+const {
+  href,
+  imgSrc,
+  imgAlt,
+  imgWidth,
+  imgHeight,
+  imgClass = "w-32 sm:w-40 h-auto object-contain",
+} = Astro.props;
+---
+
+<a
+  href={href}
+  class="card bg-base-content/15 hover:bg-base-content/25 border border-secondary-content/15 rounded-3xl p-5 sm:p-7 transition-transform hover:-translate-y-1 flex items-center justify-center"
+>
+  <figure class="rounded-none! overflow-visible">
+    <img
+      src={imgSrc}
+      alt={imgAlt}
+      width={imgWidth}
+      height={imgHeight}
+      loading="lazy"
+      class={imgClass}
+    />
+  </figure>
+</a>

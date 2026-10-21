@@ -1,0 +1,39 @@
+---
+import Watermark from "../Watermark.astro";
+---
+
+<section class="hero bg-base-100 text-base-content relative overflow-hidden min-h-[calc(100dvh-3.5rem)] lg:h-[calc(100dvh-3.5rem)] flex flex-col justify-between items-stretch p-0">
+  <Watermark />
+  <div class="hero-content relative z-10 w-full max-w-7xl mx-auto flex-1 flex flex-col justify-between items-stretch p-0 overflow-hidden">
+    <div class="px-6 pt-6 sm:px-10 md:pt-8 flex items-start gap-4 sm:gap-6 md:gap-8 shrink-0">
+      <img
+        src="/images/logo-pum.png"
+        alt="Logo Pastoral Universitaria de Mendoza"
+        width="424"
+        height="466"
+        class="w-14 sm:w-20 md:w-24 lg:w-28 h-auto object-contain shrink-0 mt-1"
+      />
+
+      <div class="flex-1 min-w-0">
+        <h1 class="font-sans font-bold text-[clamp(1.5rem,3.2vw,2.75rem)] leading-[1.08] text-base-content text-balance">
+          Pastoral Universitaria de Mendoza
+        </h1>
+        <div class="h-2 w-full max-w-3xl bg-secondary my-2.5 md:my-3"></div>
+        <p class="font-sans font-normal text-[clamp(1.05rem,2vw,1.65rem)] leading-[1.15] text-base-content/95 max-w-[34ch] text-pretty">
+          El espacio para los universitarios católicos de Mendoza
+        </p>
+      </div>
+    </div>
+
+    <div class="w-full flex justify-end shrink min-h-0 pointer-events-none px-4 sm:px-8">
+      <img
+        src="/images/hero-collage.webp"
+        alt="Comunidad de estudiantes de la Pastoral Universitaria de Mendoza"
+        width="2001"
+        height="922"
+        fetchpriority="high"
+        class="w-auto max-w-full md:max-w-[75%] lg:max-w-[65%] max-h-[46vh] lg:max-h-[50vh] h-auto object-contain object-bottom"
+      />
+    </div>
+  </div>
+</section>

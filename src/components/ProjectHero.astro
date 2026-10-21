@@ -1,0 +1,71 @@
+---
+import Watermark from "./Watermark.astro";
+
+interface Props {
+  title: string;
+  subtitle: string;
+  description: string;
+  ctaText: string;
+  ctaHref: string;
+  logoSrc: string;
+  logoAlt: string;
+  logoWidth: number;
+  logoHeight: number;
+  logoClass?: string;
+}
+
+const {
+  title,
+  subtitle,
+  description,
+  ctaText,
+  ctaHref,
+  logoSrc,
+  logoAlt,
+  logoWidth,
+  logoHeight,
+  logoClass = "w-44 sm:w-56 h-auto object-contain",
+} = Astro.props;
+---
+
+<section class="hero bg-base-100 text-base-content relative overflow-hidden min-h-[calc(100dvh-3.5rem)] py-16 px-6 sm:px-10">
+  <Watermark />
+  <div class="hero-content relative z-10 w-full max-w-5xl mx-auto flex-col md:flex-row items-center justify-between gap-12 p-0">
+    <div class="max-w-xl">
+      <h1 class="font-display text-secondary text-[clamp(2.2rem,5.2vw,4.2rem)] leading-[0.95]">
+        {title}
+      </h1>
+      <p class="font-heading text-base-content text-[clamp(1.35rem,2.6vw,2rem)] leading-tight mt-4">
+        {subtitle}
+      </p>
+      <p class="font-sans text-base-content/90 text-lg leading-relaxed mt-5 max-w-[48ch] text-pretty">
+        {description}
+      </p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a
+          href={ctaHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-accent font-heading text-base px-6 py-3 h-auto rounded-2xl border-0"
+        >
+          {ctaText}
+        </a>
+        <a href="/" class="btn btn-ghost text-base px-5 py-3 h-auto rounded-2xl">
+          Volver a portada
+        </a>
+      </div>
+    </div>
+
+    <div class="card bg-secondary p-8 rounded-3xl shrink-0">
+      <figure class="rounded-none! overflow-visible">
+        <img
+          src={logoSrc}
+          alt={logoAlt}
+          width={logoWidth}
+          height={logoHeight}
+          class={logoClass}
+        />
+      </figure>
+    </div>
+  </div>
+</section>

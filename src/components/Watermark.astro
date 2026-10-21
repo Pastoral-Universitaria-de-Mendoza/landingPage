@@ -1,0 +1,15 @@
+---
+const rows = Array.from({ length: 5 });
+---
+
+<div
+  aria-hidden="true"
+  class="pointer-events-none select-none absolute inset-0 overflow-hidden flex flex-col justify-around leading-[0.82] opacity-[0.055] text-base-content font-outline text-[clamp(6.5rem,13.5vw,10.5rem)] whitespace-nowrap px-4 py-2"
+>
+  {rows.map(() => (
+    <div class="flex justify-between gap-8">
+      <span>la pum</span>
+      <span class="hidden sm:inline">la pum</span>
+    </div>
+  ))}
+</div>

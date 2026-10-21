@@ -1,0 +1,19 @@
+---
+interface Props {
+  nombre: string;
+  descripcion: string;
+}
+
+const { nombre, descripcion } = Astro.props;
+---
+
+<div class="card bg-base-200/80 border border-base-content/10 rounded-3xl p-6 sm:p-8">
+  <div class="card-body p-0 gap-3">
+    <h2 class="card-title font-display text-secondary text-2xl sm:text-3xl">
+      {nombre}
+    </h2>
+    <p class="font-sans text-base-content/90 text-base sm:text-lg leading-relaxed text-pretty">
+      {descripcion}
+    </p>
+  </div>
+</div>

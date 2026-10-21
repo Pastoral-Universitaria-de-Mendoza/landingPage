@@ -1,0 +1,49 @@
+---
+import Watermark from "../Watermark.astro";
+import ProjectCard from "../ProjectCard.astro";
+---
+
+<section class="bg-secondary text-secondary-content relative overflow-hidden min-h-[calc(100dvh-3.5rem)] lg:h-[calc(100dvh-3.5rem)] flex flex-col justify-center py-12 lg:py-0 px-6 sm:px-10">
+  <Watermark />
+  <div class="relative z-10 max-w-7xl mx-auto w-full flex flex-col justify-around lg:h-[82%] gap-8 md:gap-10">
+    <div>
+      <h2 class="font-heading text-secondary-content text-[clamp(2rem,4.2vw,3.6rem)] leading-[0.96]">
+        La Pastoral Universitaria<br />de Mendoza
+      </h2>
+      <p class="font-sans text-secondary-content text-[clamp(1.05rem,1.8vw,1.45rem)] leading-[1.35] mt-4 sm:mt-5 max-w-[54ch] text-pretty font-bold opacity-90">
+        Desde el 2005, buscamos acompañar la vida de los católicos que transitan el mundo universitario.
+      </p>
+    </div>
+
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pt-4 border-t border-secondary-content/20">
+      <div>
+        <span class="block font-display text-secondary-content text-[clamp(2.1rem,4.5vw,3.8rem)] leading-[0.9]">
+          NUESTROS
+        </span>
+        <span class="block font-display text-secondary-content text-[clamp(1.9rem,4vw,3.4rem)] leading-[0.9]">
+          PROYECTOS
+        </span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 sm:gap-6 max-w-lg w-full lg:w-auto">
+        <ProjectCard
+          href="/mision-effeta"
+          imgSrc="/images/logo-effeta.png"
+          imgAlt="Effetá - Misión Universitaria"
+          imgWidth={310}
+          imgHeight={426}
+          imgClass="w-24 sm:w-32 md:w-36 h-auto object-contain"
+        />
+
+        <ProjectCard
+          href="/manos-a-la-obra"
+          imgSrc="/images/logo-manos.png"
+          imgAlt="Manos a la Obra - Proyecto Universitario Solidario"
+          imgWidth={471}
+          imgHeight={527}
+          imgClass="w-28 sm:w-36 md:w-40 h-auto object-contain"
+        />
+      </div>
+    </div>
+  </div>
+</section>

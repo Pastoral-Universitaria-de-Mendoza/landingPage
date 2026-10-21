@@ -1,0 +1,106 @@
+---
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = "/" } = Astro.props;
+
+const navItems = [
+  { label: "PORTADA", href: "/" },
+  { label: "MANOS A LA OBRA", href: "/manos-a-la-obra" },
+  { label: "MISIÓN EFFETÁ", href: "/mision-effeta" },
+  { label: "ÁREAS", href: "/areas" },
+  { label: "TIENDA PUM", href: "/tienda-pum" },
+];
+---
+
+<header class="bg-base-100/95 backdrop-blur-xs text-base-content sticky top-0 z-50 border-b border-base-content/10">
+  <div class="navbar max-w-7xl mx-auto min-h-14 px-4 sm:px-8">
+    <div class="navbar-start">
+      <a href="/" class="flex items-center gap-2.5 group" aria-label="Pastoral Universitaria de Mendoza - Inicio">
+        <img
+          src="/images/logo-pum.png"
+          alt=""
+          width="424"
+          height="466"
+          class="w-7 h-auto object-contain transition-transform group-hover:scale-105"
+        />
+        <span class="font-display text-sm tracking-wider text-base-content hidden sm:inline">
+          LA PUM
+        </span>
+      </a>
+    </div>
+
+    <nav class="navbar-end w-full justify-end" aria-label="Navegación principal">
+      <ul class="menu menu-horizontal hidden md:flex gap-1 px-1 py-0 text-[15px]">
+        {navItems.map((item) => {
+          const active = currentPath === item.href;
+          return (
+            <li>
+              <a
+                href={item.href}
+                class:list={[
+                  "rounded-none bg-transparent! px-3.5 py-2 text-base-content hover:text-secondary transition-colors",
+                  active
+                    ? "font-bold border-b-2 border-secondary text-base-content"
+                    : "font-normal text-base-content/85",
+                ]}
+                aria-current={active ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+
+      <details class="dropdown dropdown-end md:hidden" id="mobile-menu">
+        <summary class="btn btn-ghost btn-sm px-2.5 text-lg" aria-label="Abrir menú">☰</summary>
+        <ul class="dropdown-content menu bg-base-200 rounded-box z-50 w-60 p-2 mt-2 shadow-xl border border-base-content/10">
+          {navItems.map((item) => {
+            const active = currentPath === item.href;
+            return (
+              <li>
+                <a
+                  href={item.href}
+                  class:list={[
+                    active ? "font-bold text-secondary" : "font-normal text-base-content",
+                  ]}
+                  aria-current={active ? "page" : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </details>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const dropdown = document.getElementById("mobile-menu") as HTMLDetailsElement | null;
+  if (dropdown) {
+    // Cerrar al hacer scroll
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (dropdown.hasAttribute("open")) {
+          dropdown.removeAttribute("open");
+        }
+      },
+      { passive: true }
+    );
+
+    // Cerrar al clickear en cualquier apartado fuera del botón de apertura
+    document.addEventListener("click", (event) => {
+      if (!dropdown.hasAttribute("open")) return;
+      const target = event.target as Node;
+      const summary = dropdown.querySelector("summary");
+      if (summary && !summary.contains(target)) {
+        dropdown.removeAttribute("open");
+      }
+    });
+  }
+</script>

@@ -1,0 +1,88 @@
+@import "tailwindcss";
+@plugin "daisyui";
+@plugin "daisyui/theme" {
+  name: "pum";
+  default: true;
+  prefersdark: false;
+  color-scheme: dark;
+
+  --color-base-100: #27348a;
+  --color-base-200: #1f2a70;
+  --color-base-300: #172056;
+  --color-base-content: #ffffff;
+  --color-primary: #27348a;
+  --color-primary-content: #ffffff;
+  --color-secondary: #f1861f;
+  --color-secondary-content: #27348a;
+  --color-accent: #f1861f;
+  --color-accent-content: #ffffff;
+  --color-neutral: #172056;
+  --color-neutral-content: #ffffff;
+  --color-info: #38bdf8;
+  --color-info-content: #000000;
+  --color-success: #4ade80;
+  --color-success-content: #000000;
+  --color-warning: #facc15;
+  --color-warning-content: #000000;
+  --color-error: #f87171;
+  --color-error-content: #ffffff;
+
+  --radius-selector: 1rem;
+  --radius-field: 1rem;
+  --radius-box: 1rem;
+
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  --border: 1px;
+
+  --depth: 0;
+  --noise: 0;
+}
+
+@font-face {
+  font-family: "PumSans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/pum-sans-regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "PumSans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/pum-sans-bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "PumDisplay";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/pum-display.woff") format("woff");
+}
+
+@font-face {
+  font-family: "PumHeading";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/pum-heading.woff") format("woff");
+}
+
+@font-face {
+  font-family: "PumOutline";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/pum-outline.woff") format("woff");
+}
+
+@theme {
+  --font-sans: "PumSans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: "PumDisplay", sans-serif;
+  --font-heading: "PumHeading", sans-serif;
+  --font-outline: "PumOutline", sans-serif;
+}

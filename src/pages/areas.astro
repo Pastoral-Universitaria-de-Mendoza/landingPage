@@ -1,0 +1,46 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Watermark from "../components/Watermark.astro";
+import AreaCard from "../components/AreaCard.astro";
+
+const areas = [
+  {
+    nombre: "ESPIRITUALIDAD",
+    descripcion: "Oración, adoración y celebración de los sacramentos en comunidad universitaria.",
+  },
+  {
+    nombre: "SERVICIO",
+    descripcion: "Proyectos solidarios y misiones para poner tu profesión al servicio de los demás.",
+  },
+  {
+    nombre: "FORMACIÓN",
+    descripcion: "Charlas, talleres y espacios de diálogo entre fe, ciencia y cultura.",
+  },
+  {
+    nombre: "FRATERNIDAD",
+    descripcion: "Encuentros, peñas y vida compartida cada miércoles desde las 18 h.",
+  },
+];
+---
+
+<Layout title="ÁREAS">
+  <section class="hero bg-base-100 text-base-content relative overflow-hidden min-h-[calc(100dvh-3.5rem)] py-16 px-6 sm:px-10">
+    <Watermark />
+    <div class="hero-content relative z-10 w-full max-w-7xl mx-auto flex-col items-start gap-12 p-0">
+      <div>
+        <h1 class="font-display text-secondary text-[clamp(2.2rem,5.2vw,4.2rem)] leading-[0.95]">
+          ÁREAS DE LA PUM
+        </h1>
+        <p class="font-sans text-base-content/90 text-lg sm:text-xl mt-4 max-w-[54ch] text-pretty">
+          Cuatro pilares que sostienen nuestros encuentros de cada miércoles a las 18 h en la Parroquia Inmaculado Corazón de María.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
+        {areas.map((area) => (
+          <AreaCard nombre={area.nombre} descripcion={area.descripcion} />
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

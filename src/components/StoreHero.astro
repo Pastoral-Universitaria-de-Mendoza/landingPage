@@ -1,0 +1,47 @@
+---
+import Watermark from "./Watermark.astro";
+
+interface Props {
+  formUrl: string;
+}
+
+const { formUrl } = Astro.props;
+---
+
+<section class="hero bg-base-100 text-base-content relative overflow-hidden min-h-[calc(100dvh-3.5rem)] items-center py-12 px-6 sm:px-10">
+  <Watermark />
+  <div class="hero-content relative z-10 w-full max-w-7xl mx-auto flex-col lg:flex-row justify-between items-center gap-12 p-0">
+    <div class="z-20 max-w-xl text-left w-full">
+      <h1 class="font-display text-secondary text-[clamp(2.35rem,6vw,4.75rem)] leading-none">
+        TIENDA PUM
+      </h1>
+      <p class="font-heading text-base-content text-[clamp(1.85rem,4.2vw,3.3rem)] leading-[0.98] mt-6">
+        COMPRÁ TU BUZO<br />ACÁ
+      </p>
+      <p class="font-sans text-base-content/85 text-lg sm:text-xl mt-4 max-w-[40ch] text-pretty">
+        Encargá el buzo oficial de la Pastoral Universitaria completando el formulario.
+      </p>
+      <div class="mt-8">
+        <a
+          href={formUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-accent font-heading text-[clamp(1.15rem,2vw,1.5rem)] h-auto py-3.5 px-8 rounded-2xl border-0 shadow-none transition-transform hover:scale-[1.02]"
+        >
+          ¡QUIERO MI BUZO!
+        </a>
+      </div>
+    </div>
+
+    <div class="w-full lg:w-[56%] z-10 flex justify-center">
+      <img
+        src="/images/tienda-merch.webp"
+        alt="Buzo y tote bag de la Pastoral Universitaria de Mendoza"
+        width="1199"
+        height="1037"
+        fetchpriority="high"
+        class="w-full max-w-xl h-auto object-contain"
+      />
+    </div>
+  </div>
+</section>

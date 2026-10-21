@@ -1,0 +1,37 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-base-200 text-base-content border-t border-base-content/10 py-10 px-6 sm:px-10">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+    <div class="flex items-center gap-3">
+      <img
+        src="/images/logo-pum.png"
+        alt="Logo Pastoral Universitaria de Mendoza"
+        width="424"
+        height="466"
+        class="w-6 h-auto object-contain"
+      />
+      <span class="font-display text-sm tracking-wider">
+        PASTORAL UNIVERSITARIA DE MENDOZA
+      </span>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-5 text-sm text-base-content/80">
+      <a href="mailto:pastoraluniversitariamza@gmail.com" class="hover:text-secondary transition-colors">
+        pastoraluniversitariamza@gmail.com
+      </a>
+      <span aria-hidden="true">•</span>
+      <a
+        href="https://www.instagram.com/pu.mendoza/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-secondary transition-colors"
+      >
+        @pu.mendoza
+      </a>
+      <span aria-hidden="true">•</span>
+      <span>{currentYear}</span>
+    </div>
+  </div>
+</footer>

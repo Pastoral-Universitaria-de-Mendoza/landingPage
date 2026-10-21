@@ -1,0 +1,58 @@
+---
+import Watermark from "../Watermark.astro";
+
+const pilares = [
+  "ESPIRITUALIDAD",
+  "SERVICIO",
+  "FORMACIÓN",
+  "FRATERNIDAD",
+];
+---
+
+<section class="bg-base-100 text-base-content relative overflow-hidden min-h-[calc(100dvh-3.5rem)] lg:h-[calc(100dvh-3.5rem)] flex flex-col justify-center py-12 lg:py-0 px-6 sm:px-10">
+  <Watermark />
+  <div class="relative z-10 max-w-7xl mx-auto w-full flex flex-col justify-around lg:h-[82%] gap-8 md:gap-10">
+    <div>
+      <h2 class="font-display text-secondary text-[clamp(2.1rem,4.5vw,3.8rem)] leading-[0.95]">
+        MIÉRCOLES PUM
+      </h2>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mt-6 sm:mt-8">
+        <p class="lg:col-span-7 font-sans text-base-content text-[clamp(1.1rem,2vw,1.65rem)] leading-[1.3] max-w-[46ch] text-pretty">
+          Espacio de encuentro para los estudiantes universitarios, cada miércoles una actividad distinta para vos.
+        </p>
+
+        <div class="lg:col-span-5 border-l-4 border-secondary pl-5 py-1 flex flex-col justify-center">
+          <p class="font-display text-secondary text-base sm:text-lg tracking-wide">
+            DESDE LAS 18 H
+          </p>
+          <p class="font-sans font-bold text-base-content text-[clamp(1.05rem,1.8vw,1.35rem)] leading-[1.25] mt-1">
+            Parroquia Inmaculado Corazón de María
+          </p>
+          <p class="font-sans text-base-content/85 text-sm sm:text-base mt-1">
+            Rodríguez y Martín Zapata, Ciudad de Mendoza
+          </p>
+          <a
+            href="https://share.google/q3z5DHswtnGU8OYp5"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-secondary text-secondary-content font-heading text-sm px-4 py-2 mt-3.5 rounded-xl border-0 w-fit inline-flex items-center gap-2 transition-transform hover:scale-105"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 shrink-0" aria-hidden="true">
+              <path fill-rule="evenodd" d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clip-rule="evenodd" />
+            </svg>
+            Ver Ubicación
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-3 sm:gap-4 pt-2">
+      {pilares.map((pilar) => (
+        <span class="badge badge-accent font-display text-secondary-content text-[clamp(0.95rem,1.5vw,1.3rem)] h-auto py-3 px-5 sm:px-6 rounded-2xl border-0 flex-1 min-w-fit justify-center">
+          {pilar}
+        </span>
+      ))}
+    </div>
+  </div>
+</section>
