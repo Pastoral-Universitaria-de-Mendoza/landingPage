@@ -7,9 +7,15 @@ interface Props {
   title: string;
   favicon?: string;
   showNav?: boolean;
+  showFooter?: boolean;
 }
 
-const { title, favicon = "/images/logo-pum.png", showNav = true } = Astro.props;
+const {
+  title,
+  favicon = "/images/logo-pum.png",
+  showNav = true,
+  showFooter = true,
+} = Astro.props;
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
 
@@ -37,6 +43,6 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
       <slot />
     </main>
 
-    <Footer />
+    {showFooter && <Footer />}
   </body>
 </html>
