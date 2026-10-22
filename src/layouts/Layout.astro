@@ -6,9 +6,10 @@ import Footer from "../components/Footer.astro";
 interface Props {
   title: string;
   favicon?: string;
+  showNav?: boolean;
 }
 
-const { title, favicon = "/images/logo-pum.png" } = Astro.props;
+const { title, favicon = "/images/logo-pum.png", showNav = true } = Astro.props;
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
 
@@ -30,9 +31,9 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
       Saltar al contenido principal
     </a>
 
-    <Navbar currentPath={currentPath} />
+    {showNav && <Navbar currentPath={currentPath} />}
 
-    <main id="main-content" class="flex-1">
+    <main id="main-content" class="flex-1 flex flex-col">
       <slot />
     </main>
 
