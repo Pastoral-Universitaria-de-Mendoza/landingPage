@@ -1,13 +1,24 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ProjectHero from "../components/ProjectHero.astro";
+
+const trayectoria = [
+  { anio: "2005", lugar: "Nacimiento de Manos a la Obra", detalle: "Creación de la iniciativa solidaria universitaria junto con el origen de la PUM." },
+  { anio: "2006–2009", lugar: "Costa de Araujo (Lavalle)", detalle: "Proyectos sociocomunitarios y apoyo a familias en zonas rurales." },
+  { anio: "2010–2012", lugar: "La Arboleda (Tupungato)", detalle: "Intervenciones en el Valle de Uco con foco en salud, educación y desarrollo." },
+  { anio: "2013–2015", lugar: "La Colonia (San Martín - Junín)", detalle: "Trabajo territorial interdisciplinario en el Este mendocino." },
+  { anio: "2016–2018", lugar: "Eugenio Bustos, El Cepillo y Villa San Carlos (San Carlos)", detalle: "Talleres y proyectos aplicados en comunidades del Valle de Uco." },
+  { anio: "2019–2021", lugar: "B° Campo Papa, La Estanzuela y Piedras Blancas (Godoy Cruz)", detalle: "Acompañamiento comunitario y contención social en el Gran Mendoza." },
+  { anio: "2022–2024", lugar: "B° Tres Estrellas, Huarpes I y II (Godoy Cruz)", detalle: "Talleres de oficios, postas de salud y fortalecimiento comunitario." },
+  { anio: "2025", lugar: "Colonia Molina (Guaymallén)", detalle: "Nueva etapa de servicio y proyectos universitarios interdisciplinarios." },
+];
 ---
 
 <Layout title="MANOS A LA OBRA" favicon="/images/logo-manos.png">
   <ProjectHero
     title="MANOS A LA OBRA"
     subtitle="Proyecto Universitario Solidario"
-    description="Ponemos nuestros talentos y estudios al servicio de quienes más lo necesitan en Mendoza. Sumate como voluntario escribiéndonos por Instagram."
+    description="Iniciativa donde los estudiantes universitarios ponen sus conocimientos específicos, talentos y formación profesional al servicio de comunidades en situación de vulnerabilidad o necesidad, vinculando experiencialmente la fe con la realidad cotidiana."
     ctaText="SUMARME EN @PU.MENDOZA"
     ctaHref="https://www.instagram.com/pu.mendoza/"
     logoSrc="/images/logo-manos.png"
@@ -16,4 +27,126 @@ import ProjectHero from "../components/ProjectHero.astro";
     logoHeight={527}
     logoClass="w-44 sm:w-56 h-auto object-contain"
   />
+
+  <!-- Metodología de Servicio -->
+  <section class="bg-base-200 text-base-content py-16 px-6 sm:px-10 border-t border-base-content/10">
+    <div class="max-w-7xl mx-auto space-y-12">
+      <!-- Anuncio Próxima Edición -->
+      <div class="card bg-base-100 border-2 border-secondary/30 shadow-xl rounded-3xl p-6 sm:p-10 relative overflow-hidden">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+          <div class="space-y-4 max-w-2xl">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="badge badge-secondary font-display text-xs tracking-wider uppercase px-3 py-1 rounded-md">
+                ¡Nos estamos preparando!
+              </span>
+              <span class="badge badge-outline border-secondary text-secondary font-heading text-xs px-3 py-1 rounded-md">
+                26 al 30 de Diciembre
+              </span>
+            </div>
+
+            <h2 class="font-heading text-3xl sm:text-4xl text-base-content leading-tight">
+              Se viene una nueva edición de <span class="text-secondary">Manos a la Obra</span>
+            </h2>
+
+            <p class="font-sans text-base-content/85 text-base sm:text-lg leading-relaxed text-pretty">
+              Ya arrancaron los encuentros preparatorios y la organización por áreas profesionales. Si sos estudiante universitario o joven profesional y querés poner tu vocación al servicio, unite al grupo de WhatsApp para conocer las fechas de reuniones, proyectos y enterarte de todo.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-sm">
+              <div class="flex items-center gap-2 text-base-content/80">
+                <span class="text-secondary font-bold text-base">📅</span>
+                <span><strong>Cuándo:</strong> 26 al 30 de dic.</span>
+              </div>
+              <div class="flex items-center gap-2 text-base-content/80">
+                <span class="text-secondary font-bold text-base">📍</span>
+                <span><strong>Lugar:</strong> Barrios Vulnerables de Carrodilla</span>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="shrink-0 flex flex-col items-start lg:items-center gap-3">
+            <a
+              href="https://chat.whatsapp.com/IFcWlyNdUdS0PNepeeO86T"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-secondary text-secondary-content font-heading text-base sm:text-lg px-7 py-3.5 h-auto rounded-2xl border-0 shadow-lg inline-flex items-center gap-2.5 transition-transform hover:scale-105 active:scale-95"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 shrink-0" aria-hidden="true">
+                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.41 1.56 1.56 2.41 3.63 2.41 5.83s-.85 4.26-2.41 5.82c-1.55 1.55-3.62 2.41-5.82 2.41-1.5 0-2.97-.39-4.26-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.37c0-2.2.86-4.27 2.41-5.83 1.56-1.55 3.63-2.41 5.82-2.41m-3.5 4.21c-.19 0-.5.07-.76.35-.26.29-1 1-1 2.44s1.02 2.83 1.16 3.02c.14.19 2.01 3.07 4.87 4.31.68.29 1.21.47 1.63.6.68.22 1.3.19 1.79.12.55-.08 1.69-.69 1.93-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.33s-1.69-.83-1.95-.93c-.26-.09-.45-.14-.64.14-.19.29-.74.93-.91 1.12-.17.19-.34.21-.63.07-.29-.14-1.22-.45-2.32-1.43-.86-.77-1.44-1.72-1.61-2.01-.17-.29-.02-.45.13-.59.13-.13.29-.34.43-.51.14-.17.19-.29.29-.48.09-.19.05-.36-.02-.5-.07-.14-.64-1.55-.88-2.12-.23-.56-.47-.48-.64-.49-.17-.01-.36-.01-.55-.01" />
+              </svg>
+              Unirme al grupo de WhatsApp
+            </a>
+            <span class="text-xs text-base-content/60 text-center">
+              Comunidad PUM • Información y avisos
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="max-w-3xl">
+        <span class="font-display text-secondary text-sm sm:text-base tracking-widest uppercase">
+          La Profesión como Vocación de Servicio
+        </span>
+        <h2 class="font-heading text-secondary text-3xl sm:text-4xl mt-2 leading-tight">
+          Ponemos la ciencia y los saberes universitarios en acción
+        </h2>
+        <p class="font-sans text-base-content/85 text-lg mt-4 leading-relaxed text-pretty">
+          En Manos a la Obra el voluntariado trasciende la asistencia básica: cada estudiante interviene desde su campo de estudio —salud, ingeniería, diseño, educación, derecho y ciencias sociales— para diseñar soluciones sustentables junto a los vecinos de cada comunidad.
+        </p>
+      </div>
+
+      <!-- 20 Años de Trayectoria (Timeline) -->
+      <div>
+        <div class="border-b border-base-content/10 pb-4 mb-8">
+          <span class="font-display text-secondary text-xs sm:text-sm tracking-wider uppercase">
+            Memoria Histórica
+          </span>
+          <h3 class="font-heading text-2xl sm:text-3xl text-base-content mt-1">
+            20 Años de Camino en Mendoza (2005 - 2025)
+          </h3>
+          <p class="font-sans text-base-content/80 text-sm sm:text-base mt-1">
+            Comunidades que nos recibieron y donde dejamos una huella de servicio y fraternidad:
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {trayectoria.map((item) => (
+            <div class="card bg-base-100/90 border border-base-content/10 rounded-2xl p-5 flex flex-col justify-between hover:border-secondary/50 transition-colors">
+              <div>
+                <span class="badge badge-secondary font-display text-xs px-2.5 py-1 rounded-md mb-2">
+                  {item.anio}
+                </span>
+                <h4 class="font-heading text-lg text-secondary leading-snug mt-1">
+                  {item.lugar}
+                </h4>
+                <p class="font-sans text-xs sm:text-sm text-base-content/80 mt-2 leading-relaxed">
+                  {item.detalle}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- CTA de Sumarse -->
+      <div class="card bg-secondary text-secondary-content p-8 sm:p-10 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div>
+          <h3 class="font-heading text-2xl sm:text-3xl">
+            ¿Querés poner tu carrera al servicio?
+          </h3>
+          <p class="font-sans text-secondary-content/90 text-base sm:text-lg mt-2 max-w-xl">
+            Sumate al equipo de Manos a la Obra. Cada talento cuenta para transformar realidades en nuestra provincia.
+          </p>
+        </div>
+        <a
+          href="https://www.instagram.com/pu.mendoza/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-neutral text-neutral-content font-heading text-base px-6 py-3 rounded-2xl border-0 shrink-0"
+        >
+          Escribinos por Instagram
+        </a>
+      </div>
+    </div>
+  </section>
 </Layout>

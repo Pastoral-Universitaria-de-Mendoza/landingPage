@@ -13,7 +13,7 @@ const { href, external = false, text, type } = Astro.props;
   href={href}
   target={external ? "_blank" : undefined}
   rel={external ? "noopener noreferrer" : undefined}
-  class="flex items-center gap-4 sm:gap-5 bg-base-content/15 hover:bg-base-content/25 border border-secondary-content/15 rounded-2xl px-5 py-4 transition-colors group"
+  class="flex items-center gap-4 sm:gap-5 bg-base-content/15 hover:bg-base-content/25 border border-secondary-content/15 rounded-2xl px-5 py-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg group"
 >
   {type === "email" ? (
     <svg

@@ -7,36 +7,64 @@ const pilares = [
   "FORMACIÓN",
   "FRATERNIDAD",
 ];
+
+const talleres = [
+  {
+    area: "Inserción Profesional",
+    ejemplo: "Talleres de LinkedIn, armado de CV y primeros pasos laborales.",
+  },
+  {
+    area: "Apoyo al Estudiante",
+    ejemplo: "Estrategias y contención para el manejo de la ansiedad pre-examen.",
+  },
+  {
+    area: "Formación Ciudadana",
+    ejemplo: "Charlas sobre democracia, boleta única y doctrina social.",
+  },
+  {
+    area: "Servicio Comunitario",
+    ejemplo: "Salidas solidarias: servicio callejero y actividades en patio.",
+  },
+];
 ---
 
-<section class="bg-base-100 text-base-content relative overflow-hidden min-h-[calc(100dvh-3.5rem)] lg:h-[calc(100dvh-3.5rem)] flex flex-col justify-center py-12 lg:py-0 px-6 sm:px-10">
+<section id="miercoles-pum" class="bg-base-100 text-base-content relative overflow-hidden min-h-[calc(100dvh-3.5rem)] flex flex-col justify-center py-16 px-6 sm:px-10">
   <Watermark />
-  <div class="relative z-10 max-w-7xl mx-auto w-full flex flex-col justify-around lg:h-[82%] gap-8 md:gap-10">
+  <div class="relative z-10 max-w-7xl mx-auto w-full flex flex-col gap-10 lg:gap-12">
+    <!-- Título y Datos de Encuentro -->
     <div>
-      <h2 class="font-display text-secondary text-[clamp(2.1rem,4.5vw,3.8rem)] leading-[0.95]">
+      <span class="font-display text-secondary text-sm sm:text-base tracking-widest uppercase">
+        Encuentros Semanales
+      </span>
+      <h2 class="font-display text-secondary text-[clamp(2.1rem,4.5vw,3.8rem)] leading-[0.95] mt-1">
         MIÉRCOLES PUM
       </h2>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mt-6 sm:mt-8">
-        <p class="lg:col-span-7 font-sans text-base-content text-[clamp(1.1rem,2vw,1.65rem)] leading-[1.3] max-w-[46ch] text-pretty">
-          Espacio de encuentro para los estudiantes universitarios, cada miércoles una actividad distinta para vos.
-        </p>
-
-        <div class="lg:col-span-5 border-l-4 border-secondary pl-5 py-1 flex flex-col justify-center">
-          <p class="font-display text-secondary text-base sm:text-lg tracking-wide">
-            DESDE LAS 18 H
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mt-6">
+        <div class="lg:col-span-7 space-y-4">
+          <p class="font-sans text-base-content text-[clamp(1.1rem,1.9vw,1.45rem)] leading-relaxed text-pretty">
+            Nuestro punto de encuentro semanal para recargar energías, compartir en comunidad y profundizar la fe en medio de la rutina de estudio.
           </p>
-          <p class="font-sans font-bold text-base-content text-[clamp(1.05rem,1.8vw,1.35rem)] leading-[1.25] mt-1">
+          <p class="font-sans text-base-content/85 text-base sm:text-lg leading-relaxed">
+            Cada miércoles compartimos la <strong>Misa universitaria</strong>, momentos fraternos de merienda y charlas, además de talleres de formación integral.
+          </p>
+        </div>
+
+        <div class="lg:col-span-5 bg-base-200/80 border border-base-content/10 rounded-2xl p-6 flex flex-col justify-center backdrop-blur-xs">
+          <p class="font-display text-secondary text-base sm:text-lg tracking-wide">
+            TODOS LOS MIÉRCOLES · DESDE LAS 18 H
+          </p>
+          <p class="font-sans font-bold text-base-content text-[clamp(1.1rem,1.8vw,1.35rem)] leading-snug mt-1.5">
             Parroquia Inmaculado Corazón de María
           </p>
           <p class="font-sans text-base-content/85 text-sm sm:text-base mt-1">
-            Rodríguez y Martín Zapata, Ciudad de Mendoza
+            Rodríguez y Martín Zapata, 5ta Sección, Ciudad de Mendoza
           </p>
           <a
             href="https://share.google/q3z5DHswtnGU8OYp5"
             target="_blank"
             rel="noopener noreferrer"
-            class="btn btn-secondary text-secondary-content font-heading text-sm px-4 py-2 mt-3.5 rounded-xl border-0 w-fit inline-flex items-center gap-2 transition-transform hover:scale-105"
+            class="btn btn-secondary text-secondary-content font-heading text-sm px-4 py-2 mt-4 rounded-xl border-0 w-fit inline-flex items-center gap-2 transition-transform hover:scale-105"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 shrink-0" aria-hidden="true">
               <path fill-rule="evenodd" d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clip-rule="evenodd" />
@@ -47,12 +75,34 @@ const pilares = [
       </div>
     </div>
 
-    <div class="flex flex-wrap gap-3 sm:gap-4 pt-2">
+    <!-- Pilares de Vida Comunitaria -->
+    <div class="flex flex-wrap gap-3 sm:gap-4">
       {pilares.map((pilar) => (
-        <span class="badge badge-accent font-display text-secondary-content text-[clamp(0.95rem,1.5vw,1.3rem)] h-auto py-3 px-5 sm:px-6 rounded-2xl border-0 flex-1 min-w-fit justify-center">
+        <span class="badge badge-accent font-display text-secondary-content text-[clamp(0.9rem,1.4vw,1.15rem)] h-auto py-2.5 px-5 sm:px-6 rounded-2xl border-0 flex-1 min-w-fit justify-center shadow-xs">
           {pilar}
         </span>
       ))}
+    </div>
+
+    <!-- Talleres y Capacitaciones -->
+    <div class="pt-4 border-t border-base-content/10">
+      <h3 class="font-display text-secondary text-base sm:text-lg uppercase tracking-wider mb-4">
+        Talleres y Formación Integral
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {talleres.map((t) => (
+          <div class="bg-base-200/50 border border-base-content/10 rounded-2xl p-4 flex flex-col justify-between">
+            <div>
+              <p class="font-heading text-secondary text-sm sm:text-base">
+                {t.area}
+              </p>
+              <p class="font-sans text-xs sm:text-sm text-base-content/80 mt-1.5 leading-relaxed">
+                {t.ejemplo}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   </div>
 </section>

@@ -2,37 +2,65 @@
 import Watermark from "../Watermark.astro";
 ---
 
-<section class="hero bg-base-100 text-base-content relative overflow-hidden min-h-[calc(100dvh-3.5rem)] lg:h-[calc(100dvh-3.5rem)] flex flex-col justify-between items-stretch p-0">
+<section id="hero-section" class="hero bg-base-100 text-base-content relative overflow-hidden min-h-[calc(100dvh-3.5rem)] lg:h-[calc(100dvh-3.5rem)] flex flex-col justify-between items-stretch p-0">
   <Watermark />
-  <div class="hero-content relative z-10 w-full max-w-7xl mx-auto flex-1 flex flex-col justify-between items-stretch p-0 overflow-hidden">
-    <div class="px-6 pt-6 sm:px-10 md:pt-8 flex items-start gap-4 sm:gap-6 md:gap-8 shrink-0">
+  <div class="relative z-10 w-full flex-1 flex flex-col justify-between items-stretch p-0 overflow-hidden">
+    <div class="w-full max-w-7xl mx-auto px-6 pt-6 sm:px-10 md:pt-8 flex items-start gap-4 sm:gap-6 md:gap-8 shrink-0">
       <img
         src="/images/logo-pum.png"
         alt="Logo Pastoral Universitaria de Mendoza"
         width="424"
         height="466"
-        class="w-14 sm:w-20 md:w-24 lg:w-28 h-auto object-contain shrink-0 mt-1"
+        class="w-14 sm:w-20 md:w-24 lg:w-28 h-auto object-contain shrink-0 mt-1 animate-fade-in-scale"
       />
 
       <div class="flex-1 min-w-0">
-        <h1 class="font-sans font-bold text-[clamp(1.5rem,3.2vw,2.75rem)] leading-[1.08] text-base-content text-balance">
+        <h1 class="font-sans font-bold text-[clamp(1.5rem,3.2vw,2.75rem)] leading-[1.08] text-base-content text-balance animate-fade-in-up">
           Pastoral Universitaria de Mendoza
         </h1>
-        <div class="h-2 w-full max-w-3xl bg-secondary my-2.5 md:my-3"></div>
-        <p class="font-sans font-normal text-[clamp(1.05rem,2vw,1.65rem)] leading-[1.15] text-base-content/95 max-w-[34ch] text-pretty">
+        <div class="h-2 w-full max-w-3xl bg-secondary my-2.5 md:my-3 animate-fade-in-up delay-100"></div>
+        <p class="font-sans font-normal text-[clamp(1.05rem,2vw,1.65rem)] leading-[1.15] text-base-content/95 max-w-[34ch] text-pretty animate-fade-in-up delay-100">
           El espacio para los universitarios católicos de Mendoza
         </p>
+
+        <p class="font-sans text-base-content/85 text-sm sm:text-base md:text-lg mt-3 sm:mt-4 max-w-[44ch] text-pretty animate-fade-in-up delay-200">
+          Comunidad, fe, amigos y voluntariado en Mendoza. ¡Sumate a nuestras actividades y proyectos!
+        </p>
+
+        <div class="flex flex-wrap items-center gap-3 sm:gap-4 mt-5 sm:mt-6 animate-fade-in-up delay-300">
+          <a
+            href="https://chat.whatsapp.com/IFcWlyNdUdS0PNepeeO86T"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-secondary text-secondary-content font-heading text-sm sm:text-base md:text-lg px-5 sm:px-7 py-3 sm:py-3.5 h-auto rounded-2xl border-0 inline-flex items-center gap-2.5 shadow-lg transition-transform hover:scale-105 active:scale-95"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 shrink-0" aria-hidden="true">
+              <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.41 1.56 1.56 2.41 3.63 2.41 5.83s-.85 4.26-2.41 5.82c-1.55 1.55-3.62 2.41-5.82 2.41-1.5 0-2.97-.39-4.26-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.37c0-2.2.86-4.27 2.41-5.83 1.56-1.55 3.63-2.41 5.82-2.41m-3.5 4.21c-.19 0-.5.07-.76.35-.26.29-1 1-1 2.44s1.02 2.83 1.16 3.02c.14.19 2.01 3.07 4.87 4.31.68.29 1.21.47 1.63.6.68.22 1.3.19 1.79.12.55-.08 1.69-.69 1.93-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.33s-1.69-.83-1.95-.93c-.26-.09-.45-.14-.64.14-.19.29-.74.93-.91 1.12-.17.19-.34.21-.63.07-.29-.14-1.22-.45-2.32-1.43-.86-.77-1.44-1.72-1.61-2.01-.17-.29-.02-.45.13-.59.13-.13.29-.34.43-.51.14-.17.19-.29.29-.48.09-.19.05-.36-.02-.5-.07-.14-.64-1.55-.88-2.12-.23-.56-.47-.48-.64-.49-.17-.01-.36-.01-.55-.01" />
+            </svg>
+            Unite
+          </a>
+
+          <a
+            href="#miercoles-pum"
+            class="btn btn-outline border-base-content/25 text-base-content hover:bg-base-content/10 font-heading text-sm sm:text-base md:text-lg px-5 sm:px-6 py-3 sm:py-3.5 h-auto rounded-2xl inline-flex items-center gap-2 transition-all hover:border-secondary hover:text-secondary group"
+          >
+            Miércoles PUM
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 shrink-0 transition-transform group-hover:translate-y-0.5" aria-hidden="true">
+              <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
 
-    <div class="w-full flex justify-end shrink min-h-0 pointer-events-none px-4 sm:px-8">
+    <div class="w-full flex justify-end shrink min-h-0 pointer-events-none px-0">
       <img
         src="/images/hero-collage.webp"
         alt="Comunidad de estudiantes de la Pastoral Universitaria de Mendoza"
         width="2001"
         height="922"
         fetchpriority="high"
-        class="w-auto max-w-full md:max-w-[75%] lg:max-w-[65%] max-h-[46vh] lg:max-h-[50vh] h-auto object-contain object-bottom"
+        class="w-[112%] sm:w-auto max-w-none sm:max-w-[90%] md:max-w-[78%] lg:max-w-[68%] max-h-[52vh] lg:max-h-[54vh] h-auto object-contain object-bottom-right animate-fade-in-scale delay-200"
       />
     </div>
   </div>

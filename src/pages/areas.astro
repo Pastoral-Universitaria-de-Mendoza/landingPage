@@ -3,43 +3,149 @@ import Layout from "../layouts/Layout.astro";
 import Watermark from "../components/Watermark.astro";
 import AreaCard from "../components/AreaCard.astro";
 
-const areas = [
+const areasEstudio = [
   {
-    nombre: "ESPIRITUALIDAD",
-    descripcion: "Oración, adoración y celebración de los sacramentos en comunidad universitaria.",
+    nombre: "SOCIALES",
+    descripcion:
+      "Análisis de la realidad social, compromiso por la justicia, el bien común y el diálogo ético con las instituciones.",
+    carreras: [
+      "Derecho",
+      "Ciencia Política",
+      "Sociología",
+      "Comunicación Social",
+      "Economía",
+      "Relaciones Internacionales",
+      "Trabajo Social",
+    ],
+    whatsappUrl:
+      "https://chat.whatsapp.com/HuwSUHX8LbcGmDXmaLiHaJ?s=sw&p=a&mlu=4&ilr=4",
   },
   {
-    nombre: "SERVICIO",
-    descripcion: "Proyectos solidarios y misiones para poner tu profesión al servicio de los demás.",
+    nombre: "INGENIO",
+    descripcion:
+      "Desarrollo de soluciones técnicas, infraestructura, sustentabilidad e innovación tecnológica al servicio de la comunidad.",
+    carreras: [
+      "Ingenierías",
+      "Informática",
+      "Sistemas",
+      "Ciencias Exactas",
+      "Agronomía",
+    ],
+    whatsappUrl: "https://chat.whatsapp.com/G7UJfXGmQOuCpLVRnpx4er?mode=gi_t",
   },
   {
-    nombre: "FORMACIÓN",
-    descripcion: "Charlas, talleres y espacios de diálogo entre fe, ciencia y cultura.",
+    nombre: "CREATIVA",
+    descripcion:
+      "Expresión artística, diseño del espacio y comunicación visual para transformar entornos y transmitir esperanza.",
+    carreras: [
+      "Arquitectura",
+      "Diseño Gráfico",
+      "Diseño Industrial",
+      "Artes Visuales",
+      "Música",
+    ],
+    whatsappUrl:
+      "https://chat.whatsapp.com/EiCjNO8iHJvEM259lwNX9U?s=cl&p=a&mlu=4&ilr=4",
   },
   {
-    nombre: "FRATERNIDAD",
-    descripcion: "Encuentros, peñas y vida compartida cada miércoles desde las 18 h.",
+    nombre: "SALUD",
+    descripcion:
+      "Cuidado integral y bioético de la persona, prevención sanitaria, acompañamiento humanizado y postas de salud comunitaria.",
+    carreras: [
+      "Medicina",
+      "Enfermería",
+      "Kinesiología",
+      "Nutrición",
+      "Odontología",
+      "Farmacia",
+      "Bioquímica",
+    ],
+    whatsappUrl:
+      "https://chat.whatsapp.com/JLTcLcIfkxpA2NNbWNu5hD?s=cl&p=i&mlu=4&ilr=4",
+  },
+  {
+    nombre: "PSICO-EDUCACIÓN",
+    descripcion:
+      "Contención emocional, fortalecimiento de vínculos, apoyo escolar y talleres psicoeducativos para niños, jóvenes y familias.",
+    carreras: [
+      "Psicología",
+      "Psicopedagogía",
+      "Ciencias de la Educación",
+      "Profesorados",
+    ],
+    whatsappUrl:
+      "https://chat.whatsapp.com/IyyZGYQ4SUf9wki3T2SJnJ?s=sh&p=a&mlu=4&ilr=4&iam=2",
   },
 ];
 ---
 
 <Layout title="ÁREAS">
-  <section class="hero bg-base-100 text-base-content relative overflow-hidden min-h-[calc(100dvh-3.5rem)] py-16 px-6 sm:px-10">
+  <section class="bg-base-100 text-base-content relative overflow-hidden min-h-[calc(100dvh-3.5rem)] py-14 sm:py-20 px-6 sm:px-10">
     <Watermark />
-    <div class="hero-content relative z-10 w-full max-w-7xl mx-auto flex-col items-start gap-12 p-0">
-      <div>
-        <h1 class="font-display text-secondary text-[clamp(2.2rem,5.2vw,4.2rem)] leading-[0.95]">
-          ÁREAS DE LA PUM
+    <div class="relative z-10 w-full max-w-7xl mx-auto flex flex-col gap-14 sm:gap-16">
+      <!-- Encabezado Principal -->
+      <div class="max-w-3xl">
+        <span class="font-display text-secondary text-sm sm:text-base tracking-widest uppercase">
+          Organización de la PUM
+        </span>
+        <h1 class="font-display text-secondary text-[clamp(2.2rem,5.2vw,4.2rem)] leading-[0.95] mt-2">
+          ÁREAS Y COMUNIDADES
         </h1>
-        <p class="font-sans text-base-content/90 text-lg sm:text-xl mt-4 max-w-[54ch] text-pretty">
-          Cuatro pilares que sostienen nuestros encuentros de cada miércoles a las 18 h en la Parroquia Inmaculado Corazón de María.
+        <p class="font-sans text-base-content/90 text-lg sm:text-xl mt-4 text-pretty leading-relaxed">
+          En la Pastoral Universitaria integramos la vida académica con la fe. Nos organizamos a través de dos comunidades: la Comunidad de Estudiantes —articulada por áreas del conocimiento— y la Comunidad de Jóvenes Profesionales.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
-        {areas.map((area) => (
-          <AreaCard nombre={area.nombre} descripcion={area.descripcion} />
-        ))}
+      <!-- Comunidad de Estudiantes: 5 Áreas de Estudio -->
+      <div class="space-y-6">
+        <div class="border-b border-base-content/10 pb-4">
+          <h2 class="font-heading text-secondary text-2xl sm:text-3xl">
+            1. Comunidad de Estudiantes
+          </h2>
+          <p class="font-sans text-base-content/80 text-base sm:text-lg mt-1">
+            Espacios donde cada universitario aporta desde su propia disciplina y vocación:
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {areasEstudio.map((area) => (
+            <AreaCard
+              nombre={area.nombre}
+              descripcion={area.descripcion}
+              carreras={area.carreras}
+              whatsappUrl={area.whatsappUrl}
+            />
+          ))}
+        </div>
+      </div>
+
+      <!-- Comunidad de Jóvenes Profesionales -->
+      <div class="card bg-secondary text-secondary-content p-8 sm:p-10 rounded-3xl relative overflow-hidden shadow-xl">
+        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+          <div class="max-w-2xl space-y-3">
+            <span class="font-display text-xs sm:text-sm tracking-wider uppercase opacity-85">
+              Transición y Vida Laboral
+            </span>
+            <h2 class="font-heading text-secondary-content text-2xl sm:text-4xl leading-tight">
+              2. Comunidad de Jóvenes Profesionales
+            </h2>
+            <p class="font-sans text-secondary-content/95 text-base sm:text-lg leading-relaxed text-pretty">
+              Acompañamos a estudiantes en etapa de elaboración de tesis, prácticas profesionales finales y graduados recientes. Brindamos espacios de espiritualidad, fraternidad y contención en la transición hacia el ejercicio ético y comprometido de la profesión.
+            </p>
+          </div>
+
+          <div class="shrink-0 flex flex-col sm:flex-row lg:flex-col gap-3">
+            <a
+              href="https://www.instagram.com/pu.mendoza/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-neutral text-neutral-content font-heading text-base px-6 py-3 rounded-2xl border-0 shadow-none text-center"
+            >
+              Sumarme por Instagram
+            </a>
+            
+          </div>
+        </div>
       </div>
     </div>
   </section>

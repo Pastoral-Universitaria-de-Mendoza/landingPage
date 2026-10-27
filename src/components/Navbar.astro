@@ -4,6 +4,7 @@ interface Props {
 }
 
 const { currentPath = "/" } = Astro.props;
+const isHome = currentPath === "/";
 
 const navItems = [
   { label: "PORTADA", href: "/" },
@@ -15,17 +16,27 @@ const navItems = [
 ---
 
 <header class="bg-base-100/95 backdrop-blur-xs text-base-content sticky top-0 z-50 border-b border-base-content/10">
-  <div class="navbar max-w-7xl mx-auto min-h-14 px-4 sm:px-8">
+  <div class="navbar max-w-7xl mx-auto min-h-14 md:min-h-18 px-4 sm:px-8">
     <div class="navbar-start">
-      <a href="/" class="flex items-center gap-2.5 group" aria-label="Pastoral Universitaria de Mendoza - Inicio">
+      <a
+        id="navbar-brand"
+        href="/"
+        class:list={[
+          "flex items-center gap-2.5 md:gap-3.5 group transition-all duration-300 ease-out",
+          isHome
+            ? "opacity-0 -translate-y-2 pointer-events-none"
+            : "opacity-100 translate-y-0 animate-fade-in-scale",
+        ]}
+        aria-label="Pastoral Universitaria de Mendoza - Inicio"
+      >
         <img
           src="/images/logo-pum.png"
           alt=""
           width="424"
           height="466"
-          class="w-9 sm:w-7 h-auto object-contain transition-transform group-hover:scale-105"
+          class="w-9 sm:w-7 md:w-12 lg:w-14 h-auto object-contain transition-transform group-hover:scale-105"
         />
-        <span class="font-display text-sm tracking-wider text-base-content hidden sm:inline">
+        <span class="font-display text-sm md:text-xl lg:text-2xl tracking-wider md:tracking-widest text-base-content hidden sm:inline">
           LA PUM
         </span>
       </a>
@@ -80,6 +91,28 @@ const navItems = [
 </header>
 
 <script>
+  const brand = document.getElementById("navbar-brand");
+  const hero = document.getElementById("hero-section");
+
+  if (brand && hero) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          brand.classList.add("opacity-0", "-translate-y-2", "pointer-events-none");
+          brand.classList.remove("opacity-100", "translate-y-0", "pointer-events-auto");
+        } else {
+          brand.classList.remove("opacity-0", "-translate-y-2", "pointer-events-none");
+          brand.classList.add("opacity-100", "translate-y-0", "pointer-events-auto");
+        }
+      },
+      {
+        rootMargin: "-30% 0px 0px 0px",
+      }
+    );
+
+    observer.observe(hero);
+  }
+
   const dropdown = document.getElementById("mobile-menu") as HTMLDetailsElement | null;
   if (dropdown) {
     // Cerrar al hacer scroll

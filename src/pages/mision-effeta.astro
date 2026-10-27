@@ -7,7 +7,7 @@ import ProjectHero from "../components/ProjectHero.astro";
   <ProjectHero
     title="MISIÓN EFFETÁ"
     subtitle="Misión Universitaria"
-    description="Salimos al encuentro de las comunidades de Mendoza para compartir la fe y la vida universitaria en misión. Consultá las próximas fechas en nuestras redes."
+    description="Misión que promueve la vocación testimonial y la evangelización en los barrios de Mendoza y en el seno de la propia vida universitaria, renovando la fe y el sentido del servicio."
     ctaText="CONSULTAR EN @PU.MENDOZA"
     ctaHref="https://www.instagram.com/pu.mendoza/"
     logoSrc="/images/logo-effeta.png"
@@ -16,4 +16,78 @@ import ProjectHero from "../components/ProjectHero.astro";
     logoHeight={426}
     logoClass="w-40 sm:w-52 h-auto object-contain"
   />
+
+  <!-- Qué es Effetá & Impacto -->
+  <section class="bg-base-200 text-base-content py-16 px-6 sm:px-10 border-t border-base-content/10">
+    <div class="max-w-7xl mx-auto space-y-12">
+      <!-- Sentido de la Misión -->
+      <div class="max-w-3xl">
+        <span class="font-display text-secondary text-sm sm:text-base tracking-widest uppercase">
+          Vocación Testimonial
+        </span>
+        <h2 class="font-heading text-secondary text-3xl sm:text-4xl mt-2 leading-tight">
+          «Effetá»: abrir el corazón y salir al encuentro
+        </h2>
+        <p class="font-sans text-base-content/85 text-lg mt-4 leading-relaxed text-pretty">
+          Nacida a partir de la experiencia de la Misión Latinoamericana de 2006 (junto a la Universidad Católica de Chile), Effetá convoca a estudiantes y jóvenes profesionales a vivir la experiencia del Evangelio compartido puerta a puerta y en el día a día universitario.
+        </p>
+      </div>
+
+      <!-- Frentes de Misión -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="card bg-base-100/90 border border-base-content/10 rounded-3xl p-6 sm:p-8">
+          <div class="space-y-3">
+            <span class="font-display text-secondary text-xs sm:text-sm tracking-wider uppercase">
+              Evangelización Territorial
+            </span>
+            <h3 class="font-heading text-xl sm:text-2xl text-base-content">
+              En las Comunidades Barriales
+            </h3>
+            <p class="font-sans text-base-content/80 text-base leading-relaxed">
+              Misionamos en barrios populares de Mendoza, visitando a las familias, compartiendo la escucha fraterna, celebrando los sacramentos junto a la comunidad eclesial local y realizando actividades recreativas y de formación con niños y jóvenes.
+            </p>
+          </div>
+        </div>
+
+        <div class="card bg-base-100/90 border border-base-content/10 rounded-3xl p-6 sm:p-8">
+          <div class="space-y-3">
+            <span class="font-display text-secondary text-xs sm:text-sm tracking-wider uppercase">
+              Presencia y Testimonio
+            </span>
+            <h3 class="font-heading text-xl sm:text-2xl text-base-content">
+              En la Propia Universidad
+            </h3>
+            <p class="font-sans text-base-content/80 text-base leading-relaxed">
+              La misión no termina en el barrio: continúa en las aulas, bibliotecas y pasillos de nuestras facultades, siendo fermento evangélico de honestidad, esperanza, empatía y diálogo respetuoso entre fe, ciencia y cultura.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Caso de Impacto Destacado -->
+      <div class="card bg-secondary text-secondary-content p-8 sm:p-10 rounded-3xl relative overflow-hidden shadow-xl">
+        <div class="max-w-3xl space-y-3">
+          <span class="font-display text-xs sm:text-sm tracking-wider uppercase opacity-85">
+            Misión de Invierno · Ejemplo de Impacto
+          </span>
+          <h3 class="font-heading text-secondary-content text-2xl sm:text-3xl leading-snug">
+            112 misioneros universitarios compartiendo la fe
+          </h3>
+          <p class="font-sans text-secondary-content/95 text-base sm:text-lg leading-relaxed text-pretty">
+            En la misión realizada del 5 al 9 de julio en los Barrios Tres Estrellas y Huarpes I y II (Godoy Cruz), en comunión con la Parroquia Nuestra Señora de la Carrodilla, 112 misioneros entre estudiantes y graduados recientes salieron al encuentro de la gente, viviendo días de intensa oración, fraternidad y servicio.
+          </p>
+          <div class="pt-4">
+            <a
+              href="https://www.instagram.com/pu.mendoza/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-neutral text-neutral-content font-heading text-base px-6 py-3 rounded-2xl border-0 shadow-none inline-flex items-center gap-2"
+            >
+              Consultar Próxima Misión
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
