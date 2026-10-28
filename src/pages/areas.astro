@@ -2,81 +2,10 @@
 import Layout from "../layouts/Layout.astro";
 import Watermark from "../components/Watermark.astro";
 import AreaCard from "../components/AreaCard.astro";
+import { areas } from "../data/areas";
 
-const areasEstudio = [
-  {
-    nombre: "SOCIALES",
-    descripcion:
-      "Análisis de la realidad social, compromiso por la justicia, el bien común y el diálogo ético con las instituciones.",
-    carreras: [
-      "Derecho",
-      "Ciencia Política",
-      "Sociología",
-      "Comunicación Social",
-      "Economía",
-      "Relaciones Internacionales",
-      "Trabajo Social",
-    ],
-    whatsappUrl:
-      "https://chat.whatsapp.com/HuwSUHX8LbcGmDXmaLiHaJ?s=sw&p=a&mlu=4&ilr=4",
-  },
-  {
-    nombre: "INGENIO",
-    descripcion:
-      "Desarrollo de soluciones técnicas, infraestructura, sustentabilidad e innovación tecnológica al servicio de la comunidad.",
-    carreras: [
-      "Ingenierías",
-      "Informática",
-      "Sistemas",
-      "Ciencias Exactas",
-      "Agronomía",
-    ],
-    whatsappUrl: "https://chat.whatsapp.com/G7UJfXGmQOuCpLVRnpx4er?mode=gi_t",
-  },
-  {
-    nombre: "CREATIVA",
-    descripcion:
-      "Expresión artística, diseño del espacio y comunicación visual para transformar entornos y transmitir esperanza.",
-    carreras: [
-      "Arquitectura",
-      "Diseño Gráfico",
-      "Diseño Industrial",
-      "Artes Visuales",
-      "Música",
-    ],
-    whatsappUrl:
-      "https://chat.whatsapp.com/EiCjNO8iHJvEM259lwNX9U?s=cl&p=a&mlu=4&ilr=4",
-  },
-  {
-    nombre: "SALUD",
-    descripcion:
-      "Cuidado integral y bioético de la persona, prevención sanitaria, acompañamiento humanizado y postas de salud comunitaria.",
-    carreras: [
-      "Medicina",
-      "Enfermería",
-      "Kinesiología",
-      "Nutrición",
-      "Odontología",
-      "Farmacia",
-      "Bioquímica",
-    ],
-    whatsappUrl:
-      "https://chat.whatsapp.com/JLTcLcIfkxpA2NNbWNu5hD?s=cl&p=i&mlu=4&ilr=4",
-  },
-  {
-    nombre: "PSICO-EDUCACIÓN",
-    descripcion:
-      "Contención emocional, fortalecimiento de vínculos, apoyo escolar y talleres psicoeducativos para niños, jóvenes y familias.",
-    carreras: [
-      "Psicología",
-      "Psicopedagogía",
-      "Ciencias de la Educación",
-      "Profesorados",
-    ],
-    whatsappUrl:
-      "https://chat.whatsapp.com/IyyZGYQ4SUf9wki3T2SJnJ?s=sh&p=a&mlu=4&ilr=4&iam=2",
-  },
-];
+const areasEstudio = areas.filter((a) => a.comunidad === "Comunidad de Estudiantes");
+const areaProfesionales = areas.find((a) => a.slug === "jovenes-profesionales");
 ---
 
 <Layout title="ÁREAS">
@@ -107,13 +36,19 @@ const areasEstudio = [
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {areasEstudio.map((area) => (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6">
+          {areasEstudio.map((area, index) => (
             <AreaCard
+              slug={area.slug}
               nombre={area.nombre}
-              descripcion={area.descripcion}
+              descripcion={area.descripcionCorta}
               carreras={area.carreras}
               whatsappUrl={area.whatsappUrl}
+              class:list={[
+                "col-span-1 md:col-span-1 lg:col-span-2",
+                index === 3 && "lg:col-start-2",
+                index === 4 && "md:col-span-2 md:max-w-lg md:mx-auto md:w-full lg:col-span-2 lg:max-w-none lg:mx-0",
+              ]}
             />
           ))}
         </div>
@@ -130,20 +65,25 @@ const areasEstudio = [
               2. Comunidad de Jóvenes Profesionales
             </h2>
             <p class="font-sans text-secondary-content/95 text-base sm:text-lg leading-relaxed text-pretty">
-              Acompañamos a estudiantes en etapa de elaboración de tesis, prácticas profesionales finales y graduados recientes. Brindamos espacios de espiritualidad, fraternidad y contención en la transición hacia el ejercicio ético y comprometido de la profesión.
+              {areaProfesionales?.presentacion || "Acompañamos a estudiantes en etapa de elaboración de tesis, prácticas profesionales finales y graduados recientes. Brindamos espacios de espiritualidad, fraternidad y contención en la transición hacia el ejercicio ético y comprometido de la profesión."}
             </p>
           </div>
 
           <div class="shrink-0 flex flex-col sm:flex-row lg:flex-col gap-3">
             <a
+              href="/areas/jovenes-profesionales"
+              class="btn btn-neutral text-neutral-content font-heading text-base px-6 py-3 rounded-2xl border-0 shadow-md text-center hover:scale-[1.02] active:scale-95 transition-transform"
+            >
+              Conocer el espacio →
+            </a>
+            <a
               href="https://www.instagram.com/pu.mendoza/"
               target="_blank"
               rel="noopener noreferrer"
-              class="btn btn-neutral text-neutral-content font-heading text-base px-6 py-3 rounded-2xl border-0 shadow-none text-center"
+              class="btn btn-outline border-secondary-content text-secondary-content hover:bg-secondary-content hover:text-secondary font-heading text-base px-6 py-3 rounded-2xl text-center"
             >
               Sumarme por Instagram
             </a>
-            
           </div>
         </div>
       </div>

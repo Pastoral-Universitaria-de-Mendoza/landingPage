@@ -1,6 +1,4 @@
 ---
-import Watermark from "./Watermark.astro";
-
 interface Props {
   title: string;
   subtitle: string;
@@ -12,6 +10,7 @@ interface Props {
   logoWidth: number;
   logoHeight: number;
   logoClass?: string;
+  backgroundImage?: string;
 }
 
 const {
@@ -25,11 +24,17 @@ const {
   logoWidth,
   logoHeight,
   logoClass = "w-44 sm:w-56 h-auto object-contain",
+  backgroundImage,
 } = Astro.props;
 ---
 
 <section class="hero bg-base-100 text-base-content relative overflow-hidden min-h-[calc(100dvh-3.5rem)] py-16 px-6 sm:px-10">
-  <Watermark />
+  {backgroundImage && (
+    <div
+      class="absolute inset-0 z-0 bg-cover bg-center"
+      style={`background-image: linear-gradient(135deg, rgba(39, 52, 138, 0.86) 0%, rgba(31, 42, 112, 0.80) 50%, rgba(23, 32, 86, 0.92) 100%), url('${backgroundImage}');`}
+    />
+  )}
   <div class="hero-content relative z-10 w-full max-w-5xl mx-auto flex-col md:flex-row items-center justify-between gap-12 p-0">
     <div class="max-w-xl">
       <h1 class="font-display text-secondary text-[clamp(2.2rem,5.2vw,4.2rem)] leading-[0.95]">
@@ -51,7 +56,7 @@ const {
           {ctaText}
         </a>
         <a href="/" class="btn btn-ghost text-base px-5 py-3 h-auto rounded-2xl">
-          Volver a portada
+          Volver a inicio
         </a>
       </div>
     </div>

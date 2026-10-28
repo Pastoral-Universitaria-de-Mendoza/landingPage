@@ -1,0 +1,279 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { areas, type AreaData } from "../../data/areas";
+
+export function getStaticPaths() {
+  return areas.map((area) => ({
+    params: { slug: area.slug },
+    props: { area },
+  }));
+}
+
+interface Props {
+  area: AreaData;
+}
+
+const { area } = Astro.props;
+
+function getInitials(name: string): string {
+  const words = name.trim().split(/\s+/);
+  if (words.length === 1) return words[0].substring(0, 2).toUpperCase();
+  return (words[0][0] + words[1][0]).toUpperCase();
+}
+---
+
+<Layout title={`ÁREA ${area.nombre}`}>
+  <!-- Hero Banner con Imagen de Fondo y Gradiente PUM -->
+  <header class="relative overflow-hidden min-h-[52vh] sm:min-h-[58vh] flex flex-col justify-between py-12 sm:py-16 px-6 sm:px-10 bg-base-200 border-b border-base-content/10">
+    <!-- Imagen de fondo con overlay degradado para máxima legibilidad -->
+    <div
+      class="absolute inset-0 z-0 bg-cover bg-center transition-all duration-700"
+      style={`background-image: linear-gradient(135deg, rgba(39, 52, 138, 0.82) 0%, rgba(31, 42, 112, 0.75) 50%, rgba(23, 32, 86, 0.90) 100%)${area.bannerImg ? `, url('${area.bannerImg}')` : ""};`}
+    >
+    </div>
+    <div class="absolute inset-0 z-0 bg-radial from-transparent via-base-100/30 to-base-100/80 pointer-events-none"></div>
+
+    <div class="relative z-10 w-full max-w-7xl mx-auto flex flex-col justify-between h-full gap-8">
+      <!-- Breadcrumb / Navegación Superior -->
+      <div>
+        <a
+          href="/areas"
+          class="inline-flex items-center gap-2 text-sm sm:text-base text-base-content/80 hover:text-secondary transition-colors font-heading tracking-wide group"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="w-4 h-4 transition-transform group-hover:-translate-x-1"
+          >
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+          Volver a todas las Áreas
+        </a>
+      </div>
+
+      <!-- Título, Comunidad y Lema del Área -->
+      <div class="max-w-4xl space-y-4">
+        <span class="badge badge-secondary font-display text-xs sm:text-sm tracking-wider uppercase px-3.5 py-1.5 rounded-lg shadow-sm">
+          {area.comunidad}
+        </span>
+
+        <h1 class="font-display text-secondary text-[clamp(2.6rem,6.5vw,4.8rem)] leading-[0.93] tracking-wide">
+          {area.nombre}
+        </h1>
+
+        <p class="font-heading text-base-content/95 text-xl sm:text-2xl lg:text-3xl leading-snug max-w-3xl text-pretty">
+          {area.lema}
+        </p>
+
+        <!-- Botones de Acción Rápida en Banner -->
+        <div class="pt-4 flex flex-wrap items-center gap-4">
+          {area.whatsappUrl && (
+            <a
+              href={area.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-secondary text-secondary-content font-heading text-sm sm:text-base px-6 py-3 rounded-2xl border-0 shadow-lg inline-flex items-center gap-2 transition-transform hover:scale-105 active:scale-95"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 shrink-0" aria-hidden="true">
+                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.41 1.56 1.56 2.41 3.63 2.41 5.83s-.85 4.26-2.41 5.82c-1.55 1.55-3.62 2.41-5.82 2.41-1.5 0-2.97-.39-4.26-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.37c0-2.2.86-4.27 2.41-5.83 1.56-1.55 3.63-2.41 5.82-2.41m-3.5 4.21c-.19 0-.5.07-.76.35-.26.29-1 1-1 2.44s1.02 2.83 1.16 3.02c.14.19 2.01 3.07 4.87 4.31.68.29 1.21.47 1.63.6.68.22 1.3.19 1.79.12.55-.08 1.69-.69 1.93-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.33s-1.69-.83-1.95-.93c-.26-.09-.45-.14-.64.14-.19.29-.74.93-.91 1.12-.17.19-.34.21-.63.07-.29-.14-1.22-.45-2.32-1.43-.86-.77-1.44-1.72-1.61-2.01-.17-.29-.02-.45.13-.59.13-.13.29-.34.43-.51.14-.17.19-.29.29-.48.09-.19.05-.36-.02-.5-.07-.14-.64-1.55-.88-2.12-.23-.56-.47-.48-.64-.49-.17-.01-.36-.01-.55-.01" />
+              </svg>
+              Unirme al WhatsApp
+            </a>
+          )}
+
+          <a
+            href="#referentes"
+            class="btn btn-ghost text-base-content hover:text-secondary font-heading text-sm sm:text-base px-5 py-3 rounded-2xl"
+          >
+            Ver referentes ↓
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sección 1: Presentación & Lo Que Hacemos -->
+  <section class="bg-base-100 text-base-content py-14 sm:py-20 px-6 sm:px-10">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+      <!-- Columna Izquierda: Presentación y Carreras -->
+      <div class="lg:col-span-7 space-y-8">
+        <div>
+          <span class="font-display text-secondary text-sm sm:text-base tracking-widest uppercase">
+            Identidad y Misión
+          </span>
+          <h2 class="font-heading text-secondary text-3xl sm:text-4xl mt-2 leading-tight">
+            La vocación al servicio de la comunidad
+          </h2>
+          <p class="font-sans text-base-content/90 text-lg sm:text-xl mt-5 leading-relaxed text-pretty">
+            {area.presentacion}
+          </p>
+        </div>
+
+        <!-- Carreras Afines -->
+        <div class="card bg-base-200/60 border border-base-content/10 rounded-3xl p-6 sm:p-8">
+          <h3 class="font-heading text-secondary text-lg sm:text-xl mb-3">
+            Carreras y disciplinas vinculadas:
+          </h3>
+          <p class="font-sans text-sm text-base-content/75 mb-4">
+            Si estudiás alguna de estas carreras o una disciplina afín, este es tu espacio de pertenencia en la pastoral:
+          </p>
+          <div class="flex flex-wrap gap-2">
+            {area.carreras.map((carrera) => (
+              <span class="badge badge-neutral px-3.5 py-2.5 text-xs sm:text-sm rounded-xl font-heading text-base-content/90 border-0">
+                {carrera}
+              </span>
+            ))}
+            <span class="badge badge-neutral px-3.5 py-2.5 text-xs sm:text-sm rounded-xl font-heading text-secondary border-0">
+              + Carreras afines
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna Derecha: Proyectos y Acciones Concretas -->
+      <div class="lg:col-span-5 space-y-6">
+        <div class="card bg-base-200/80 border border-base-content/10 rounded-3xl p-6 sm:p-8">
+          <span class="font-display text-xs sm:text-sm text-secondary tracking-wider uppercase">
+            En Acción
+          </span>
+          <h3 class="font-heading text-2xl text-base-content mt-1 mb-5 leading-snug">
+            ¿Qué hacemos en la PUM?
+          </h3>
+
+          <ul class="space-y-4">
+            {area.queHacemos.map((item, idx) => (
+              <li class="flex items-start gap-3.5 text-sm sm:text-base text-base-content/85">
+                <span class="bg-secondary/20 text-secondary rounded-lg w-6 h-6 shrink-0 flex items-center justify-center font-bold text-xs mt-0.5">
+                  0{idx + 1}
+                </span>
+                <span class="leading-relaxed font-sans">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección 2: Referentes Actuales -->
+  <section id="referentes" class="bg-base-200/70 text-base-content py-16 sm:py-20 px-6 sm:px-10 border-t border-base-content/10">
+    <div class="max-w-7xl mx-auto space-y-12">
+      <!-- Encabezado de la Sección -->
+      <div class="max-w-3xl">
+        <span class="font-display text-secondary text-sm sm:text-base tracking-widest uppercase">
+          Coordinación y Acompañamiento
+        </span>
+        <h2 class="font-heading text-secondary text-3xl sm:text-4xl mt-2 leading-tight">
+          Referentes Actuales
+        </h2>
+        <p class="font-sans text-base-content/85 text-base sm:text-lg mt-3 text-pretty">
+          Conocé a los universitarios que coordinan y animan el Área de {area.nombre}. Podés acercarte, hacerles tus consultas o sumarte a sus actividades semanales.
+        </p>
+      </div>
+
+      <!-- Grilla de Tarjetas de Referentes -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {area.referentes.map((ref) => (
+          <div class="card bg-base-100 border border-base-content/10 rounded-3xl p-6 sm:p-7 flex flex-col justify-between shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-secondary/40">
+            <div>
+              <!-- Avatar / Foto con Fallback de Iniciales -->
+              <div class="flex items-center gap-4 mb-5">
+                <div class="avatar placeholder">
+                  <div class="bg-secondary text-secondary-content rounded-2xl w-16 h-16 shadow-inner flex items-center justify-center font-display text-xl select-none">
+                    {ref.foto ? (
+                      <img
+                        src={ref.foto}
+                        alt={ref.nombre}
+                        class="w-full h-full object-cover rounded-2xl"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <span>{getInitials(ref.nombre)}</span>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <h3 class="font-heading text-xl text-base-content leading-tight">
+                    {ref.nombre}
+                  </h3>
+                  <span class="badge badge-neutral text-xs font-heading text-secondary mt-1 rounded-md border-0">
+                    {ref.rol}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Carrera / Disciplina -->
+              <p class="font-sans text-sm text-base-content/80 font-medium leading-snug">
+                {ref.carrera}
+              </p>
+
+              <!-- Frase / Testimonio -->
+              {ref.frase && (
+                <blockquote class="mt-4 pt-3.5 border-t border-base-content/10 text-xs sm:text-sm text-base-content/75 italic leading-relaxed font-sans">
+                  "{ref.frase}"
+                </blockquote>
+              )}
+            </div>
+
+            <!-- Acciones de Contacto del Referente -->
+            <div class="mt-6 pt-3 border-t border-base-content/10 flex items-center justify-between gap-3 text-xs">
+              <span class="text-base-content/60">Pastoral Universitaria</span>
+              {ref.instagram && (
+                <a
+                  href={ref.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-secondary hover:underline font-heading inline-flex items-center gap-1"
+                >
+                  Instagram →
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección 3: Convocatoria Final & Enlaces -->
+  <section class="bg-secondary text-secondary-content py-14 sm:py-16 px-6 sm:px-10">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+      <div class="space-y-3">
+        <span class="font-display text-xs sm:text-sm tracking-wider uppercase opacity-85">
+          Sumate a la PUM
+        </span>
+        <h2 class="font-heading text-2xl sm:text-4xl text-secondary-content leading-tight">
+          ¿Querés participar en el Área de {area.nombre}?
+        </h2>
+        <p class="font-sans text-secondary-content/95 text-base sm:text-lg max-w-xl text-pretty">
+          Unite al grupo de WhatsApp para enterarte de los encuentros, talleres, proyectos de Manos a la Obra y actividades del área.
+        </p>
+      </div>
+
+      <div class="shrink-0 flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+        {area.whatsappUrl && (
+          <a
+            href={area.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-neutral text-neutral-content font-heading text-base px-7 py-3 rounded-2xl border-0 shadow-lg text-center"
+          >
+            Unirme al grupo
+          </a>
+        )}
+        <a
+          href="/areas"
+          class="btn btn-outline border-secondary-content text-secondary-content hover:bg-secondary-content hover:text-secondary font-heading text-base px-6 py-3 rounded-2xl text-center"
+        >
+          Ver otras áreas
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
