@@ -53,19 +53,25 @@ export const areas: AreaData[] = [
       "https://chat.whatsapp.com/HuwSUHX8LbcGmDXmaLiHaJ?s=sw&p=a&mlu=4&ilr=4",
     referentes: [
       {
-        nombre: "Referente Sociales",
-        rol: "Coordinador de Área",
-        carrera: "Estudiante de Abogacía",
+        nombre: "Aitana Tomattis",
+        rol: "Referente",
+        carrera: "Estudiante de Trabajo Social",
         frase:
           "Ponemos el saber jurídico y social al servicio de la justicia y la dignidad humana.",
         instagram: "https://www.instagram.com/pu.mendoza/"
       },
       {
-        nombre: "Co-Referente Sociales",
-        rol: "Equipo de Animación",
-        carrera: "Estudiante de Comunicación Social",
+        nombre: "Verónica Salazar",
+        rol: "Referente",
+        carrera: "Estudiante de Logistica",
         frase:
           "Comunicar con verdad y empatía es transformar nuestra sociedad desde el encuentro.",
+        instagram: "https://www.instagram.com/pu.mendoza/"
+      },
+      {
+        nombre: "Referente Sociales",
+        rol: "Referente",
+        carrera: "Estudiante de Ciencias Sociales",
         instagram: "https://www.instagram.com/pu.mendoza/"
       }
     ]
@@ -96,17 +102,17 @@ export const areas: AreaData[] = [
     whatsappUrl: "https://chat.whatsapp.com/G7UJfXGmQOuCpLVRnpx4er?mode=gi_t",
     referentes: [
       {
-        nombre: "Referente Ingenio",
-        rol: "Coordinador de Área",
-        carrera: "Estudiante de Ingeniería Industrial",
+        nombre: "Lio Barrozo",
+        rol: "Referente",
+        carrera: "Estudiante de Programación",
         frase:
           "La técnica cobra su sentido más pleno cuando se transforma en servicio concreto.",
         instagram: "https://www.instagram.com/pu.mendoza/"
       },
       {
-        nombre: "Co-Referente Ingenio",
-        rol: "Equipo de Animación",
-        carrera: "Estudiante de Ing. en Sistemas",
+        nombre: "Maitén Gonzalez",
+        rol: "Referente",
+        carrera: "Estudiante de Ing. Industrial",
         frase:
           "Innovar con propósito: conectar la ciencia con las necesidades reales de la gente.",
         instagram: "https://www.instagram.com/pu.mendoza/"
@@ -140,8 +146,8 @@ export const areas: AreaData[] = [
       "https://chat.whatsapp.com/EiCjNO8iHJvEM259lwNX9U?s=cl&p=a&mlu=4&ilr=4",
     referentes: [
       {
-        nombre: "Referente Creativa",
-        rol: "Coordinador de Área",
+        nombre: "Agustina La Barba",
+        rol: "Referente",
         carrera: "Estudiante de Diseño Gráfico",
         frase:
           "La belleza y el diseño son herramientas para transformar entornos y tocar corazones.",
@@ -149,7 +155,7 @@ export const areas: AreaData[] = [
       },
       {
         nombre: "Co-Referente Creativa",
-        rol: "Equipo de Animación",
+        rol: "Referente",
         carrera: "Estudiante de Arquitectura",
         frase:
           "Pensar el espacio habitable es dignificar la vida y el encuentro en cada barrio.",
@@ -186,17 +192,17 @@ export const areas: AreaData[] = [
       "https://chat.whatsapp.com/JLTcLcIfkxpA2NNbWNu5hD?s=cl&p=i&mlu=4&ilr=4",
     referentes: [
       {
-        nombre: "Referente Salud",
-        rol: "Coordinador de Área",
+        nombre: "Lucía Bastías",
+        rol: "Referente",
         carrera: "Estudiante de Medicina",
         frase:
           "Cuidar la salud con mirada integral es abrazar a la persona en cuerpo y espíritu.",
         instagram: "https://www.instagram.com/pu.mendoza/"
       },
       {
-        nombre: "Co-Referente Salud",
-        rol: "Equipo de Animación",
-        carrera: "Estudiante de Enfermería",
+        nombre: "Agustina Alvarez",
+        rol: "Referente",
+        carrera: "Estudiante de Nutrición",
         frase:
           "Acompañar el dolor con presencia atenta y ternura es el corazón de nuestra vocación.",
         instagram: "https://www.instagram.com/pu.mendoza/"
@@ -229,17 +235,17 @@ export const areas: AreaData[] = [
       "https://chat.whatsapp.com/IyyZGYQ4SUf9wki3T2SJnJ?s=sh&p=a&mlu=4&ilr=4&iam=2",
     referentes: [
       {
-        nombre: "Referente Psico-Educación",
-        rol: "Coordinador de Área",
+        nombre: "Lourdes Gonzalez",
+        rol: "Referente",
         carrera: "Estudiante de Psicología",
         frase:
           "Crear espacios de escucha y empatía es sembrar esperanza en cada persona.",
         instagram: "https://www.instagram.com/pu.mendoza/"
       },
       {
-        nombre: "Co-Referente Psico-Educación",
-        rol: "Equipo de Animación",
-        carrera: "Estudiante de Ciencias de la Educación",
+        nombre: "Fernanda Geredus",
+        rol: "Referente",
+        carrera: "Estudiante de Historia",
         frase:
           "Educar con amor es abrir puertas para que cada chico descubra su potencial.",
         instagram: "https://www.instagram.com/pu.mendoza/"
@@ -273,7 +279,7 @@ export const areas: AreaData[] = [
     referentes: [
       {
         nombre: "Referente Profesionales",
-        rol: "Coordinador de Comunidad",
+        rol: "Referente",
         carrera: "Licenciado / Joven Profesional",
         frase:
           "Vivir el trabajo como vocación de servicio y testimonio en el día a día.",
@@ -281,7 +287,7 @@ export const areas: AreaData[] = [
       },
       {
         nombre: "Co-Referente Profesionales",
-        rol: "Equipo de Animación",
+        rol: "Referente",
         carrera: "Graduada reciente",
         frase:
           "Construir una red de profesionales comprometidos con la ética y el bien común.",

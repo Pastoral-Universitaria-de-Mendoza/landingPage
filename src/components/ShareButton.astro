@@ -1,0 +1,78 @@
+---
+interface Props {
+  title: string;
+  text: string;
+  url?: string;
+  label?: string;
+  class?: string;
+}
+
+const {
+  title,
+  text,
+  url = "",
+  label = "Compartir",
+  class: className = "btn btn-outline border-base-content/25 text-base-content hover:bg-base-content/10 font-heading text-sm sm:text-base px-5 py-3 h-auto rounded-2xl inline-flex items-center gap-2 transition-all hover:border-secondary hover:text-secondary",
+} = Astro.props;
+---
+
+<button
+  type="button"
+  class:list={["js-native-share cursor-pointer", className]}
+  data-share-title={title}
+  data-share-text={text}
+  data-share-url={url}
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="w-4 h-4 shrink-0"
+    aria-hidden="true"
+  >
+    <circle cx="18" cy="5" r="3" />
+    <circle cx="6" cy="12" r="3" />
+    <circle cx="18" cy="19" r="3" />
+    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+  </svg>
+  <span class="js-share-label">{label}</span>
+</button>
+
+<script>
+  document.addEventListener("click", async (e) => {
+    const btn = (e.target as Element | null)?.closest<HTMLButtonElement>(".js-native-share");
+    if (!btn) return;
+
+    const title = btn.dataset.shareTitle || document.title;
+    const text = btn.dataset.shareText || "";
+    const rawUrl = btn.dataset.shareUrl;
+    const url = rawUrl ? new URL(rawUrl, window.location.origin).href : window.location.href;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({ title, text, url });
+        return;
+      } catch (err) {
+        if ((err as Error).name === "AbortError") return;
+      }
+    }
+
+    // shortcut: fallback copies URL to clipboard on desktop browsers without navigator.share, upgrade if a custom modal is ever requested
+    try {
+      await navigator.clipboard.writeText(`${text ? text + " " : ""}${url}`);
+      const labelEl = btn.querySelector(".js-share-label");
+      if (labelEl) {
+        const original = labelEl.textContent;
+        labelEl.textContent = "¡Link copiado!";
+        setTimeout(() => {
+          labelEl.textContent = original;
+        }, 2000);
+      }
+    } catch {}
+  });
+</script>

@@ -1,4 +1,6 @@
 ---
+import ShareButton from "./ShareButton.astro";
+
 interface Props {
   title: string;
   subtitle: string;
@@ -55,6 +57,12 @@ const {
         >
           {ctaText}
         </a>
+        <ShareButton
+          title={`${title} — Pastoral Universitaria de Mendoza`}
+          text={`${title} (${subtitle}): ${description}`}
+          label="Compartir"
+          class="btn btn-outline border-base-content/25 text-base-content hover:bg-base-content/10 hover:border-secondary hover:text-secondary font-heading text-base px-5 py-3 h-auto rounded-2xl inline-flex items-center gap-2 transition-all"
+        />
         <a href="/" class="btn btn-ghost text-base px-5 py-3 h-auto rounded-2xl">
           Volver a inicio
         </a>

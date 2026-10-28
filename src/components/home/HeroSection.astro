@@ -1,5 +1,6 @@
 ---
 import Watermark from "../Watermark.astro";
+import ShareButton from "../ShareButton.astro";
 ---
 
 <section id="hero-section" class="hero bg-base-100 text-base-content relative overflow-hidden min-h-[calc(100dvh-3.5rem)] lg:h-[calc(100dvh-3.5rem)] flex flex-col justify-between items-stretch p-0">
@@ -49,6 +50,14 @@ import Watermark from "../Watermark.astro";
               <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
             </svg>
           </a>
+
+          <ShareButton
+            title="Pastoral Universitaria de Mendoza (PUM)"
+            text="Conocé la Pastoral Universitaria de Mendoza: comunidad, fe, amigos y voluntariado universitario."
+            url="/"
+            label="Compartir"
+            class="btn btn-ghost text-base-content/85 hover:text-secondary font-heading text-sm sm:text-base md:text-lg px-4 sm:px-5 py-3 sm:py-3.5 h-auto rounded-2xl inline-flex items-center gap-2 transition-colors"
+          />
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ProjectHero from "../components/ProjectHero.astro";
+import ShareButton from "../components/ShareButton.astro";
 
 const trayectoria = [
   { anio: "2005", lugar: "Nacimiento de Manos a la Obra", detalle: "Creación de la iniciativa solidaria universitaria junto con el origen de la PUM." },
@@ -78,6 +79,12 @@ const trayectoria = [
               </svg>
               Unirme al grupo de WhatsApp
             </a>
+            <ShareButton
+              title="Manos a la Obra — Pastoral Universitaria de Mendoza"
+              text="¡Sumate a la próxima edición de Manos a la Obra (26 al 30 de diciembre en Carrodilla)! Poné tu carrera al servicio:"
+              label="Compartir convocatoria"
+              class="btn btn-outline border-base-content/25 text-base-content hover:bg-base-content/10 hover:border-secondary hover:text-secondary font-heading text-sm sm:text-base px-5 py-2.5 h-auto rounded-2xl w-full inline-flex items-center justify-center gap-2 transition-all"
+            />
             <span class="text-xs text-base-content/60 text-center">
               Comunidad PUM • Información y avisos
             </span>

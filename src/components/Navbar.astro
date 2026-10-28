@@ -1,4 +1,6 @@
 ---
+import { areas } from "../data/areas";
+
 interface Props {
   currentPath?: string;
 }
@@ -45,7 +47,63 @@ const navItems = [
     <nav class="navbar-end w-full justify-end" aria-label="Navegación principal">
       <ul class="menu menu-horizontal hidden md:flex gap-1 px-1 py-0 text-[15px]">
         {navItems.map((item) => {
-          const active = currentPath === item.href;
+          const isAreas = item.href === "/areas";
+          const active = isAreas
+            ? currentPath === "/areas" || currentPath.startsWith("/areas/")
+            : currentPath === item.href;
+
+          if (isAreas) {
+            return (
+              <li class="dropdown dropdown-hover group">
+                <a
+                  href={item.href}
+                  class:list={[
+                    "rounded-none bg-transparent! px-3.5 py-2 text-base-content hover:text-secondary transition-colors inline-flex items-center gap-1.5",
+                    active
+                      ? "font-bold border-b-2 border-secondary text-base-content"
+                      : "font-normal text-base-content/85",
+                  ]}
+                  aria-current={active ? "page" : undefined}
+                >
+                  {item.label}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    class="w-4 h-4 transition-transform duration-200 group-hover:rotate-180"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </a>
+                <ul class="dropdown-content menu bg-base-200/95 backdrop-blur-md rounded-box z-50 w-60 p-2 shadow-xl border border-base-content/10 before:content-[''] before:absolute before:-top-3 before:left-0 before:w-full before:h-3">
+                  {areas.map((area) => {
+                    const subActive = currentPath === `/areas/${area.slug}`;
+                    return (
+                      <li>
+                        <a
+                          href={`/areas/${area.slug}`}
+                          class:list={[
+                            "py-2 text-sm hover:text-secondary hover:bg-base-300/80 transition-colors",
+                            subActive
+                              ? "font-bold text-secondary bg-base-300/60"
+                              : "font-normal text-base-content",
+                          ]}
+                        >
+                          {area.nombre}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </li>
+            );
+          }
+
           return (
             <li>
               <a

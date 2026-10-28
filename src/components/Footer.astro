@@ -1,4 +1,6 @@
 ---
+import ShareButton from "./ShareButton.astro";
+
 const currentYear = new Date().getFullYear();
 ---
 
@@ -30,6 +32,13 @@ const currentYear = new Date().getFullYear();
       >
         @pu.mendoza
       </a>
+      <span aria-hidden="true">•</span>
+      <ShareButton
+        title="Pastoral Universitaria de Mendoza (PUM)"
+        text="Conocé la Pastoral Universitaria de Mendoza: comunidad, fe, amigos y voluntariado universitario."
+        label="Compartir web"
+        class="hover:text-secondary transition-colors inline-flex items-center gap-1.5"
+      />
       <span aria-hidden="true">•</span>
       <span>{currentYear}</span>
     </div>
