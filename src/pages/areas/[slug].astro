@@ -186,8 +186,8 @@ const { area } = Astro.props;
       >
         {area.referentes.map((ref) => (
           <div class="card bg-base-100 border border-base-content/10 rounded-3xl p-5 sm:p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-secondary/40">
-            <!-- Imagen / Placeholder de Foto Grande -->
-            <div class="w-full h-52 sm:h-60 rounded-2xl overflow-hidden bg-base-200/90 border border-base-content/10 flex items-center justify-center select-none mb-5">
+            <!-- Imagen / Placeholder de Foto Grande (1:1) -->
+            <div class="w-full aspect-square rounded-2xl overflow-hidden bg-base-200/90 border border-base-content/10 flex items-center justify-center select-none mb-5">
               {ref.foto ? (
                 <img
                   src={ref.foto}
@@ -273,7 +273,7 @@ const { area } = Astro.props;
           title={`Área ${area.nombre} — Pastoral Universitaria de Mendoza`}
           text={`Sumate al Área de ${area.nombre} en la Pastoral Universitaria de Mendoza:`}
           label="Compartir"
-          class="btn btn-outline border-secondary-content text-secondary-content hover:bg-secondary-content hover:text-secondary font-heading text-base px-6 py-3 rounded-2xl inline-flex items-center justify-center gap-2"
+          class="btn btn-ghost btn-sm text-secondary-content/75 hover:text-secondary-content hover:bg-secondary-content/10 font-sans font-medium text-xs sm:text-sm px-3 py-1.5 h-auto min-h-0 rounded-xl inline-flex items-center justify-center gap-1.5 transition-colors self-center"
         />
       </div>
     </div>

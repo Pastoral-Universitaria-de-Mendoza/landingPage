@@ -3,9 +3,6 @@ export interface Referente {
   rol: string;
   carrera: string;
   foto?: string;
-  instagram?: string;
-  email?: string;
-  frase?: string;
 }
 
 export interface AreaData {
@@ -19,7 +16,6 @@ export interface AreaData {
   carreras: string[];
   bannerImg?: string;
   whatsappUrl?: string;
-  instagramUrl?: string;
   referentes: Referente[];
 }
 
@@ -48,31 +44,24 @@ export const areas: AreaData[] = [
       "Relaciones Internacionales",
       "Trabajo Social"
     ],
-    bannerImg: "/images/areas/banner-sociales.jpeg",
+    bannerImg: "/images/areas/banner-sociales.webp",
     whatsappUrl:
       "https://chat.whatsapp.com/HuwSUHX8LbcGmDXmaLiHaJ?s=sw&p=a&mlu=4&ilr=4",
     referentes: [
       {
         nombre: "Aitana Tomattis",
         rol: "Referente",
-        carrera: "Estudiante de Trabajo Social",
-        frase:
-          "Ponemos el saber jurídico y social al servicio de la justicia y la dignidad humana.",
-        instagram: "https://www.instagram.com/pu.mendoza/"
+        carrera: "Estudiante de Trabajo Social"
       },
       {
         nombre: "Verónica Salazar",
         rol: "Referente",
-        carrera: "Estudiante de Logistica",
-        frase:
-          "Comunicar con verdad y empatía es transformar nuestra sociedad desde el encuentro.",
-        instagram: "https://www.instagram.com/pu.mendoza/"
+        carrera: "Estudiante de Logistica"
       },
       {
-        nombre: "Referente Sociales",
+        nombre: "Lourdes Matiazzo",
         rol: "Referente",
-        carrera: "Estudiante de Ciencias Sociales",
-        instagram: "https://www.instagram.com/pu.mendoza/"
+        carrera: "Estudiante de Comunicación Social"
       }
     ]
   },
@@ -98,24 +87,19 @@ export const areas: AreaData[] = [
       "Ciencias Exactas",
       "Agronomía"
     ],
-    bannerImg: "/images/areas/banner-ingenio.jpeg",
+    bannerImg: "/images/areas/banner-ingenio.webp",
     whatsappUrl: "https://chat.whatsapp.com/G7UJfXGmQOuCpLVRnpx4er?mode=gi_t",
     referentes: [
       {
         nombre: "Lio Barrozo",
         rol: "Referente",
         carrera: "Estudiante de Programación",
-        frase:
-          "La técnica cobra su sentido más pleno cuando se transforma en servicio concreto.",
-        instagram: "https://www.instagram.com/pu.mendoza/"
+        foto: "/images/referentes/liobarrozo.webp"
       },
       {
         nombre: "Maitén Gonzalez",
         rol: "Referente",
-        carrera: "Estudiante de Ing. Industrial",
-        frase:
-          "Innovar con propósito: conectar la ciencia con las necesidades reales de la gente.",
-        instagram: "https://www.instagram.com/pu.mendoza/"
+        carrera: "Estudiante de Ing. Industrial"
       }
     ]
   },
@@ -141,25 +125,19 @@ export const areas: AreaData[] = [
       "Artes Visuales",
       "Música"
     ],
-    bannerImg: "/images/areas/banner-creativa.jpeg",
+    bannerImg: "/images/areas/banner-creativa.webp",
     whatsappUrl:
       "https://chat.whatsapp.com/EiCjNO8iHJvEM259lwNX9U?s=cl&p=a&mlu=4&ilr=4",
     referentes: [
       {
         nombre: "Agustina La Barba",
         rol: "Referente",
-        carrera: "Estudiante de Diseño Gráfico",
-        frase:
-          "La belleza y el diseño son herramientas para transformar entornos y tocar corazones.",
-        instagram: "https://www.instagram.com/pu.mendoza/"
+        carrera: "Estudiante de Diseño Gráfico"
       },
       {
         nombre: "Co-Referente Creativa",
         rol: "Referente",
-        carrera: "Estudiante de Arquitectura",
-        frase:
-          "Pensar el espacio habitable es dignificar la vida y el encuentro en cada barrio.",
-        instagram: "https://www.instagram.com/pu.mendoza/"
+        carrera: "Estudiante de Arquitectura"
       }
     ]
   },
@@ -187,25 +165,19 @@ export const areas: AreaData[] = [
       "Farmacia",
       "Bioquímica"
     ],
-    bannerImg: "/images/areas/banner-salud.jpeg",
+    bannerImg: "/images/areas/banner-salud.webp",
     whatsappUrl:
       "https://chat.whatsapp.com/JLTcLcIfkxpA2NNbWNu5hD?s=cl&p=i&mlu=4&ilr=4",
     referentes: [
       {
         nombre: "Lucía Bastías",
         rol: "Referente",
-        carrera: "Estudiante de Medicina",
-        frase:
-          "Cuidar la salud con mirada integral es abrazar a la persona en cuerpo y espíritu.",
-        instagram: "https://www.instagram.com/pu.mendoza/"
+        carrera: "Estudiante de Medicina"
       },
       {
         nombre: "Agustina Alvarez",
         rol: "Referente",
-        carrera: "Estudiante de Nutrición",
-        frase:
-          "Acompañar el dolor con presencia atenta y ternura es el corazón de nuestra vocación.",
-        instagram: "https://www.instagram.com/pu.mendoza/"
+        carrera: "Estudiante de Nutrición"
       }
     ]
   },
@@ -230,25 +202,19 @@ export const areas: AreaData[] = [
       "Ciencias de la Educación",
       "Profesorados"
     ],
-    bannerImg: "/images/areas/banner-psico-educacion.jpeg",
+    bannerImg: "/images/areas/banner-psico-educacion.webp",
     whatsappUrl:
       "https://chat.whatsapp.com/IyyZGYQ4SUf9wki3T2SJnJ?s=sh&p=a&mlu=4&ilr=4&iam=2",
     referentes: [
       {
         nombre: "Lourdes Gonzalez",
         rol: "Referente",
-        carrera: "Estudiante de Psicología",
-        frase:
-          "Crear espacios de escucha y empatía es sembrar esperanza en cada persona.",
-        instagram: "https://www.instagram.com/pu.mendoza/"
+        carrera: "Estudiante de Psicología"
       },
       {
         nombre: "Fernanda Geredus",
         rol: "Referente",
-        carrera: "Estudiante de Historia",
-        frase:
-          "Educar con amor es abrir puertas para que cada chico descubra su potencial.",
-        instagram: "https://www.instagram.com/pu.mendoza/"
+        carrera: "Estudiante de Historia"
       }
     ]
   },
@@ -273,30 +239,19 @@ export const areas: AreaData[] = [
       "Prácticas profesionales",
       "Jóvenes insertándose en el mundo del trabajo"
     ],
-    bannerImg: "/images/areas/banner-jovenes-profesionales.jpeg",
+    bannerImg: "/images/areas/banner-jovenes-profesionales.webp",
     whatsappUrl: "https://chat.whatsapp.com/IFcWlyNdUdS0PNepeeO86T",
-    instagramUrl: "https://www.instagram.com/pu.mendoza/",
     referentes: [
       {
         nombre: "Referente Profesionales",
         rol: "Referente",
-        carrera: "Licenciado / Joven Profesional",
-        frase:
-          "Vivir el trabajo como vocación de servicio y testimonio en el día a día.",
-        instagram: "https://www.instagram.com/pu.mendoza/"
+        carrera: "Licenciado / Joven Profesional"
       },
       {
         nombre: "Co-Referente Profesionales",
         rol: "Referente",
-        carrera: "Graduada reciente",
-        frase:
-          "Construir una red de profesionales comprometidos con la ética y el bien común.",
-        instagram: "https://www.instagram.com/pu.mendoza/"
+        carrera: "Graduada reciente"
       }
     ]
   }
 ];
-
-export function getAreaBySlug(slug: string): AreaData | undefined {
-  return areas.find((a) => a.slug === slug);
-}

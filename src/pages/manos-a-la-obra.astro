@@ -27,7 +27,7 @@ const trayectoria = [
     logoWidth={471}
     logoHeight={527}
     logoClass="w-44 sm:w-56 h-auto object-contain"
-    backgroundImage="/images/banner-manos-a-la-obra.jpeg"
+    backgroundImage="/images/banner-manos-a-la-obra.webp"
   />
 
   <!-- Metodología de Servicio -->
@@ -79,15 +79,16 @@ const trayectoria = [
               </svg>
               Unirme al grupo de WhatsApp
             </a>
-            <ShareButton
-              title="Manos a la Obra — Pastoral Universitaria de Mendoza"
-              text="¡Sumate a la próxima edición de Manos a la Obra (26 al 30 de diciembre en Carrodilla)! Poné tu carrera al servicio:"
-              label="Compartir convocatoria"
-              class="btn btn-outline border-base-content/25 text-base-content hover:bg-base-content/10 hover:border-secondary hover:text-secondary font-heading text-sm sm:text-base px-5 py-2.5 h-auto rounded-2xl w-full inline-flex items-center justify-center gap-2 transition-all"
-            />
-            <span class="text-xs text-base-content/60 text-center">
-              Comunidad PUM • Información y avisos
-            </span>
+            <div class="flex items-center gap-2 text-xs text-base-content/60">
+              <span>Comunidad PUM</span>
+              <span aria-hidden="true">•</span>
+              <ShareButton
+                title="Manos a la Obra — Pastoral Universitaria de Mendoza"
+                text="¡Sumate a la próxima edición de Manos a la Obra (26 al 30 de diciembre en Carrodilla)! Poné tu carrera al servicio:"
+                label="Compartir convocatoria"
+                class="text-base-content/65 hover:text-secondary inline-flex items-center gap-1 transition-colors underline-offset-4 hover:underline"
+              />
+            </div>
           </div>
         </div>
       </div>

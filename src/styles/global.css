@@ -15,7 +15,7 @@
   --color-secondary: #f1861f;
   --color-secondary-content: #27348a;
   --color-accent: #f1861f;
-  --color-accent-content: #ffffff;
+  --color-accent-content: #27348a;
   --color-neutral: #172056;
   --color-neutral-content: #ffffff;
   --color-info: #38bdf8;
@@ -110,25 +110,12 @@
   }
 }
 
-@keyframes floatSoft {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
 .animate-fade-in-up {
   animation: fadeInUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .animate-fade-in-scale {
   animation: fadeInScale 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.animate-float {
-  animation: floatSoft 4s ease-in-out infinite;
 }
 
 .delay-100 {

@@ -48,7 +48,7 @@ const {
       <p class="font-sans text-base-content/90 text-lg leading-relaxed mt-5 max-w-[48ch] text-pretty">
         {description}
       </p>
-      <div class="mt-8 flex flex-wrap gap-4">
+      <div class="mt-8 flex flex-wrap items-center gap-4">
         <a
           href={ctaHref}
           target="_blank"
@@ -57,15 +57,14 @@ const {
         >
           {ctaText}
         </a>
+        <a href="/" class="btn btn-ghost text-base px-5 py-3 h-auto rounded-2xl">
+          Volver a inicio
+        </a>
         <ShareButton
           title={`${title} — Pastoral Universitaria de Mendoza`}
           text={`${title} (${subtitle}): ${description}`}
           label="Compartir"
-          class="btn btn-outline border-base-content/25 text-base-content hover:bg-base-content/10 hover:border-secondary hover:text-secondary font-heading text-base px-5 py-3 h-auto rounded-2xl inline-flex items-center gap-2 transition-all"
         />
-        <a href="/" class="btn btn-ghost text-base px-5 py-3 h-auto rounded-2xl">
-          Volver a inicio
-        </a>
       </div>
     </div>
 

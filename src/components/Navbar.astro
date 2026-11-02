@@ -54,7 +54,7 @@ const navItems = [
 
           if (isAreas) {
             return (
-              <li class="dropdown dropdown-hover group">
+              <li class="relative group">
                 <a
                   href={item.href}
                   class:list={[
@@ -80,26 +80,28 @@ const navItems = [
                     />
                   </svg>
                 </a>
-                <ul class="dropdown-content menu bg-base-200/95 backdrop-blur-md rounded-box z-50 w-60 p-2 shadow-xl border border-base-content/10 before:content-[''] before:absolute before:-top-3 before:left-0 before:w-full before:h-3">
-                  {areas.map((area) => {
-                    const subActive = currentPath === `/areas/${area.slug}`;
-                    return (
-                      <li>
-                        <a
-                          href={`/areas/${area.slug}`}
-                          class:list={[
-                            "py-2 text-sm hover:text-secondary hover:bg-base-300/80 transition-colors",
-                            subActive
-                              ? "font-bold text-secondary bg-base-300/60"
-                              : "font-normal text-base-content",
-                          ]}
-                        >
-                          {area.nombre}
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <div class="absolute left-1/2 -translate-x-1/2 top-full pt-1.5 z-50 transition-all duration-200 delay-150 opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-hover:delay-0 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:pointer-events-auto group-focus-within:delay-0">
+                  <ul class="menu bg-base-200/95 backdrop-blur-md rounded-box w-60 p-2 shadow-xl border border-base-content/10">
+                    {areas.map((area) => {
+                      const subActive = currentPath === `/areas/${area.slug}`;
+                      return (
+                        <li>
+                          <a
+                            href={`/areas/${area.slug}`}
+                            class:list={[
+                              "py-2 text-sm hover:text-secondary hover:bg-base-300/80 transition-colors",
+                              subActive
+                                ? "font-bold text-secondary bg-base-300/60"
+                                : "font-normal text-base-content",
+                            ]}
+                          >
+                            {area.nombre}
+                          </a>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
               </li>
             );
           }
@@ -127,7 +129,10 @@ const navItems = [
         <summary class="btn btn-ghost btn-sm px-2.5 text-lg" aria-label="Abrir menú">☰</summary>
         <ul class="dropdown-content menu bg-base-200 rounded-box z-50 w-60 p-2 mt-2 shadow-xl border border-base-content/10">
           {navItems.map((item) => {
-            const active = currentPath === item.href;
+            const active =
+              item.href === "/areas"
+                ? currentPath === "/areas" || currentPath.startsWith("/areas/")
+                : currentPath === item.href;
             return (
               <li>
                 <a
