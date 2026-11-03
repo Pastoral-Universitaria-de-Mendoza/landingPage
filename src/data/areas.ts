@@ -51,17 +51,20 @@ export const areas: AreaData[] = [
       {
         nombre: "Aitana Tomattis",
         rol: "Referente",
-        carrera: "Estudiante de Trabajo Social"
+        carrera: "Estudiante de Trabajo Social",
+        foto: "/images/referentes/aitana-tomattis.webp"
       },
       {
         nombre: "Verónica Salazar",
         rol: "Referente",
-        carrera: "Estudiante de Logistica"
+        carrera: "Estudiante de Logistica",
+        foto: "/images/referentes/veronica-salazar.webp"
       },
       {
         nombre: "Lourdes Matiazzo",
         rol: "Referente",
-        carrera: "Estudiante de Comunicación Social"
+        carrera: "Estudiante de Comunicación Social",
+        foto: "/images/referentes/lourdes-matiazzo.webp"
       }
     ]
   },
@@ -99,7 +102,8 @@ export const areas: AreaData[] = [
       {
         nombre: "Maitén Gonzalez",
         rol: "Referente",
-        carrera: "Estudiante de Ing. Industrial"
+        carrera: "Estudiante de Ing. Industrial",
+        foto: "/images/referentes/maiten-gonzalez.webp"
       }
     ]
   },
@@ -132,12 +136,14 @@ export const areas: AreaData[] = [
       {
         nombre: "Agustina La Barba",
         rol: "Referente",
-        carrera: "Estudiante de Diseño Gráfico"
+        carrera: "Estudiante de Diseño Gráfico",
+        foto: "/images/referentes/agustina-la-barba.webp"
       },
       {
-        nombre: "Co-Referente Creativa",
+        nombre: "Jimena Calivar",
         rol: "Referente",
-        carrera: "Estudiante de Arquitectura"
+        carrera: "Estudiante de Diseño Gráfico",
+        foto: "/images/referentes/jimena-calivar.webp"
       }
     ]
   },
@@ -172,12 +178,14 @@ export const areas: AreaData[] = [
       {
         nombre: "Lucía Bastías",
         rol: "Referente",
-        carrera: "Estudiante de Medicina"
+        carrera: "Estudiante de Medicina",
+        foto: "/images/referentes/lucia-bastias.webp"
       },
       {
         nombre: "Agustina Alvarez",
         rol: "Referente",
-        carrera: "Estudiante de Nutrición"
+        carrera: "Estudiante de Nutrición",
+        foto: "/images/referentes/agustina-alvarez.webp"
       }
     ]
   },
@@ -209,12 +217,14 @@ export const areas: AreaData[] = [
       {
         nombre: "Lourdes Gonzalez",
         rol: "Referente",
-        carrera: "Estudiante de Psicología"
+        carrera: "Estudiante de Psicología",
+        foto: "/images/referentes/lourdes-gonzalez.webp"
       },
       {
         nombre: "Fernanda Geredus",
         rol: "Referente",
-        carrera: "Estudiante de Historia"
+        carrera: "Estudiante de Historia",
+        foto: "/images/referentes/fernanda-geredus.webp"
       }
     ]
   },

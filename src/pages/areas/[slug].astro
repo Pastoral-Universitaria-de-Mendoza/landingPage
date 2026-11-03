@@ -194,6 +194,9 @@ const { area } = Astro.props;
                   alt={ref.nombre}
                   class="w-full h-full object-cover"
                   loading="lazy"
+                  decoding="async"
+                  width="400"
+                  height="400"
                 />
               ) : (
                 <div class="flex flex-col items-center justify-center text-base-content/35">
