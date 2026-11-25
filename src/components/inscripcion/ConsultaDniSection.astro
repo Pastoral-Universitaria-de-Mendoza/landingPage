@@ -1,0 +1,78 @@
+---
+import WhatsappIcon from "./WhatsappIcon.astro";
+
+interface Props {
+  whatsappNumber: string;
+  whatsappDisplay: string;
+}
+
+const { whatsappNumber, whatsappDisplay } = Astro.props;
+---
+
+<div id="consulta-wrapper" class="hidden space-y-6">
+  <div class="card bg-base-200/80 border border-base-content/15 rounded-3xl p-6 sm:p-8 space-y-4">
+    <h2 class="font-heading text-2xl text-secondary">Consultar inscripción / Subir documentación</h2>
+    <p class="text-sm text-base-content/80">
+      Ingresá tu DNI (sin puntos) para ver el estado de tu inscripción, cargar tu Certificado de Alumno Regular o acceder al WhatsApp para enviar tu comprobante de pago.
+    </p>
+    <form id="consulta-form" class="flex flex-col sm:flex-row gap-3">
+      <input
+        type="text"
+        inputmode="numeric"
+        id="consulta-dni"
+        class="input flex-1 bg-base-100"
+        placeholder="Ej: 43123456"
+        required
+      />
+      <button type="submit" class="btn btn-secondary text-secondary-content font-heading rounded-2xl px-6">
+        Buscar por DNI
+      </button>
+    </form>
+    <div id="consulta-error" class="alert alert-error hidden text-sm rounded-2xl"></div>
+  </div>
+
+  <div id="consulta-result" class="hidden card bg-base-200/80 border border-base-content/15 rounded-3xl p-6 sm:p-8 space-y-6">
+    <div class="flex flex-wrap items-start justify-between gap-4 border-b border-base-content/15 pb-4">
+      <div>
+        <h3 id="res-nombre" class="font-heading text-2xl text-secondary"></h3>
+        <p id="res-detalle" class="text-sm text-base-content/80"></p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <span id="res-badge-cert" class="badge badge-sm"></span>
+        <span id="res-badge-pago" class="badge badge-sm"></span>
+      </div>
+    </div>
+
+    <div id="res-archivos" class="space-y-2 text-sm"></div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-base-content/15">
+      <form id="upload-cert-form" class="bg-base-100/70 p-4 rounded-2xl space-y-3">
+        <h4 class="font-heading text-base text-secondary">Subir Certificado de Alumno Regular</h4>
+        <input type="file" id="consulta-cert-file" accept=".pdf,image/*" class="file-input file-input-sm file-input-secondary w-full bg-base-200" required />
+        <button type="submit" class="btn btn-sm btn-secondary text-secondary-content rounded-xl">
+          Subir certificado
+        </button>
+      </form>
+
+      <div class="bg-base-100/70 p-4 rounded-2xl space-y-3 flex flex-col justify-between">
+        <div class="space-y-1">
+          <h4 class="font-heading text-base text-secondary">Enviar Comprobante de Pago</h4>
+          <p class="text-xs text-base-content/75">
+            Enviá tu comprobante de transferencia por WhatsApp al <strong>{whatsappDisplay}</strong> indicando tu nombre y DNI.
+          </p>
+        </div>
+        <a
+          id="consulta-whatsapp-btn"
+          href={`https://wa.me/${whatsappNumber}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-sm bg-[#075e54] hover:bg-[#054c44] text-white border-0 rounded-xl inline-flex items-center gap-2 self-start"
+        >
+          <WhatsappIcon />
+          Enviar comprobante por WhatsApp
+        </a>
+      </div>
+    </div>
+    <div id="consulta-upload-msg" class="alert alert-success hidden text-sm rounded-2xl"></div>
+  </div>
+</div>

@@ -1,0 +1,112 @@
+---
+import { areas } from "../../data/areas";
+import {
+  ACTIVIDAD_ANUAL_PUM,
+  COMO_SE_ENTERO,
+  HOSPITALIDAD_OPCIONES,
+} from "../../data/inscripcion-mo";
+---
+
+<div data-step="3" class="hidden space-y-5">
+  <div>
+    <span class="badge badge-secondary font-display text-xs uppercase">Paso 4 de 7</span>
+    <h2 class="font-heading text-2xl sm:text-3xl text-secondary mt-2">Sección 3 — Sobre el Manos a la Obra</h2>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend text-base-content">¿Cómo te enteraste del Manos a la Obra? *</legend>
+      <select name="como_se_entero" required class="select w-full bg-base-100">
+        <option value="">Seleccioná una opción</option>
+        {COMO_SE_ENTERO.map((op) => (
+          <option value={op}>{op}</option>
+        ))}
+      </select>
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend text-base-content">¿Has asistido a alguna actividad anual de la PUM? *</legend>
+      <select name="actividad_anual_pum" required class="select w-full bg-base-100">
+        <option value="">Seleccioná una opción</option>
+        {ACTIVIDAD_ANUAL_PUM.map((op) => (
+          <option value={op}>{op}</option>
+        ))}
+      </select>
+    </fieldset>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend text-base-content">¿Qué carrera estudiás? *</legend>
+      <input type="text" name="carrera" required class="input w-full bg-base-100" placeholder="Ej: Medicina, Ingeniería Civil, Derecho..." />
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend text-base-content">Certificado de alumno regular (PDF o imagen)</legend>
+      <input type="file" id="certificado-file" accept=".pdf,image/*" class="file-input file-input-secondary w-full bg-base-100" />
+      <span class="text-xs text-base-content/70 mt-1">
+        Opcional ahora: si no lo tenés a mano, podés inscribirte igual y subirlo después ingresando tu DNI.
+      </span>
+    </fieldset>
+  </div>
+
+  <!-- Áreas con carreras afines y link en nueva pestaña -->
+  <div class="space-y-3">
+    <div>
+      <p class="font-heading text-base text-secondary">¿A qué área pertenecés? *</p>
+      <p class="text-xs text-base-content/75">
+        Te mostramos las carreras afines de cada área. Podés abrir la página completa del área en una nueva pestaña para conocerla mejor.
+      </p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {areas.map((area) => (
+        <label class="card bg-base-100/80 border border-base-content/15 hover:border-secondary rounded-2xl p-4 cursor-pointer transition-colors has-[:checked]:border-secondary has-[:checked]:bg-base-100">
+          <div class="flex items-start justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <input
+                type="radio"
+                name="area_pertenencia"
+                value={area.nombre}
+                data-area-slug={area.slug}
+                class="radio radio-secondary radio-sm"
+                required
+              />
+              <span class="font-heading text-base text-secondary">{area.nombre}</span>
+            </div>
+            <a
+              href={`/areas/${area.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-[11px] text-base-content/75 hover:text-secondary underline shrink-0"
+              onclick="event.stopPropagation()"
+            >
+              Ver área ↗
+            </a>
+          </div>
+          <div class="flex flex-wrap gap-1 mt-2.5">
+            {area.carreras.map((c) => (
+              <span class="badge badge-neutral badge-xs text-[11px] px-2 py-2 border-0">{c}</span>
+            ))}
+          </div>
+        </label>
+      ))}
+    </div>
+  </div>
+
+  <div class="bg-base-100/70 p-4 rounded-2xl border border-base-content/10 space-y-2.5">
+    <p class="font-heading text-sm sm:text-base text-base-content">
+      En caso de ser necesario, ¿estarías dispuesto/a a alojar o a colaborar con el transporte de un joven universitario proveniente de otra diócesis? *
+    </p>
+    <p class="text-xs text-base-content/70">
+      (El transporte sería ir a buscar al joven al aeropuerto o terminal)
+    </p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+      {HOSPITALIDAD_OPCIONES.map((op) => (
+        <label class="flex items-center gap-2 cursor-pointer bg-base-100/70 px-3 py-2.5 rounded-xl border border-base-content/10">
+          <input type="radio" name="disponibilidad_hospitalidad" value={op} class="radio radio-secondary radio-sm" required />
+          <span class="text-sm">{op}</span>
+        </label>
+      ))}
+    </div>
+  </div>
+</div>

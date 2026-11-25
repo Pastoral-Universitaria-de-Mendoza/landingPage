@@ -6,6 +6,7 @@ interface Props {
   imgWidth: number;
   imgHeight: number;
   imgClass?: string;
+  badgeText?: string;
 }
 
 const {
@@ -15,13 +16,19 @@ const {
   imgWidth,
   imgHeight,
   imgClass = "w-32 sm:w-40 h-auto object-contain",
+  badgeText,
 } = Astro.props;
 ---
 
 <a
   href={href}
-  class="card bg-base-content/15 hover:bg-base-content/25 border border-secondary-content/15 rounded-3xl p-5 sm:p-7 transition-transform hover:-translate-y-1 flex items-center justify-center"
+  class="card relative bg-base-content/15 hover:bg-base-content/25 border border-secondary-content/15 rounded-3xl p-5 sm:p-7 transition-transform hover:-translate-y-1 flex items-center justify-center"
 >
+  {badgeText && (
+    <span class="badge badge-neutral text-neutral-content font-heading text-[11px] px-2.5 py-1 rounded-full absolute -top-2.5 shadow-md">
+      {badgeText}
+    </span>
+  )}
   <figure class="rounded-none! overflow-visible">
     <img
       src={imgSrc}

@@ -1,0 +1,45 @@
+---
+import WhatsappIcon from "./WhatsappIcon.astro";
+
+interface Props {
+  whatsappNumber: string;
+  whatsappDisplay: string;
+}
+
+const { whatsappNumber, whatsappDisplay } = Astro.props;
+---
+
+<div id="success-screen" class="hidden card bg-secondary text-secondary-content rounded-3xl p-8 sm:p-10 shadow-2xl space-y-5 text-center">
+  <h2 class="font-display text-3xl sm:text-4xl">¡INSCRIPCIÓN REGISTRADA!</h2>
+  <p class="font-heading text-xl">
+    ¡Gracias por ser parte de esta comunidad que se pone en camino!
+  </p>
+  <p class="font-sans text-base sm:text-lg max-w-xl mx-auto">
+    ¡Gracias por sumarte y poner tus manos a la obra! Nos vemos muy pronto en Carrodilla. 🎒✨
+  </p>
+
+  <div class="bg-base-100/15 border border-secondary-content/25 rounded-2xl p-5 max-w-lg mx-auto space-y-3">
+    <p class="font-sans text-sm font-semibold">
+      Para validar tu pago, enviá el comprobante de transferencia por WhatsApp al <strong>{whatsappDisplay}</strong>:
+    </p>
+    <a
+      id="btn-whatsapp-comprobante"
+      href={`https://wa.me/${whatsappNumber}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="btn bg-[#075e54] hover:bg-[#054c44] text-white border-0 rounded-2xl font-heading px-6 h-auto py-3 inline-flex items-center justify-center gap-2.5 shadow-lg"
+    >
+      <WhatsappIcon class="w-5 h-5 shrink-0 text-[#25D366]" />
+      Enviar comprobante por WhatsApp
+    </a>
+  </div>
+
+  <div class="pt-2 flex flex-wrap justify-center gap-3">
+    <button type="button" id="btn-go-consulta" class="btn btn-neutral rounded-2xl font-heading">
+      Ver mi estado / Subir certificado
+    </button>
+    <a href="/manos-a-la-obra" class="btn btn-outline border-secondary-content text-secondary-content rounded-2xl font-heading">
+      Volver a Manos a la Obra
+    </a>
+  </div>
+</div>

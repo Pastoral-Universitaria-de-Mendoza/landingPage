@@ -1,0 +1,118 @@
+---
+import { DEPARTAMENTOS_MENDOZA, PARENTESCOS_EMERGENCIA, PROVINCIAS_ARGENTINA } from "../../data/inscripcion-mo";
+---
+
+<div data-step="1" class="hidden space-y-5">
+  <div>
+    <span class="badge badge-secondary font-display text-xs uppercase">Paso 2 de 7</span>
+    <h2 class="font-heading text-2xl sm:text-3xl text-secondary mt-2">Datos Personales</h2>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <fieldset class="fieldset sm:col-span-2">
+      <legend class="fieldset-legend text-base-content">Nombre completo (como aparece en el DNI) *</legend>
+      <input type="text" name="nombre_completo" required class="input w-full bg-base-100" placeholder="Ej: Juan Ignacio Pérez" />
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend text-base-content">DNI (sin puntos) *</legend>
+      <input type="text" name="dni" inputmode="numeric" required class="input w-full bg-base-100" placeholder="Ej: 43123456" />
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend text-base-content">Fecha de nacimiento (18 a 35 años) *</legend>
+      <input type="date" name="fecha_nacimiento" required class="input w-full bg-base-100" />
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend text-base-content">Número de teléfono (WhatsApp) *</legend>
+      <input type="tel" name="telefono" required class="input w-full bg-base-100" placeholder="Ej: 2615551234" />
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend text-base-content">Correo electrónico *</legend>
+      <input type="email" name="email" required class="input w-full bg-base-100" placeholder="tuemail@ejemplo.com" />
+    </fieldset>
+
+    <fieldset class="fieldset sm:col-span-2">
+      <legend class="fieldset-legend text-base-content">Dirección *</legend>
+      <input type="text" name="direccion" required class="input w-full bg-base-100" placeholder="Calle, número, barrio/referencia" />
+    </fieldset>
+  </div>
+
+  <!-- Procedencia -->
+  <div class="bg-base-100/70 rounded-2xl p-4 sm:p-5 border border-base-content/10 space-y-4">
+    <p class="font-heading text-sm sm:text-base text-secondary">¿Vivís en Mendoza o pertenecés a otra provincia? *</p>
+    <div class="flex flex-wrap gap-4">
+      <label class="flex items-center gap-2 cursor-pointer">
+        <input type="radio" name="es_mendoza" value="si" checked class="radio radio-secondary" />
+        <span class="text-sm">Vivo en Mendoza</span>
+      </label>
+      <label class="flex items-center gap-2 cursor-pointer">
+        <input type="radio" name="es_mendoza" value="no" class="radio radio-secondary" />
+        <span class="text-sm">Pertenezco a otra provincia</span>
+      </label>
+    </div>
+
+    <div id="mendoza-fields">
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend text-base-content">Departamento de Mendoza *</legend>
+        <select name="departamento_mendoza" class="select w-full bg-base-100">
+          <option value="">Seleccioná tu departamento</option>
+          {DEPARTAMENTOS_MENDOZA.map((dep) => (
+            <option value={dep}>{dep}</option>
+          ))}
+        </select>
+      </fieldset>
+    </div>
+
+    <div id="otra-provincia-fields" class="hidden grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend text-base-content">¿De qué provincia sos? *</legend>
+        <select name="provincia_origen" class="select w-full bg-base-100">
+          <option value="">Seleccioná provincia</option>
+          {PROVINCIAS_ARGENTINA.map((prov) => (
+            <option value={prov}>{prov}</option>
+          ))}
+        </select>
+      </fieldset>
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend text-base-content">Localidad *</legend>
+        <input type="text" name="localidad_origen" class="input w-full bg-base-100" placeholder="Ciudad / Localidad" />
+      </fieldset>
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend text-base-content">¿Qué día llegarías a Mendoza? *</legend>
+        <input type="date" name="fecha_llegada_mendoza" class="input w-full bg-base-100" />
+      </fieldset>
+    </div>
+  </div>
+
+  <!-- 2 Contactos de Emergencia -->
+  <div class="space-y-3">
+    <h3 class="font-heading text-base sm:text-lg text-secondary">2 Contactos de Emergencia *</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-base-100/70 p-4 rounded-2xl border border-base-content/10 space-y-2.5">
+        <p class="font-heading text-sm text-base-content/90">Contacto de Emergencia 1</p>
+        <input type="text" name="contacto1_nombre" required class="input input-sm w-full bg-base-100" placeholder="Nombre y apellido *" />
+        <input type="tel" name="contacto1_celular" required class="input input-sm w-full bg-base-100" placeholder="Celular *" />
+        <select name="contacto1_parentesco" required class="select select-sm w-full bg-base-100">
+          <option value="">Parentesco *</option>
+          {PARENTESCOS_EMERGENCIA.map((p) => (
+            <option value={p}>{p}</option>
+          ))}
+        </select>
+      </div>
+      <div class="bg-base-100/70 p-4 rounded-2xl border border-base-content/10 space-y-2.5">
+        <p class="font-heading text-sm text-base-content/90">Contacto de Emergencia 2</p>
+        <input type="text" name="contacto2_nombre" required class="input input-sm w-full bg-base-100" placeholder="Nombre y apellido *" />
+        <input type="tel" name="contacto2_celular" required class="input input-sm w-full bg-base-100" placeholder="Celular *" />
+        <select name="contacto2_parentesco" required class="select select-sm w-full bg-base-100">
+          <option value="">Parentesco *</option>
+          {PARENTESCOS_EMERGENCIA.map((p) => (
+            <option value={p}>{p}</option>
+          ))}
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

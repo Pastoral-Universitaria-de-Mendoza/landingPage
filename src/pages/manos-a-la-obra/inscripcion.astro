@@ -1,0 +1,91 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import InscripcionHeader from "../../components/inscripcion/InscripcionHeader.astro";
+import WizardSteps from "../../components/inscripcion/WizardSteps.astro";
+import StepBases from "../../components/inscripcion/StepBases.astro";
+import StepPersonales from "../../components/inscripcion/StepPersonales.astro";
+import StepMedicos from "../../components/inscripcion/StepMedicos.astro";
+import StepSobreMO from "../../components/inscripcion/StepSobreMO.astro";
+import StepParticipacion from "../../components/inscripcion/StepParticipacion.astro";
+import StepMovilidad from "../../components/inscripcion/StepMovilidad.astro";
+import StepPagoCierre from "../../components/inscripcion/StepPagoCierre.astro";
+import SuccessScreen from "../../components/inscripcion/SuccessScreen.astro";
+import ConsultaDniSection from "../../components/inscripcion/ConsultaDniSection.astro";
+import { DEFAULT_API_URL } from "../../data/inscripcion-mo";
+
+const stepTitles = [
+  "Bases",
+  "Personales",
+  "Médicos",
+  "Sobre el MO",
+  "Participación",
+  "Movilidad",
+  "Pago y Cierre",
+];
+
+const FORM_DEV_MODE = import.meta.env.PUBLIC_FORM_DEV_MODE === "true";
+const WHATSAPP_COMPROBANTES_NUMBER = "5492634757235";
+const WHATSAPP_COMPROBANTES_DISPLAY = "+54 9 2634 75-7235";
+---
+
+<Layout title="INSCRIPCIÓN MANOS A LA OBRA 2026" favicon="/images/logo-manos.png">
+  <section
+    id="inscripcion-root"
+    data-api-url={DEFAULT_API_URL}
+    data-dev-mode={String(FORM_DEV_MODE)}
+    data-whatsapp={WHATSAPP_COMPROBANTES_NUMBER}
+    class="bg-base-100 text-base-content py-10 sm:py-14 px-4 sm:px-8 flex-1"
+  >
+    <div class="max-w-4xl mx-auto space-y-6">
+      <InscripcionHeader />
+
+      <div id="wizard-wrapper" class="space-y-6">
+        {FORM_DEV_MODE && (
+          <div class="alert alert-info text-xs sm:text-sm rounded-2xl">
+            <span>
+              <strong>Modo DEV activo</strong> (<code>PUBLIC_FORM_DEV_MODE=true</code>): podés avanzar o hacer clic en cualquier paso sin completar campos obligatorios.
+            </span>
+          </div>
+        )}
+
+        <WizardSteps stepTitles={stepTitles} devMode={FORM_DEV_MODE} />
+
+        <div id="wizard-error" role="alert" class="alert alert-error hidden rounded-2xl text-sm">
+          <span id="wizard-error-text"></span>
+        </div>
+
+        <form id="mo-form" class="card bg-base-200/80 border border-base-content/15 rounded-3xl p-5 sm:p-8 shadow-xl space-y-6" novalidate>
+          <StepBases />
+          <StepPersonales />
+          <StepMedicos />
+          <StepSobreMO />
+          <StepParticipacion />
+          <StepMovilidad />
+          <StepPagoCierre whatsappNumber={WHATSAPP_COMPROBANTES_NUMBER} whatsappDisplay={WHATSAPP_COMPROBANTES_DISPLAY} />
+
+          <div class="flex items-center justify-between pt-4 border-t border-base-content/15">
+            <button type="button" id="btn-prev" class="btn btn-ghost rounded-2xl hidden">
+              ← Anterior
+            </button>
+            <div class="ml-auto flex gap-3">
+              <button type="button" id="btn-next" class="btn btn-secondary text-secondary-content font-heading rounded-2xl px-6">
+                Siguiente →
+              </button>
+              <button type="submit" id="btn-submit" class="btn btn-secondary text-secondary-content font-heading rounded-2xl px-7 hidden">
+                Enviar Inscripción 🎒✨
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <SuccessScreen whatsappNumber={WHATSAPP_COMPROBANTES_NUMBER} whatsappDisplay={WHATSAPP_COMPROBANTES_DISPLAY} />
+      <ConsultaDniSection whatsappNumber={WHATSAPP_COMPROBANTES_NUMBER} whatsappDisplay={WHATSAPP_COMPROBANTES_DISPLAY} />
+    </div>
+  </section>
+
+  <script>
+    import { initInscripcionWizard } from "../../scripts/inscripcion-wizard";
+    initInscripcionWizard();
+  </script>
+</Layout>

@@ -1,0 +1,59 @@
+---
+import { areas } from "../../data/areas";
+import { ROLES_EQUIPO_GENERAL } from "../../data/inscripcion-mo";
+---
+
+<div data-step="4" class="hidden space-y-5">
+  <div>
+    <span class="badge badge-secondary font-display text-xs uppercase">Paso 5 de 7</span>
+    <h2 class="font-heading text-2xl sm:text-3xl text-secondary mt-2">Participación en el MO 2026</h2>
+  </div>
+
+  <div class="bg-base-100/70 p-4 rounded-2xl border border-base-content/10 space-y-2.5">
+    <p class="font-heading text-sm sm:text-base">¿Qué tipo de participante sos? *</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {["Voluntario", "Parte del equipo"].map((tipo) => (
+        <label class="flex items-center gap-2 cursor-pointer bg-base-100/80 px-4 py-3 rounded-xl border border-base-content/10 hover:border-secondary">
+          <input type="radio" name="tipo_participante" value={tipo} class="radio radio-secondary radio-sm" required />
+          <span class="text-sm">{tipo}</span>
+        </label>
+      ))}
+    </div>
+  </div>
+
+  <div id="subtipo-equipo-wrap" class="hidden bg-base-100/70 p-4 rounded-2xl border border-secondary/30 space-y-2.5">
+    <p class="font-heading text-sm sm:text-base text-secondary">¿Sos Referente o del Equipo General? *</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {["Referente", "Equipo General"].map((subtipo) => (
+        <label class="flex items-center gap-2 cursor-pointer bg-base-100/80 px-4 py-3 rounded-xl border border-base-content/10 hover:border-secondary">
+          <input type="radio" name="subtipo_equipo" value={subtipo} class="radio radio-secondary radio-sm" />
+          <span class="text-sm">{subtipo}</span>
+        </label>
+      ))}
+    </div>
+  </div>
+
+  <div id="proyecto-area-wrap" class="hidden">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend text-base-content">Proyecto / Área del que serás parte *</legend>
+      <select name="proyecto_area" class="select w-full bg-base-100">
+        <option value="">Seleccioná el proyecto / área</option>
+        {areas.map((a) => (
+          <option value={a.nombre}>{a.nombre}</option>
+        ))}
+      </select>
+    </fieldset>
+  </div>
+
+  <div id="equipo-general-fields" class="hidden bg-base-100/70 p-4 rounded-2xl border border-secondary/30">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend text-base-content">¿Cuál es tu rol en el Equipo General? *</legend>
+      <select name="rol_equipo_general" class="select w-full bg-base-100">
+        <option value="">Seleccioná tu rol</option>
+        {ROLES_EQUIPO_GENERAL.map((rol) => (
+          <option value={rol}>{rol}</option>
+        ))}
+      </select>
+    </fieldset>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+---
+import { TYC_INTRO, TYC_PUNTOS } from "../../data/inscripcion-mo";
+---
+
+<div data-step="0" class="space-y-5">
+  <div>
+    <span class="badge badge-secondary font-display text-xs uppercase">Paso 1 de 7</span>
+    <h2 class="font-heading text-2xl sm:text-3xl text-secondary mt-2">Bases y Condiciones</h2>
+  </div>
+
+  <div class="bg-base-100/80 border border-base-content/15 rounded-2xl p-4 sm:p-6 max-h-96 overflow-y-auto space-y-3 text-sm leading-relaxed">
+    {TYC_INTRO.map((p, idx) => (
+      <p class:list={[idx === 0 ? "font-heading text-secondary text-base" : "text-base-content/90"]}>{p}</p>
+    ))}
+    <hr class="border-base-content/10 my-2" />
+    {TYC_PUNTOS.map((punto) => (
+      <p class="whitespace-pre-line text-base-content/90">{punto}</p>
+    ))}
+  </div>
+
+  <label class="flex items-start gap-3 cursor-pointer bg-base-100/60 p-4 rounded-2xl border border-secondary/40">
+    <input type="checkbox" name="acepto_tyc" id="acepto_tyc" class="checkbox checkbox-secondary mt-0.5" required />
+    <span class="text-sm font-sans leading-snug">
+      Declaro haber leído y aceptado en su totalidad las <strong>Bases y Condiciones</strong>, incluyendo la conformidad expresa con los <em>"Criterios, normas y recomendaciones para el trabajo con niños"</em> y la asistencia obligatoria a la formación virtual previa.
+    </span>
+  </label>
+</div>

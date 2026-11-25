@@ -28,6 +28,7 @@ const {
   logoClass = "w-44 sm:w-56 h-auto object-contain",
   backgroundImage,
 } = Astro.props;
+const isExternalCta = ctaHref.startsWith("http");
 ---
 
 <section class="hero bg-base-100 text-base-content relative overflow-hidden min-h-[calc(100dvh-3.5rem)] py-16 px-6 sm:px-10">
@@ -51,8 +52,8 @@ const {
       <div class="mt-8 flex flex-wrap items-center gap-4">
         <a
           href={ctaHref}
-          target="_blank"
-          rel="noopener noreferrer"
+          target={isExternalCta ? "_blank" : undefined}
+          rel={isExternalCta ? "noopener noreferrer" : undefined}
           class="btn btn-accent font-heading text-base px-6 py-3 h-auto rounded-2xl border-0"
         >
           {ctaText}

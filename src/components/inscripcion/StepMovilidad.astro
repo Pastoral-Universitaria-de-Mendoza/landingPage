@@ -1,0 +1,55 @@
+---
+import {
+  FORMAS_TRASLADO,
+  VEHICULOS_ESTACIONAMIENTO,
+} from "../../data/inscripcion-mo";
+---
+
+<div data-step="5" class="hidden space-y-5">
+  <div>
+    <span class="badge badge-secondary font-display text-xs uppercase">Paso 6 de 7</span>
+    <h2 class="font-heading text-2xl sm:text-3xl text-secondary mt-2">Sección Movilidad</h2>
+  </div>
+
+  <div class="space-y-2.5">
+    <p class="font-heading text-sm sm:text-base">¿Cómo vas a trasladarte a la zona? *</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {FORMAS_TRASLADO.map((forma) => (
+        <label class="flex items-center gap-3 cursor-pointer bg-base-100/75 p-4 rounded-2xl border border-base-content/10 hover:border-secondary">
+          <input type="radio" name="forma_traslado" value={forma} class="radio radio-secondary radio-sm" required />
+          <span class="text-sm">{forma}</span>
+        </label>
+      ))}
+    </div>
+  </div>
+
+  <div id="estacionamiento-fields" class="hidden bg-base-100/75 p-4 rounded-2xl border border-secondary/30 space-y-4">
+    <p class="font-heading text-sm sm:text-base text-secondary">
+      En caso de tener movilidad propia, ¿necesitás estacionamiento? *
+    </p>
+    <div class="flex gap-4">
+      <label class="flex items-center gap-2 cursor-pointer">
+        <input type="radio" name="necesita_estacionamiento" value="si" class="radio radio-secondary" />
+        <span class="text-sm">Sí</span>
+      </label>
+      <label class="flex items-center gap-2 cursor-pointer">
+        <input type="radio" name="necesita_estacionamiento" value="no" checked class="radio radio-secondary" />
+        <span class="text-sm">No</span>
+      </label>
+    </div>
+
+    <div id="vehiculo-fields" class="hidden">
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend text-base-content">¿Qué vehículo necesitás estacionar? *</legend>
+        <div class="flex flex-wrap gap-3">
+          {VEHICULOS_ESTACIONAMIENTO.map((v) => (
+            <label class="flex items-center gap-2 cursor-pointer bg-base-200 px-4 py-2 rounded-xl">
+              <input type="radio" name="vehiculo_estacionamiento" value={v} class="radio radio-secondary radio-sm" />
+              <span class="text-sm">{v}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+    </div>
+  </div>
+</div>
