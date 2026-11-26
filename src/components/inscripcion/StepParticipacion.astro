@@ -1,6 +1,8 @@
 ---
 import { areas } from "../../data/areas";
 import { ROLES_EQUIPO_GENERAL } from "../../data/inscripcion-mo";
+
+const areasInscripcion = areas.filter((a) => a.slug !== "jovenes-profesionales");
 ---
 
 <div data-step="4" class="hidden space-y-5">
@@ -38,7 +40,7 @@ import { ROLES_EQUIPO_GENERAL } from "../../data/inscripcion-mo";
       <legend class="fieldset-legend text-base-content">Proyecto / Área del que serás parte *</legend>
       <select name="proyecto_area" class="select w-full bg-base-100">
         <option value="">Seleccioná el proyecto / área</option>
-        {areas.map((a) => (
+        {areasInscripcion.map((a) => (
           <option value={a.nombre}>{a.nombre}</option>
         ))}
       </select>

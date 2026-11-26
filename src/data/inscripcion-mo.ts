@@ -149,3 +149,42 @@ export const PARENTESCOS_EMERGENCIA = [
   "Otro familiar",
   "Otro",
 ];
+
+export const MO_CALENDAR_URL =
+  "https://calendar.google.com/calendar/render?" +
+  new URLSearchParams({
+    action: "TEMPLATE",
+    text: "Manos a la Obra 2026 - PUM",
+    dates: "20261226/20261231",
+    ctz: "America/Argentina/Mendoza",
+    location: "Carrodilla, Mendoza",
+    details:
+      "Proyecto Universitario Solidario Manos a la Obra 2026 (26 al 30 de diciembre). ¡Nos vemos en Carrodilla!",
+  }).toString();
+
+export const SALUD_CALENDAR_URL =
+  "https://calendar.google.com/calendar/render?" +
+  new URLSearchParams({
+    action: "TEMPLATE",
+    text: "Convivencia de Salud - Manos a la Obra 2026",
+    dates: "20261220T110000/20261220T200000",
+    ctz: "America/Argentina/Mendoza",
+    location: "Dr. Alfredo Metraux 2930, Ciudad, Mendoza",
+    details:
+      "¡Sumate a la convivencia de Salud! Antes de salir a terreno, nos juntamos para conocernos y capacitarnos en: RCP, primeros auxilios y abordaje interdisciplinario. No hace falta experiencia previa, ¡aprendemos entre todos!",
+  }).toString();
+
+export const ZONAS_WHATSAPP = {
+  zona1: {
+    titulo: "Zona 1 (Bº Huarpes 1 y 2, 3 Estrellas y Fuerza Segura)",
+    areas: ["SOCIALES", "CREATIVA"],
+    url: import.meta.env.PUBLIC_WHATSAPP_ZONA1_URL || "",
+  },
+  zona2: {
+    titulo: "Zona 2 (Bº Los Alerces II y Unión y Fuerza)",
+    areas: ["SALUD", "INGENIO", "PSICO-EDUCACIÓN"],
+    url: import.meta.env.PUBLIC_WHATSAPP_ZONA2_URL || "",
+  },
+} as const;
+
+export const FECHA_LIMITE_RESTANTE_PAGO = "15 de diciembre de 2026";

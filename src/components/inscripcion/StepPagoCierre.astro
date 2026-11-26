@@ -1,5 +1,6 @@
 ---
 import WhatsappIcon from "./WhatsappIcon.astro";
+import { FECHA_LIMITE_RESTANTE_PAGO } from "../../data/inscripcion-mo";
 
 interface Props {
   whatsappNumber?: string;
@@ -14,21 +15,47 @@ const {
 
 <div data-step="6" class="hidden space-y-6">
   <div>
-    <span class="badge badge-secondary font-display text-xs uppercase">Paso 7 de 7</span>
-    <h2 class="font-heading text-2xl sm:text-3xl text-secondary mt-2">Información del Pago y Cierre</h2>
+    <span class="badge badge-secondary font-display text-xs">Paso 7 de 7</span>
+    <h2 class="font-heading text-2xl sm:text-3xl text-secondary mt-2">Información del pago y cierre</h2>
   </div>
 
-  <div class="card bg-base-100 border-2 border-secondary/40 rounded-2xl p-5 space-y-4">
-    <div class="flex flex-wrap items-center justify-between gap-2">
+  <!-- 0. Elección de tipo de inscripción -->
+  <fieldset class="fieldset space-y-2.5">
+    <legend class="fieldset-legend font-heading text-sm sm:text-base text-base-content">
+      ¿Qué tipo de inscripción elegís? *
+    </legend>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <label class="flex items-start gap-3 cursor-pointer bg-base-100 p-4 rounded-2xl border border-base-content/15 hover:border-secondary/70 has-[:checked]:border-secondary has-[:checked]:bg-secondary/12 transition-colors">
+        <input type="radio" name="tipo_inscripcion" value="completo" class="radio radio-secondary radio-sm mt-1 shrink-0" required />
+        <div class="space-y-0.5 text-sm">
+          <span class="font-heading text-base text-base-content block leading-snug">Inscripción Manos a la Obra Completo</span>
+          <span class="text-xs text-base-content/75 block">Participación completa en el proyecto</span>
+        </div>
+      </label>
+
+      <label class="flex items-start gap-3 cursor-pointer bg-base-100 p-4 rounded-2xl border border-base-content/15 hover:border-secondary/70 has-[:checked]:border-secondary has-[:checked]:bg-secondary/12 transition-colors">
+        <input type="radio" name="tipo_inscripcion" value="dia_visita" class="radio radio-secondary radio-sm mt-1 shrink-0" />
+        <div class="space-y-0.5 text-sm">
+          <span class="font-heading text-base text-base-content block leading-snug">Día de Visita 29/12</span>
+          <span class="text-xs text-base-content/75 block">Asistencia el día 29 de diciembre</span>
+        </div>
+      </label>
+    </div>
+  </fieldset>
+
+  <!-- 1. Datos de pago + elección de modalidad + comprobante (oculto hasta elegir tipo) -->
+  <div id="pago-info-section" class="hidden bg-base-100 border border-secondary/40 rounded-2xl p-5 sm:p-6 space-y-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
       <div>
-        <span class="text-xs uppercase tracking-wider text-base-content/70">Monto total del Manos</span>
-        <p id="cfg-monto-total" class="font-heading text-2xl text-secondary">A definir</p>
+        <span id="cfg-monto-label" class="text-xs text-base-content/70 block">Monto total del Manos</span>
+        <p id="cfg-monto-total" class="font-heading text-2xl sm:text-3xl text-secondary leading-tight mt-0.5">A definir</p>
       </div>
-      <div class="text-right">
-        <span class="text-xs uppercase tracking-wider text-base-content/70">Alias</span>
-        <div class="flex items-center gap-2">
-          <code id="cfg-alias" class="font-mono font-bold text-lg text-base-content">MO2026PUM</code>
-          <button type="button" id="copy-alias-btn" class="btn btn-xs btn-secondary inline-flex items-center gap-1.5">
+
+      <div class="sm:text-right">
+        <span class="text-xs text-base-content/70 block">Alias para transferir</span>
+        <div class="flex items-center sm:justify-end gap-2 mt-1">
+          <code id="cfg-alias" class="font-mono font-bold text-lg text-base-content tracking-wide">MO2026PUM</code>
+          <button type="button" id="copy-alias-btn" class="btn btn-xs btn-secondary rounded-lg inline-flex items-center gap-1.5">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 shrink-0" aria-hidden="true">
               <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
               <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
@@ -39,48 +66,70 @@ const {
       </div>
     </div>
 
-    <p id="cfg-titular" class="text-xs sm:text-sm text-base-content/85">
+    <p id="cfg-titular" class="text-xs sm:text-sm text-base-content/85 border-t border-base-content/10 pt-3">
       A nombre de <strong>Lucas Nicolas Gonzales Cortez</strong> — Cuenta de NaranjaX
     </p>
 
-    <div id="cfg-cuotas-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs"></div>
+    <fieldset id="opcion-pago-fieldset" class="fieldset space-y-2.5 pt-1">
+      <legend class="fieldset-legend font-heading text-sm sm:text-base text-base-content">
+        ¿Cómo vas a realizar el pago? *
+      </legend>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <label class="flex items-start gap-3 cursor-pointer bg-base-200/75 p-4 rounded-2xl border border-base-content/15 hover:border-secondary/70 has-[:checked]:border-secondary has-[:checked]:bg-secondary/12 transition-colors">
+          <input type="radio" name="opcion_pago" value="total" class="radio radio-secondary radio-sm mt-1 shrink-0" required />
+          <div class="space-y-0.5 text-sm">
+            <span class="font-heading text-base text-base-content block leading-snug">Pagar el total ahora</span>
+            <span class="text-xs text-base-content/80 block">
+              Monto total: <strong id="cfg-monto-total-opt" class="text-secondary">A definir</strong>
+            </span>
+          </div>
+        </label>
 
-    <div class="bg-base-200/80 border border-secondary/30 rounded-xl p-4 text-xs sm:text-sm text-base-content/90 flex flex-col items-center text-center gap-2.5">
-      <p>
-        Una vez realizada la transferencia, enviá tu comprobante por WhatsApp:
-      </p>
-      <div class="flex flex-col items-center gap-1">
-        <a
-          href={`https://wa.me/${whatsappNumber}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn btn-sm bg-[#075e54] hover:bg-[#054c44] text-white border-0 rounded-xl font-heading inline-flex items-center gap-2"
-        >
-          <WhatsappIcon />
-          Enviar Comprobante
-        </a>
-        <span class="text-[11px] text-base-content/65">{whatsappDisplay}</span>
+        <label class="flex items-start gap-3 cursor-pointer bg-base-200/75 p-4 rounded-2xl border border-base-content/15 hover:border-secondary/70 has-[:checked]:border-secondary has-[:checked]:bg-secondary/12 transition-colors">
+          <input type="radio" name="opcion_pago" value="sena" class="radio radio-secondary radio-sm mt-1 shrink-0" />
+          <div class="space-y-0.5 text-sm">
+            <span class="font-heading text-base text-base-content block leading-snug">Señar ahora y pagar después</span>
+            <span class="text-xs text-base-content/80 block leading-relaxed">
+              Seña mínima: <strong id="cfg-monto-sena" class="text-secondary">A definir</strong>
+              <br />
+              Restante hasta el <strong>{FECHA_LIMITE_RESTANTE_PAGO}</strong>
+            </span>
+          </div>
+        </label>
       </div>
+    </fieldset>
+
+    <div class="pt-4 border-t border-base-content/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div class="text-xs sm:text-sm text-base-content/85 space-y-0.5">
+        <p class="font-medium text-base-content">¿Ya hiciste la transferencia?</p>
+        <p class="text-xs text-base-content/70">Enviá tu comprobante por WhatsApp al {whatsappDisplay}.</p>
+      </div>
+      <a
+        href={`https://wa.me/${whatsappNumber}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-sm bg-[#075e54] hover:bg-[#054c44] text-white border-0 rounded-xl font-heading inline-flex items-center gap-2 shrink-0 self-start sm:self-center"
+      >
+        <WhatsappIcon />
+        Enviar comprobante
+      </a>
     </div>
   </div>
 
-  <!-- Amigos o conocidos -->
-  <div class="bg-base-100/75 p-5 rounded-2xl border border-base-content/10 space-y-3">
-    <h3 class="font-heading text-lg text-secondary">¿Viniste con amigos o conocidos? 🙌</h3>
-    <p class="text-sm text-base-content/85 leading-relaxed">
-      ¡Queremos que te sientas cómodo! Si hay una o dos personas con las que sí o sí querés estar en el mismo grupo, anotá sus nombres acá abajo. Si venís solo, no te preocupes, ¡te asignamos un equipo genial!
+  <!-- 2. Amigos o conocidos -->
+  <div class="pt-5 border-t border-base-content/15 space-y-2.5">
+    <label for="amigos_grupo" class="font-heading text-lg text-secondary block">
+      ¿Viniste con amigos o conocidos? 🙌
+    </label>
+    <p class="text-sm text-base-content/80 leading-relaxed max-w-2xl">
+      Si hay una o dos personas con las que querés compartir grupo, anotá sus nombres acá. Si venís solo, te asignamos un equipo genial.
     </p>
     <input
+      id="amigos_grupo"
       type="text"
       name="amigos_grupo"
-      class="input w-full bg-base-100"
+      class="input w-full bg-base-100 rounded-xl"
       placeholder="Nombre y apellido (1 o 2 personas)"
     />
   </div>
-
-  <blockquote class="bg-secondary/15 border-2 border-secondary/60 rounded-2xl p-6 sm:p-7 text-center shadow-lg space-y-2">
-    <p class="font-heading text-lg sm:text-xl text-base-content leading-relaxed">
-      «Nadie puede pelear la vida aisladamente. Se necesita una comunidad que nos sostenga, que nos ayude y en la que nos ayudemos unos a otros a mirar hacia adelante».
-    </p>
-  </blockquote>
 </div>

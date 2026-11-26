@@ -39,12 +39,10 @@ const WHATSAPP_COMPROBANTES_DISPLAY = "+54 9 2634 75-7235";
     <div class="max-w-4xl mx-auto space-y-6">
       <InscripcionHeader />
 
-      <div id="wizard-wrapper" class="space-y-6">
+      <div id="wizard-wrapper" role="tabpanel" aria-labelledby="tab-nueva" class="space-y-6">
         {FORM_DEV_MODE && (
           <div class="alert alert-info text-xs sm:text-sm rounded-2xl">
-            <span>
-              <strong>Modo DEV activo</strong> (<code>PUBLIC_FORM_DEV_MODE=true</code>): podés avanzar o hacer clic en cualquier paso sin completar campos obligatorios.
-            </span>
+            <span>Modo DEV activo</span>
           </div>
         )}
 

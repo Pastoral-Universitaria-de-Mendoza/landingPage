@@ -1,3 +1,13 @@
+import {
+  MAX_CERT_FILE_BYTES,
+  getAgeFromDob,
+  isValidDni,
+  isValidEmail,
+  isValidPhone,
+  normalizeDni,
+} from "./inscripcion-validation";
+import { ZONAS_WHATSAPP } from "../data/inscripcion-mo";
+
 export function initInscripcionWizard() {
   const root = document.getElementById("inscripcion-root");
   if (!root) return;
@@ -9,8 +19,9 @@ export function initInscripcionWizard() {
   const TOTAL_STEPS = 7;
 
   let currentStep = 0;
-  let lastRegisteredDni = "";
   let activeConsultaDni = "";
+  let activeConsultaNombre = "";
+  let isClosed = false;
 
   const form = document.getElementById("mo-form") as HTMLFormElement;
   const stepNodes = Array.from(document.querySelectorAll<HTMLElement>("[data-step]"));
@@ -34,15 +45,18 @@ export function initInscripcionWizard() {
   const getRadio = (name: string) =>
     form.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`)?.value ?? "";
 
-  function buildWhatsappUrl(nombre: string, dni: string) {
-    const text = `¡Hola! Soy ${nombre || ""} (DNI ${dni || ""}) y me inscribí al Manos a la Obra 2026. Te envío mi comprobante de pago.`;
+  function buildWhatsappUrl(nombre: string, dni: string, opcionPago?: string) {
+    const opcionTxt = opcionPago === "sena" ? " (Opción: Seña)" : opcionPago === "total" ? " (Opción: Pago total)" : "";
+    const text = `¡Hola! Soy ${nombre || ""} (DNI ${dni || ""}) y me inscribí al Manos a la Obra 2026${opcionTxt}. Te envío mi comprobante de pago.`;
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
   }
 
   function switchMode(mode: "nueva" | "consulta") {
     const isConsulta = mode === "consulta";
     tabConsulta.classList.toggle("tab-active", isConsulta);
+    tabConsulta.setAttribute("aria-selected", String(isConsulta));
     tabNueva.classList.toggle("tab-active", !isConsulta);
+    tabNueva.setAttribute("aria-selected", String(!isConsulta));
     wizardWrapper.classList.toggle("hidden", isConsulta);
     consultaWrapper.classList.toggle("hidden", !isConsulta);
     successScreen.classList.add("hidden");
@@ -54,25 +68,21 @@ export function initInscripcionWizard() {
   const params = new URLSearchParams(window.location.search);
   if (params.get("modo") === "consulta") switchMode("consulta");
 
-  const areaSlugParam = params.get("area");
-  if (areaSlugParam) {
-    const radio = form.querySelector<HTMLInputElement>(
-      `input[name="area_pertenencia"][data-area-slug="${areaSlugParam}"]`,
-    );
-    if (radio) {
-      radio.checked = true;
-      const projSelect = form.querySelector<HTMLSelectElement>('select[name="proyecto_area"]');
-      if (projSelect) projSelect.value = radio.value;
-    }
-  }
-
-  function showError(msg: string) {
+  function showError(msg: string, focusField?: string) {
+    form.querySelectorAll<HTMLElement>("[aria-invalid='true']").forEach((el) => el.removeAttribute("aria-invalid"));
     if (!msg) {
       errBox.classList.add("hidden");
       return;
     }
     errText.textContent = msg;
     errBox.classList.remove("hidden");
+    const target = focusField
+      ? form.querySelector<HTMLElement>(`[name="${focusField}"]`)
+      : null;
+    if (target) {
+      target.setAttribute("aria-invalid", "true");
+      target.focus({ preventScroll: true });
+    }
     errBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 
@@ -112,25 +122,45 @@ export function initInscripcionWizard() {
     document.getElementById("proyecto-area-wrap")!.classList.toggle("hidden", !mostrarProyecto);
     document.getElementById("equipo-general-fields")!.classList.toggle("hidden", !mostrarRolGeneral);
 
+    const areaSeleccionada = getRadio("area_pertenencia");
+    document.getElementById("salud-convivencia-banner")?.classList.toggle("hidden", areaSeleccionada !== "SALUD");
+
     const esPropia = getRadio("forma_traslado") === "Movilidad propia";
     document.getElementById("estacionamiento-fields")!.classList.toggle("hidden", !esPropia);
     const necEst = getRadio("necesita_estacionamiento") === "si";
     document.getElementById("vehiculo-fields")!.classList.toggle("hidden", !(esPropia && necEst));
+
+    const tipoInscripcion = getRadio("tipo_inscripcion");
+    document.getElementById("pago-info-section")?.classList.toggle("hidden", !tipoInscripcion);
+    document.getElementById("opcion-pago-fieldset")?.classList.toggle("hidden", tipoInscripcion !== "completo");
+    const montoLabel = document.getElementById("cfg-monto-label");
+    if (montoLabel) {
+      montoLabel.textContent =
+        tipoInscripcion === "dia_visita" ? "Monto Día de Visita (29/12)" : "Monto total del Manos";
+    }
+    if (tipoInscripcion === "dia_visita") {
+      const totalRadio = form.querySelector<HTMLInputElement>('input[name="opcion_pago"][value="total"]');
+      if (totalRadio) totalRadio.checked = true;
+    }
   }
 
   function saveDraft() {
-    const fd = new FormData(form);
-    const obj: Record<string, string | boolean> = {};
-    for (const [k, v] of fd.entries()) {
-      if (typeof v === "string") obj[k] = v;
+    try {
+      const fd = new FormData(form);
+      const obj: Record<string, string | boolean> = {};
+      for (const [k, v] of fd.entries()) {
+        if (typeof v === "string") obj[k] = v;
+      }
+      obj.acepto_tyc = (form.querySelector("#acepto_tyc") as HTMLInputElement).checked;
+      sessionStorage.setItem(DRAFT_KEY, JSON.stringify(obj));
+    } catch {
+      // ignore storage quota/security errors
     }
-    obj.acepto_tyc = (form.querySelector("#acepto_tyc") as HTMLInputElement).checked;
-    localStorage.setItem(DRAFT_KEY, JSON.stringify(obj));
   }
 
   function loadDraft() {
     try {
-      const raw = localStorage.getItem(DRAFT_KEY);
+      const raw = sessionStorage.getItem(DRAFT_KEY);
       if (!raw) return;
       const obj = JSON.parse(raw) as Record<string, unknown>;
       for (const [k, v] of Object.entries(obj)) {
@@ -156,6 +186,19 @@ export function initInscripcionWizard() {
   }
 
   loadDraft();
+
+  const areaSlugParam = params.get("area");
+  if (areaSlugParam) {
+    const radio = form.querySelector<HTMLInputElement>(
+      `input[name="area_pertenencia"][data-area-slug="${areaSlugParam}"]`,
+    );
+    if (radio) {
+      radio.checked = true;
+      const projSelect = form.querySelector<HTMLSelectElement>('select[name="proyecto_area"]');
+      if (projSelect) projSelect.value = radio.value;
+    }
+  }
+
   syncConditionals();
   renderStep();
 
@@ -165,77 +208,113 @@ export function initInscripcionWizard() {
   });
   form.addEventListener("input", saveDraft);
 
-  function validateStep(stepIdx: number): string | null {
+  type ValidationError = { msg: string; field?: string };
+
+  function validateStep(stepIdx: number): ValidationError | null {
     if (stepIdx === 0) {
       if (!(form.querySelector("#acepto_tyc") as HTMLInputElement).checked) {
-        return "Debés leer y aceptar las Bases y Condiciones para continuar.";
+        return { msg: "Debés leer y aceptar las Bases y Condiciones para continuar.", field: "acepto_tyc" };
       }
     }
     if (stepIdx === 1) {
-      if (!getVal("nombre_completo")) return "Ingresá tu nombre completo como aparece en el DNI.";
-      const dni = getVal("dni").replace(/\D/g, "");
-      if (dni.length < 7 || dni.length > 9) return "Ingresá un DNI válido sin puntos.";
+      if (!getVal("nombre_completo")) {
+        return { msg: "Ingresá tu nombre completo como aparece en el DNI.", field: "nombre_completo" };
+      }
+      if (!isValidDni(getVal("dni"))) {
+        return { msg: "Ingresá un DNI válido sin puntos (7 a 9 dígitos).", field: "dni" };
+      }
       const dob = getVal("fecha_nacimiento");
-      if (!dob) return "Ingresá tu fecha de nacimiento.";
-      const birth = new Date(`${dob}T00:00:00Z`);
-      const now = new Date();
-      let age = now.getUTCFullYear() - birth.getUTCFullYear();
-      const m = now.getUTCMonth() - birth.getUTCMonth();
-      if (m < 0 || (m === 0 && now.getUTCDate() < birth.getUTCDate())) age--;
-      if (age < 18 || age > 35) return "Según las Bases y Condiciones, la participación es de 18 a 35 años.";
-      if (!getVal("telefono") || !getVal("email") || !getVal("direccion")) {
-        return "Completá teléfono, correo electrónico y dirección.";
+      if (!dob) return { msg: "Ingresá tu fecha de nacimiento.", field: "fecha_nacimiento" };
+      const age = getAgeFromDob(dob);
+      if (age === null) return { msg: "Ingresá una fecha de nacimiento válida.", field: "fecha_nacimiento" };
+      if (age < 18 || age > 35) {
+        return { msg: "Según las Bases y Condiciones, la participación es de 18 a 35 años.", field: "fecha_nacimiento" };
+      }
+      if (!isValidPhone(getVal("telefono"))) {
+        return { msg: "Ingresá un número de teléfono válido (al menos 7 dígitos).", field: "telefono" };
+      }
+      if (!isValidEmail(getVal("email"))) {
+        return { msg: "Ingresá un correo electrónico válido.", field: "email" };
+      }
+      if (!getVal("direccion")) {
+        return { msg: "Ingresá tu dirección.", field: "direccion" };
       }
       if (getRadio("es_mendoza") === "si") {
-        if (!getVal("departamento_mendoza")) return "Seleccioná tu departamento de Mendoza.";
-      } else if (!getVal("provincia_origen") || !getVal("localidad_origen") || !getVal("fecha_llegada_mendoza")) {
-        return "Completá provincia, localidad y día de llegada a Mendoza.";
+        if (!getVal("departamento_mendoza")) {
+          return { msg: "Seleccioná tu departamento de Mendoza.", field: "departamento_mendoza" };
+        }
+      } else {
+        if (!getVal("provincia_origen")) return { msg: "Seleccioná tu provincia de origen.", field: "provincia_origen" };
+        if (!getVal("localidad_origen")) return { msg: "Completá tu localidad de origen.", field: "localidad_origen" };
+        if (!getVal("fecha_llegada_mendoza")) {
+          return { msg: "Indicá qué día llegarías a Mendoza.", field: "fecha_llegada_mendoza" };
+        }
       }
-      if (
-        !getVal("contacto1_nombre") || !getVal("contacto1_celular") || !getVal("contacto1_parentesco") ||
-        !getVal("contacto2_nombre") || !getVal("contacto2_celular") || !getVal("contacto2_parentesco")
-      ) {
-        return "Completá los 2 contactos de emergencia (nombre, celular y parentesco).";
+      for (const prefix of ["contacto1", "contacto2"] as const) {
+        if (!getVal(`${prefix}_nombre`)) {
+          return { msg: "Completá los 2 contactos de emergencia (nombre, celular y parentesco).", field: `${prefix}_nombre` };
+        }
+        if (!isValidPhone(getVal(`${prefix}_celular`))) {
+          return { msg: "Ingresá un celular válido para los contactos de emergencia.", field: `${prefix}_celular` };
+        }
+        if (!getVal(`${prefix}_parentesco`)) {
+          return { msg: "Completá el parentesco de los 2 contactos de emergencia.", field: `${prefix}_parentesco` };
+        }
       }
     }
     if (stepIdx === 2) {
-      if (getRadio("tiene_obra_social") === "si" && (!getVal("obra_social_nombre") || !getVal("obra_social_afiliado"))) {
-        return "Indicá cuál es tu obra social y tu número de afiliado.";
+      if (getRadio("tiene_obra_social") === "si") {
+        if (!getVal("obra_social_nombre")) return { msg: "Indicá cuál es tu obra social.", field: "obra_social_nombre" };
+        if (!getVal("obra_social_afiliado")) return { msg: "Indicá tu número de afiliado.", field: "obra_social_afiliado" };
       }
-      if (!getVal("grupo_sanguineo")) return "Seleccioná tu grupo y factor sanguíneo.";
+      if (!getVal("grupo_sanguineo")) return { msg: "Seleccioná tu grupo y factor sanguíneo.", field: "grupo_sanguineo" };
       if (getRadio("tiene_alergias") === "si" && !getVal("alergias_detalle")) {
-        return "Especificá tus alergias.";
+        return { msg: "Especificá tus alergias.", field: "alergias_detalle" };
       }
       if (getVal("dieta_tipo") === "Otro" && !getVal("dieta_otra")) {
-        return "Especificá tu opción de dieta.";
+        return { msg: "Especificá tu opción de dieta.", field: "dieta_otra" };
       }
     }
     if (stepIdx === 3) {
-      if (!getVal("como_se_entero") || !getVal("actividad_anual_pum") || !getVal("carrera")) {
-        return "Completá cómo te enteraste, actividades de la PUM y tu carrera.";
+      if (!getVal("como_se_entero")) return { msg: "Indicá cómo te enteraste del Manos a la Obra.", field: "como_se_entero" };
+      if (!getVal("actividad_anual_pum")) return { msg: "Indicá tu participación en actividades de la PUM.", field: "actividad_anual_pum" };
+      if (!getVal("carrera")) return { msg: "Ingresá tu carrera.", field: "carrera" };
+      if (!getRadio("area_pertenencia")) return { msg: "Seleccioná el área a la que pertenecés.", field: "area_pertenencia" };
+      if (!getRadio("disponibilidad_hospitalidad")) {
+        return { msg: "Indicá tu disponibilidad para alojamiento o transporte.", field: "disponibilidad_hospitalidad" };
       }
-      if (!getRadio("area_pertenencia")) return "Seleccioná el área a la que pertenecés.";
-      if (!getRadio("disponibilidad_hospitalidad")) return "Indicá tu disponibilidad para alojamiento o transporte.";
     }
     if (stepIdx === 4) {
       const tipoPart = getRadio("tipo_participante");
-      if (!tipoPart) return "Seleccioná qué tipo de participante sos.";
-      if (tipoPart !== "Voluntario" && tipoPart !== "Participante del proyecto") {
+      if (!tipoPart) return { msg: "Seleccioná qué tipo de participante sos.", field: "tipo_participante" };
+      if (tipoPart !== "Voluntario") {
         const subtipo = getRadio("subtipo_equipo");
-        if (!subtipo) return "Indicá si sos Referente o del Equipo General.";
+        if (!subtipo) return { msg: "Indicá si sos Referente o del Equipo General.", field: "subtipo_equipo" };
         if (subtipo === "Referente" && !getVal("proyecto_area")) {
-          return "Seleccioná el proyecto o área del que sos referente.";
+          return { msg: "Seleccioná el proyecto o área del que sos referente.", field: "proyecto_area" };
         }
         if (subtipo === "Equipo General" && !getVal("rol_equipo_general")) {
-          return "Seleccioná tu rol en el Equipo General.";
+          return { msg: "Seleccioná tu rol en el Equipo General.", field: "rol_equipo_general" };
         }
       }
     }
     if (stepIdx === 5) {
       const traslado = getRadio("forma_traslado");
-      if (!traslado) return "Seleccioná cómo vas a trasladarte a la zona.";
+      if (!traslado) return { msg: "Seleccioná cómo vas a trasladarte a la zona.", field: "forma_traslado" };
       if (traslado === "Movilidad propia" && getRadio("necesita_estacionamiento") === "si" && !getRadio("vehiculo_estacionamiento")) {
-        return "Indicá qué vehículo necesitás estacionar.";
+        return { msg: "Indicá qué vehículo necesitás estacionar.", field: "vehiculo_estacionamiento" };
+      }
+    }
+    if (stepIdx === 6) {
+      const tipoInscripcion = getRadio("tipo_inscripcion");
+      if (!tipoInscripcion) {
+        return {
+          msg: "Seleccioná si te inscribís al Manos a la Obra Completo o al Día de Visita 29/12.",
+          field: "tipo_inscripcion",
+        };
+      }
+      if (tipoInscripcion === "completo" && !getRadio("opcion_pago")) {
+        return { msg: "Seleccioná si vas a pagar el total o señar ahora.", field: "opcion_pago" };
       }
     }
     return null;
@@ -245,7 +324,7 @@ export function initInscripcionWizard() {
     if (!FORM_DEV_MODE) {
       const err = validateStep(currentStep);
       if (err) {
-        showError(err);
+        showError(err.msg, err.field);
         return;
       }
     }
@@ -276,36 +355,42 @@ export function initInscripcionWizard() {
 
   async function readAndCompressFile(file?: File | null) {
     if (!file) return null;
+    if (file.size > MAX_CERT_FILE_BYTES) {
+      throw new Error("El archivo supera el límite de 10 MB.");
+    }
     if (file.type.startsWith("image/") && file.type !== "image/gif") {
       const img = new Image();
       const url = URL.createObjectURL(file);
-      await new Promise((resolve, reject) => {
-        img.onload = resolve;
-        img.onerror = reject;
-        img.src = url;
-      });
-      const maxDim = 1600;
-      let { width, height } = img;
-      if (width > maxDim || height > maxDim) {
-        const ratio = Math.min(maxDim / width, maxDim / height);
-        width = Math.round(width * ratio);
-        height = Math.round(height * ratio);
+      try {
+        await new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = () => reject(new Error("No se pudo procesar la imagen. Probá con JPG, PNG o PDF."));
+          img.src = url;
+        });
+        const maxDim = 1600;
+        let { width, height } = img;
+        if (width > maxDim || height > maxDim) {
+          const ratio = Math.min(maxDim / width, maxDim / height);
+          width = Math.round(width * ratio);
+          height = Math.round(height * ratio);
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext("2d")!.drawImage(img, 0, 0, width, height);
+        return {
+          nombreArchivo: file.name.replace(/\.[^.]+$/, ".jpg"),
+          mimeType: "image/jpeg",
+          dataBase64: canvas.toDataURL("image/jpeg", 0.82),
+        };
+      } finally {
+        URL.revokeObjectURL(url);
       }
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
-      canvas.getContext("2d")!.drawImage(img, 0, 0, width, height);
-      URL.revokeObjectURL(url);
-      return {
-        nombreArchivo: file.name.replace(/\.[^.]+$/, ".jpg"),
-        mimeType: "image/jpeg",
-        dataBase64: canvas.toDataURL("image/jpeg", 0.82),
-      };
     }
     const dataUrl = await new Promise<string>((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => resolve(String(reader.result));
-      reader.onerror = reject;
+      reader.onerror = () => reject(new Error("No se pudo leer el archivo."));
       reader.readAsDataURL(file);
     });
     return {
@@ -317,13 +402,19 @@ export function initInscripcionWizard() {
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    for (let i = 0; i < TOTAL_STEPS; i++) {
-      const err = validateStep(i);
-      if (err) {
-        currentStep = i;
-        renderStep();
-        showError(err);
+    if (!FORM_DEV_MODE) {
+      if (isClosed) {
+        showError("Las inscripciones generales se encuentran cerradas por el momento.");
         return;
+      }
+      for (let i = 0; i < TOTAL_STEPS; i++) {
+        const err = validateStep(i);
+        if (err) {
+          currentStep = i;
+          renderStep();
+          showError(err.msg, err.field);
+          return;
+        }
       }
     }
 
@@ -338,7 +429,7 @@ export function initInscripcionWizard() {
       const tipoParticipanteVal = getRadio("tipo_participante");
       const subtipoEquipoVal = getRadio("subtipo_equipo");
       const esEquipoGeneral = tipoParticipanteVal === "Parte del equipo" && subtipoEquipoVal === "Equipo General";
-      const esVoluntario = tipoParticipanteVal === "Voluntario" || tipoParticipanteVal === "Participante del proyecto";
+      const esVoluntario = tipoParticipanteVal === "Voluntario";
       const rolProyectoVal = esVoluntario
         ? "Voluntario"
         : subtipoEquipoVal === "Referente"
@@ -351,7 +442,7 @@ export function initInscripcionWizard() {
       const payload = {
         acepto_tyc: true,
         nombre_completo: getVal("nombre_completo"),
-        dni: getVal("dni").replace(/\D/g, ""),
+        dni: normalizeDni(getVal("dni")),
         fecha_nacimiento: getVal("fecha_nacimiento"),
         telefono: getVal("telefono"),
         email: getVal("email"),
@@ -391,23 +482,49 @@ export function initInscripcionWizard() {
         necesita_estacionamiento: getRadio("necesita_estacionamiento") === "si",
         vehiculo_estacionamiento: getRadio("vehiculo_estacionamiento"),
         amigos_grupo: getVal("amigos_grupo"),
+        tipo_inscripcion: getRadio("tipo_inscripcion") || "completo",
+        opcion_pago: getRadio("tipo_inscripcion") === "dia_visita" ? "total" : (getRadio("opcion_pago") || "total"),
         certificado,
       };
 
-      const res = await fetch(`${API_URL}/api/public/inscripciones`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        throw new Error(data.error || "No se pudo completar la inscripción.");
+      if (!FORM_DEV_MODE) {
+        const res = await fetch(`${API_URL}/api/public/inscripciones`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          throw new Error(data.error || "No se pudo completar la inscripción.");
+        }
       }
 
-      lastRegisteredDni = payload.dni;
       const waBtn = document.getElementById("btn-whatsapp-comprobante");
-      if (waBtn) waBtn.setAttribute("href", buildWhatsappUrl(payload.nombre_completo, payload.dni));
-      localStorage.removeItem(DRAFT_KEY);
+      if (waBtn) waBtn.setAttribute("href", buildWhatsappUrl(payload.nombre_completo, payload.dni, payload.opcion_pago));
+
+      const areaElegida = payload.proyecto_area || payload.area_pertenencia;
+      const zona = Object.values(ZONAS_WHATSAPP).find((z) =>
+        (z.areas as readonly string[]).includes(areaElegida),
+      );
+      const zonaBox = document.getElementById("zona-whatsapp-box");
+      const zonaLabel = document.getElementById("zona-whatsapp-label");
+      const zonaBtn = document.getElementById("btn-whatsapp-zona");
+      if (zona && zona.url && zonaBox && zonaLabel && zonaBtn) {
+        zonaLabel.textContent = `${zona.titulo} · Área ${areaElegida}`;
+        zonaBtn.setAttribute("href", zona.url);
+        zonaBox.classList.remove("hidden");
+      } else {
+        zonaBox?.classList.add("hidden");
+      }
+
+      const esSalud = areaElegida === "SALUD" || payload.area_pertenencia === "SALUD";
+      document.getElementById("salud-convivencia-success")?.classList.toggle("hidden", !esSalud);
+
+      try {
+        sessionStorage.removeItem(DRAFT_KEY);
+      } catch {
+        // ignore
+      }
       wizardWrapper.classList.add("hidden");
       successScreen.classList.remove("hidden");
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -419,14 +536,6 @@ export function initInscripcionWizard() {
     }
   });
 
-  document.getElementById("btn-go-consulta")!.addEventListener("click", () => {
-    switchMode("consulta");
-    if (lastRegisteredDni) {
-      (document.getElementById("consulta-dni") as HTMLInputElement).value = lastRegisteredDni;
-      void runConsulta(lastRegisteredDni);
-    }
-  });
-
   async function loadConfig() {
     try {
       const res = await fetch(`${API_URL}/api/public/config`);
@@ -434,29 +543,23 @@ export function initInscripcionWizard() {
       const cfg = await res.json();
       if (!cfg) return;
       if (cfg.inscripciones_abiertas === false) {
+        isClosed = true;
         document.getElementById("closed-banner")!.classList.remove("hidden");
+        btnNext.disabled = true;
+        btnSubmit.disabled = true;
       }
-      document.getElementById("cfg-monto-total")!.textContent = cfg.monto_total || "A definir";
+      const montoTotalText = cfg.monto_total || "A definir";
+      document.getElementById("cfg-monto-total")!.textContent = montoTotalText;
+      const montoTotalOptEl = document.getElementById("cfg-monto-total-opt");
+      if (montoTotalOptEl) montoTotalOptEl.textContent = montoTotalText;
+      const montoSenaEl = document.getElementById("cfg-monto-sena");
+      if (montoSenaEl) montoSenaEl.textContent = cfg.monto_minimo_sena || "A definir";
       document.getElementById("cfg-alias")!.textContent = cfg.alias_pago || "MO2026PUM";
       const titularEl = document.getElementById("cfg-titular")!;
       titularEl.textContent = "A nombre de ";
       const strongTitular = document.createElement("strong");
       strongTitular.textContent = cfg.titular_pago || "Lucas Nicolas Gonzales Cortez";
       titularEl.append(strongTitular, ` — ${cfg.entidad_pago || "Cuenta de NaranjaX"}`);
-      const cuotasContainer = document.getElementById("cfg-cuotas-list")!;
-      cuotasContainer.replaceChildren();
-      (cfg.cuotas_info || []).forEach((c: { nombre: string; monto: string; fechaLimite: string }) => {
-        const card = document.createElement("div");
-        card.className = "bg-base-200 p-2.5 rounded-xl flex items-center justify-between";
-        const spanLeft = document.createElement("span");
-        spanLeft.className = "font-semibold";
-        spanLeft.textContent = `${c.nombre}: ${c.monto}`;
-        const spanRight = document.createElement("span");
-        spanRight.className = "opacity-75";
-        spanRight.textContent = `Vence: ${c.fechaLimite}`;
-        card.append(spanLeft, spanRight);
-        cuotasContainer.appendChild(card);
-      });
     } catch {
       // fallback defaults remain rendered
     }
@@ -465,48 +568,104 @@ export function initInscripcionWizard() {
 
   document.getElementById("copy-alias-btn")!.addEventListener("click", async () => {
     const alias = document.getElementById("cfg-alias")!.textContent || "MO2026PUM";
-    await navigator.clipboard.writeText(alias);
-    const label = document.getElementById("copy-alias-label");
-    if (label) {
-      label.textContent = "¡Copiado!";
-      setTimeout(() => (label.textContent = "Copiar"), 1500);
+    try {
+      await navigator.clipboard.writeText(alias);
+      const label = document.getElementById("copy-alias-label");
+      if (label) {
+        label.textContent = "¡Copiado!";
+        setTimeout(() => (label.textContent = "Copiar"), 1500);
+      }
+    } catch {
+      // clipboard unavailable
     }
   });
 
-  async function runConsulta(dniRaw: string) {
-    const dni = String(dniRaw).replace(/\D/g, "");
+  async function runConsulta(dniRaw: string, nombreRaw: string) {
+    const dni = normalizeDni(dniRaw);
+    const nombre = String(nombreRaw).trim();
     const errEl = document.getElementById("consulta-error")!;
+    const errText = document.getElementById("consulta-error-text") || errEl;
     const resEl = document.getElementById("consulta-result")!;
-    errEl.classList.add("hidden");
-    try {
-      const res = await fetch(`${API_URL}/api/public/consulta?dni=${encodeURIComponent(dni)}`);
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "No encontrado");
+    const btnSubmitConsulta = document.getElementById("btn-consulta-submit") as HTMLButtonElement | null;
+    const btnLabel = document.getElementById("btn-consulta-label");
 
-      activeConsultaDni = dni;
+    errEl.classList.add("hidden");
+
+    if (!isValidDni(dni)) {
+      errText.textContent = "Ingresá un DNI válido (7 a 9 dígitos sin puntos).";
+      errEl.classList.remove("hidden");
+      return;
+    }
+    if (!nombre) {
+      errText.textContent = "Ingresá tu nombre completo tal como figura en tu DNI.";
+      errEl.classList.remove("hidden");
+      return;
+    }
+
+    if (btnSubmitConsulta) btnSubmitConsulta.disabled = true;
+    if (btnLabel) btnLabel.textContent = "Consultando...";
+
+    try {
+      const res = await fetch(
+        `${API_URL}/api/public/consulta?dni=${encodeURIComponent(dni)}&nombre=${encodeURIComponent(nombre)}`
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "No encontramos ninguna inscripción con esos datos.");
+
       const ins = data.inscripcion;
+      activeConsultaDni = dni;
+      activeConsultaNombre = ins.nombre_completo;
+
       document.getElementById("res-nombre")!.textContent = ins.nombre_completo;
       document.getElementById("res-detalle")!.textContent =
-        `DNI ${ins.dni} · Área ${ins.proyecto_area} (${ins.rol_proyecto}) · Zona: ${ins.zona_asignada}`;
-      document.getElementById("res-badge-cert")!.textContent = `Certificado: ${ins.estado_certificado}`;
-      document.getElementById("res-badge-pago")!.textContent =
-        `Pago: ${ins.estado_pago} ($${Number(ins.monto_abonado || 0).toLocaleString("es-AR")})`;
+        `DNI ${ins.dni} · Área ${ins.proyecto_area} (${ins.rol_proyecto}) · Sede: ${ins.zona_asignada || "A asignar"}`;
+
+      const estadoEl = document.getElementById("res-badge-estado");
+      if (estadoEl) {
+        const estText = ins.estado_inscripcion || "registrada";
+        estadoEl.textContent = `Estado: ${estText.toUpperCase()}`;
+        estadoEl.className = "badge badge-sm font-sans " + (
+          estText === "confirmada" ? "badge-success text-success-content" :
+          estText === "lista_espera" ? "badge-warning text-warning-content" :
+          "badge-outline border-base-content/30"
+        );
+      }
+
+      const certBadge = document.getElementById("res-badge-cert")!;
+      certBadge.textContent = `Certificado: ${ins.estado_certificado}`;
+      certBadge.className = "badge badge-sm font-sans " + (
+        ins.estado_certificado === "aprobado" ? "badge-success text-success-content" :
+        ins.estado_certificado === "en_revision" ? "badge-warning text-warning-content" :
+        ins.estado_certificado === "rechazado" ? "badge-error text-error-content" :
+        "badge-neutral"
+      );
+
+      const pagoBadge = document.getElementById("res-badge-pago")!;
+      const opcionLabel = ins.opcion_pago === "sena" ? "Seña" : "Total";
+      const pagoLabel =
+        ins.estado_pago === "pagado" ? "Pagado" : ins.estado_pago === "parcial" ? "Señó" : "Pendiente";
+      pagoBadge.textContent = `Pago: ${pagoLabel} (${opcionLabel})`;
+      pagoBadge.className = "badge badge-sm font-sans " + (
+        ins.estado_pago === "pagado" ? "badge-success text-success-content" :
+        ins.estado_pago === "parcial" ? "badge-warning text-warning-content" :
+        "badge-secondary text-secondary-content"
+      );
 
       const consultaWaBtn = document.getElementById("consulta-whatsapp-btn");
-      if (consultaWaBtn) consultaWaBtn.setAttribute("href", buildWhatsappUrl(ins.nombre_completo, ins.dni));
+      if (consultaWaBtn) consultaWaBtn.setAttribute("href", buildWhatsappUrl(ins.nombre_completo, ins.dni, ins.opcion_pago));
 
       const archEl = document.getElementById("res-archivos")!;
       archEl.replaceChildren();
       if (!data.archivos?.length) {
         const emptyP = document.createElement("p");
-        emptyP.className = "opacity-70";
+        emptyP.className = "text-xs sm:text-sm text-base-content/65 italic py-1";
         emptyP.textContent = "Todavía no subiste tu certificado de alumno regular.";
         archEl.appendChild(emptyP);
       } else {
         data.archivos.forEach(
           (a: { tipo: string; cuota_numero?: number; monto_declarado?: number; nombre_archivo: string; estado_revision: string }) => {
             const row = document.createElement("div");
-            row.className = "bg-base-100/70 px-3 py-2 rounded-xl flex justify-between items-center";
+            row.className = "bg-base-100/80 border border-base-content/10 px-3.5 py-2.5 rounded-xl flex justify-between items-center text-xs sm:text-sm";
             const labelSpan = document.createElement("span");
             const prefix =
               a.tipo === "certificado_regular"
@@ -514,7 +673,11 @@ export function initInscripcionWizard() {
                 : `Comprobante Cuota ${a.cuota_numero || 1} ($${a.monto_declarado || 0})`;
             labelSpan.textContent = `${prefix} — ${a.nombre_archivo}`;
             const badgeSpan = document.createElement("span");
-            badgeSpan.className = "badge badge-xs";
+            badgeSpan.className = "badge badge-xs " + (
+              a.estado_revision === "aprobado" ? "badge-success text-success-content" :
+              a.estado_revision === "rechazado" ? "badge-error text-error-content" :
+              "badge-warning text-warning-content"
+            );
             badgeSpan.textContent = a.estado_revision;
             row.append(labelSpan, badgeSpan);
             archEl.appendChild(row);
@@ -522,26 +685,43 @@ export function initInscripcionWizard() {
         );
       }
       resEl.classList.remove("hidden");
+      resEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
     } catch (err) {
       resEl.classList.add("hidden");
-      errEl.textContent = err instanceof Error ? err.message : "Error al consultar DNI";
+      errText.textContent = err instanceof Error ? err.message : "Error al consultar inscripción.";
       errEl.classList.remove("hidden");
+    } finally {
+      if (btnSubmitConsulta) btnSubmitConsulta.disabled = false;
+      if (btnLabel) btnLabel.textContent = "Consultar estado";
     }
   }
 
   document.getElementById("consulta-form")!.addEventListener("submit", (e) => {
     e.preventDefault();
-    void runConsulta((document.getElementById("consulta-dni") as HTMLInputElement).value);
+    const dniVal = (document.getElementById("consulta-dni") as HTMLInputElement).value;
+    const nombreVal = (document.getElementById("consulta-nombre") as HTMLInputElement).value;
+    void runConsulta(dniVal, nombreVal);
   });
 
   document.getElementById("upload-cert-form")!.addEventListener("submit", async (e) => {
     e.preventDefault();
     const msgEl = document.getElementById("consulta-upload-msg")!;
+    const msgText = document.getElementById("consulta-upload-text") || msgEl;
     const errEl = document.getElementById("consulta-error")!;
+    const errText = document.getElementById("consulta-error-text") || errEl;
+    const btnUpload = document.getElementById("btn-upload-cert") as HTMLButtonElement | null;
+
     msgEl.classList.add("hidden");
     errEl.classList.add("hidden");
-    const file = (document.getElementById("consulta-cert-file") as HTMLInputElement).files?.[0];
-    if (!file || !activeConsultaDni) return;
+    const fileInput = document.getElementById("consulta-cert-file") as HTMLInputElement;
+    const file = fileInput.files?.[0];
+    if (!file || !activeConsultaDni || !activeConsultaNombre) return;
+
+    if (btnUpload) {
+      btnUpload.disabled = true;
+      btnUpload.textContent = "Subiendo archivo...";
+    }
+
     try {
       const compressed = await readAndCompressFile(file);
       const res = await fetch(`${API_URL}/api/public/adjuntos`, {
@@ -549,18 +729,25 @@ export function initInscripcionWizard() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           dni: activeConsultaDni,
+          nombre_completo: activeConsultaNombre,
           tipo: "certificado_regular",
           ...compressed,
         }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Error al subir el archivo");
-      msgEl.textContent = "¡Archivo subido correctamente! El equipo de inscripciones lo revisará pronto.";
+      fileInput.value = "";
+      msgText.textContent = "¡Archivo subido correctamente! El equipo de inscripciones lo revisará pronto.";
       msgEl.classList.remove("hidden");
-      await runConsulta(activeConsultaDni);
+      await runConsulta(activeConsultaDni, activeConsultaNombre);
     } catch (err) {
-      errEl.textContent = err instanceof Error ? err.message : "Error al subir";
+      errText.textContent = err instanceof Error ? err.message : "Error al subir";
       errEl.classList.remove("hidden");
+    } finally {
+      if (btnUpload) {
+        btnUpload.disabled = false;
+        btnUpload.textContent = "Subir certificado";
+      }
     }
   });
 }
