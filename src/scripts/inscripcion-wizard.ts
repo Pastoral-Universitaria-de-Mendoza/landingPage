@@ -144,7 +144,8 @@ export function initInscripcionWizard() {
     const mostrarJovenProf = tipoParticipante === "Joven Profesional";
     const mostrarProyecto = tipoParticipante === "Referente de Área";
     const mostrarRolGeneral = tipoParticipante === "Equipo General del Manos";
-    document.getElementById("joven-profesional-banner")?.classList.toggle("hidden", !mostrarJovenProf);
+    document.getElementById("estudiante-academico-fields")?.classList.toggle("hidden", mostrarJovenProf);
+    document.getElementById("joven-profesional-fields")?.classList.toggle("hidden", !mostrarJovenProf);
     document.getElementById("proyecto-area-wrap")!.classList.toggle("hidden", !mostrarProyecto);
     document.getElementById("equipo-general-fields")!.classList.toggle("hidden", !mostrarRolGeneral);
 
@@ -152,8 +153,11 @@ export function initInscripcionWizard() {
     document.getElementById("salud-convivencia-banner")?.classList.toggle("hidden", areaSeleccionada !== "SALUD");
 
     const tipoInscripcion = getRadio("tipo_inscripcion");
+    const isDiaVisita = tipoInscripcion === "dia_visita";
     document.getElementById("pago-info-section")?.classList.toggle("hidden", !tipoInscripcion);
     document.getElementById("opcion-pago-fieldset")?.classList.toggle("hidden", tipoInscripcion !== "completo");
+    document.getElementById("confirmacion-pago-completo")?.classList.toggle("hidden", isDiaVisita);
+    document.getElementById("confirmacion-pago-visita")?.classList.toggle("hidden", !isDiaVisita);
     const montoLabel = document.getElementById("cfg-monto-label");
     if (montoLabel) {
       montoLabel.textContent =
@@ -302,16 +306,6 @@ export function initInscripcionWizard() {
       }
     }
     if (stepIdx === 3) {
-      if (!getVal("como_se_entero")) return { msg: "Indicá cómo te enteraste del Manos a la Obra.", field: "como_se_entero" };
-      if (!getVal("actividad_anual_pum")) return { msg: "Indicá tu participación en actividades de la PUM.", field: "actividad_anual_pum" };
-      if (!getVal("universidad")) return { msg: "Ingresá en qué Universidad estudiás.", field: "universidad" };
-      if (!getVal("carrera")) return { msg: "Ingresá tu carrera.", field: "carrera" };
-      if (!getRadio("area_pertenencia")) return { msg: "Seleccioná el área a la que pertenecés.", field: "area_pertenencia" };
-      if (!getRadio("disponibilidad_hospitalidad")) {
-        return { msg: "Indicá tu disponibilidad para alojamiento o transporte.", field: "disponibilidad_hospitalidad" };
-      }
-    }
-    if (stepIdx === 4) {
       const tipoPart = getRadio("tipo_participante");
       if (!tipoPart) return { msg: "Seleccioná qué tipo de participante sos.", field: "tipo_participante" };
       if (tipoPart === "Referente de Área" && !getVal("proyecto_area")) {
@@ -319,6 +313,22 @@ export function initInscripcionWizard() {
       }
       if (tipoPart === "Equipo General del Manos" && !getVal("rol_equipo_general")) {
         return { msg: "Seleccioná tu rol en el Equipo General.", field: "rol_equipo_general" };
+      }
+    }
+    if (stepIdx === 4) {
+      if (!getVal("como_se_entero")) return { msg: "Indicá cómo te enteraste del Manos a la Obra.", field: "como_se_entero" };
+      if (!getVal("actividad_anual_pum")) return { msg: "Indicá tu participación en actividades de la PUM.", field: "actividad_anual_pum" };
+      if (getRadio("tipo_participante") === "Joven Profesional") {
+        if (!getVal("jp_recibido_donde_que")) return { msg: "Indicá dónde y de qué te recibiste.", field: "jp_recibido_donde_que" };
+        if (!getVal("jp_recibido_hace_cuanto")) return { msg: "Indicá hace cuánto te recibiste.", field: "jp_recibido_hace_cuanto" };
+        if (!getVal("jp_donde_trabaja")) return { msg: "Indicá dónde trabajás.", field: "jp_donde_trabaja" };
+      } else {
+        if (!getVal("universidad")) return { msg: "Ingresá en qué Universidad estudiás.", field: "universidad" };
+        if (!getVal("carrera")) return { msg: "Ingresá tu carrera.", field: "carrera" };
+      }
+      if (!getRadio("area_pertenencia")) return { msg: "Seleccioná el área a la que pertenecés.", field: "area_pertenencia" };
+      if (!getRadio("disponibilidad_hospitalidad")) {
+        return { msg: "Indicá tu disponibilidad para alojamiento o transporte.", field: "disponibilidad_hospitalidad" };
       }
     }
     if (stepIdx === 5) {
@@ -446,10 +456,13 @@ export function initInscripcionWizard() {
     showError("");
 
     try {
-      const certFile = (document.getElementById("certificado-file") as HTMLInputElement).files?.[0];
-      const certificado = certFile ? await readAndCompressFile(certFile) : null;
-
       const tipoParticipanteVal = getRadio("tipo_participante");
+      const esJovenProf = tipoParticipanteVal === "Joven Profesional";
+      const certFile = (document.getElementById("certificado-file") as HTMLInputElement).files?.[0];
+      const certificado = !esJovenProf && certFile ? await readAndCompressFile(certFile) : null;
+      const certTallerFile = (document.getElementById("certificado-taller-file") as HTMLInputElement).files?.[0];
+      const certificado_taller = certTallerFile ? await readAndCompressFile(certTallerFile) : null;
+
       const esEquipoGeneral = tipoParticipanteVal === "Equipo General del Manos";
       const esReferente = tipoParticipanteVal === "Referente de Área";
       const rolProyectoVal = tipoParticipanteVal;
@@ -488,8 +501,12 @@ export function initInscripcionWizard() {
         dieta_otra: getVal("dieta_otra"),
         como_se_entero: getVal("como_se_entero"),
         actividad_anual_pum: getVal("actividad_anual_pum"),
-        universidad: getVal("universidad"),
-        carrera: getVal("carrera"),
+        universidad: esJovenProf ? getVal("jp_recibido_donde_que") : getVal("universidad"),
+        carrera: esJovenProf ? getVal("jp_donde_trabaja") : getVal("carrera"),
+        jp_recibido_donde_que: esJovenProf ? getVal("jp_recibido_donde_que") : "",
+        jp_recibido_hace_cuanto: esJovenProf ? getVal("jp_recibido_hace_cuanto") : "",
+        jp_donde_trabaja: esJovenProf ? getVal("jp_donde_trabaja") : "",
+        jp_formaciones_extra: esJovenProf ? getVal("jp_formaciones_extra") : "",
         area_pertenencia: getRadio("area_pertenencia"),
         disponibilidad_hospitalidad: getRadio("disponibilidad_hospitalidad"),
         tipo_participante: tipoParticipanteVal,
@@ -501,6 +518,7 @@ export function initInscripcionWizard() {
         tipo_inscripcion: getRadio("tipo_inscripcion") || "completo",
         opcion_pago: getRadio("tipo_inscripcion") === "dia_visita" ? "total" : (getRadio("opcion_pago") || "total"),
         certificado,
+        certificado_taller,
       };
 
       if (!firstErr) {
@@ -698,7 +716,9 @@ export function initInscripcionWizard() {
           const prefix =
             a.tipo === "certificado_regular"
               ? "Certificado Alumno Regular / Título"
-              : `Comprobante Cuota ${a.cuota_numero || 1} ($${a.monto_declarado || 0})`;
+              : a.tipo === "certificado_taller"
+                ? "Certificado Taller Protección"
+                : `Comprobante Cuota ${a.cuota_numero || 1} ($${a.monto_declarado || 0})`;
           labelSpan.textContent = `${prefix} — ${a.nombre_archivo}`;
           const badgeSpan = document.createElement("span");
           badgeSpan.className = "badge badge-xs " + (

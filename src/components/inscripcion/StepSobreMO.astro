@@ -11,9 +11,9 @@ const areasInscripcion = areas.filter((a) => a.slug !== "jovenes-profesionales")
 const saludCalendarUrl = SALUD_CALENDAR_URL;
 ---
 
-<div data-step="3" class="hidden space-y-5">
+<div data-step="4" class="hidden space-y-5">
   <div>
-    <span class="badge badge-secondary font-display text-xs uppercase">Paso 4 de 7</span>
+    <span class="badge badge-secondary font-display text-xs uppercase">Paso 5 de 7</span>
     <h2 class="font-heading text-2xl sm:text-3xl text-secondary mt-2">Sobre el Manos a la Obra</h2>
   </div>
 
@@ -39,23 +39,59 @@ const saludCalendarUrl = SALUD_CALENDAR_URL;
     </fieldset>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+  <div id="estudiante-academico-fields" class="space-y-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend text-base-content">¿En qué Universidad estudiás? *</legend>
+        <input type="text" name="universidad" required class="input w-full bg-base-100" placeholder="Ej: UNCuyo, UTN, UM, UCA, UDA..." />
+      </fieldset>
+
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend text-base-content">¿Qué carrera estudiás? *</legend>
+        <input type="text" name="carrera" required class="input w-full bg-base-100" placeholder="Ej: Medicina, Ingeniería Civil, Derecho..." />
+      </fieldset>
+    </div>
+
     <fieldset class="fieldset">
-      <legend class="fieldset-legend text-base-content">¿En qué Universidad estudiás? *</legend>
-      <input type="text" name="universidad" required class="input w-full bg-base-100" placeholder="Ej: UNCuyo, UTN, UM, UCA, UDA..." />
+      <legend class="fieldset-legend text-base-content">Certificado de alumno regular o certificado de título (PDF o imagen)</legend>
+      <input type="file" id="certificado-file" accept=".pdf,image/*" class="file-input file-input-secondary w-full bg-base-100" />
+      <span class="text-xs text-base-content/70 mt-1">
+        Opcional ahora: si no tenés tu certificado de alumno regular o de título a mano, podés inscribirte igual y subirlo después ingresando tu DNI.
+      </span>
+    </fieldset>
+  </div>
+
+  <div id="joven-profesional-fields" class="hidden space-y-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend text-base-content">¿Dónde y de qué te recibiste? *</legend>
+        <input type="text" name="jp_recibido_donde_que" class="input w-full bg-base-100" placeholder="Ej: UNCuyo - Medicina" />
+      </fieldset>
+
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend text-base-content">¿Hace cuánto? *</legend>
+        <input type="text" name="jp_recibido_hace_cuanto" class="input w-full bg-base-100" placeholder="Ej: 2 años, en 2024..." />
+      </fieldset>
+    </div>
+
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend text-base-content">¿Dónde trabajás? *</legend>
+      <input type="text" name="jp_donde_trabaja" class="input w-full bg-base-100" placeholder="Ej: Hospital Central, estudio jurídico, independiente..." />
     </fieldset>
 
     <fieldset class="fieldset">
-      <legend class="fieldset-legend text-base-content">¿Qué carrera estudiás? *</legend>
-      <input type="text" name="carrera" required class="input w-full bg-base-100" placeholder="Ej: Medicina, Ingeniería Civil, Derecho..." />
+      <legend class="fieldset-legend text-base-content">Formaciones o cursos extra que hayas realizado</legend>
+      <textarea name="jp_formaciones_extra" rows="3" class="textarea w-full bg-base-100" placeholder="Contanos si realizaste posgrados, especializaciones, cursos o capacitaciones..."></textarea>
     </fieldset>
   </div>
 
   <fieldset class="fieldset">
-    <legend class="fieldset-legend text-base-content">Certificado de alumno regular o certificado de título (PDF o imagen)</legend>
-    <input type="file" id="certificado-file" accept=".pdf,image/*" class="file-input file-input-secondary w-full bg-base-100" />
+    <legend class="fieldset-legend text-base-content">
+      Certificado del taller «Protección de niños, niñas, adolescentes y adultos en situación de vulnerabilidad» (PDF o imagen)
+    </legend>
+    <input type="file" id="certificado-taller-file" accept=".pdf,image/*" class="file-input file-input-secondary w-full bg-base-100" />
     <span class="text-xs text-base-content/70 mt-1">
-      Opcional ahora: si no tenés tu certificado de alumno regular o de título a mano, podés inscribirte igual y subirlo después ingresando tu DNI.
+      Opcional ahora: si todavía no tenés el certificado del taller a mano, podés inscribirte igual y subirlo después.
     </span>
   </fieldset>
 

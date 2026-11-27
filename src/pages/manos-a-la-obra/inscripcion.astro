@@ -18,8 +18,8 @@ const stepTitles = [
   "Bases",
   "Personales",
   "Médicos",
-  "Sobre el MO",
   "Participación",
+  "Sobre el MO",
   "Movilidad",
   "Pago y Cierre",
 ];
@@ -61,20 +61,20 @@ const contactosInscripcion = [
           <StepBases />
           <StepPersonales />
           <StepMedicos />
-          <StepSobreMO />
           <StepParticipacion />
+          <StepSobreMO />
           <StepMovilidad />
           <StepPagoCierre whatsappNumber={WHATSAPP_COMPROBANTES_NUMBER} whatsappDisplay={WHATSAPP_COMPROBANTES_DISPLAY} />
 
-          <div class="flex items-center justify-between pt-4 border-t border-base-content/15">
-            <button type="button" id="btn-prev" class="btn btn-ghost rounded-2xl hidden">
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-4 border-t border-base-content/15">
+            <button type="button" id="btn-prev" class="btn btn-ghost rounded-2xl px-3 sm:px-4 text-sm sm:text-base hidden">
               ← Anterior
             </button>
-            <div class="ml-auto flex gap-3">
-              <button type="button" id="btn-next" class="btn btn-secondary text-secondary-content font-heading rounded-2xl px-6">
+            <div class="ml-auto flex gap-2 sm:gap-3">
+              <button type="button" id="btn-next" class="btn btn-secondary text-secondary-content font-heading rounded-2xl px-5 sm:px-6 text-sm sm:text-base">
                 Siguiente →
               </button>
-              <button type="submit" id="btn-submit" class="btn btn-secondary text-secondary-content font-heading rounded-2xl px-7 hidden">
+              <button type="submit" id="btn-submit" class="btn btn-secondary text-secondary-content font-heading rounded-2xl px-4 sm:px-7 text-sm sm:text-base hidden">
                 Enviar Inscripción 🎒✨
               </button>
             </div>
