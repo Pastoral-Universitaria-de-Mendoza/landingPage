@@ -1,6 +1,6 @@
 /** Pure validation helpers for the MO 2026 registration wizard. */
 
-export const MAX_CERT_FILE_BYTES = 10 * 1024 * 1024;
+export const MAX_CERT_FILE_BYTES = 8 * 1024 * 1024;
 
 export function normalizeDni(raw: string): string {
   return String(raw).replace(/\D/g, "");
@@ -27,24 +27,4 @@ export function getAgeFromDob(dob: string, refDate = new Date()): number | null 
   const m = refDate.getUTCMonth() - birth.getUTCMonth();
   if (m < 0 || (m === 0 && refDate.getUTCDate() < birth.getUTCDate())) age--;
   return age;
-}
-
-export function normalizeName(str: string): string {
-  return str
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9\s]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-export function namesMatch(a: string, b: string): boolean {
-  const normA = normalizeName(a);
-  const normB = normalizeName(b);
-  if (!normA || !normB) return false;
-  if (normA === normB) return true;
-  const wordsA = normA.split(" ").filter(Boolean).sort().join(" ");
-  const wordsB = normB.split(" ").filter(Boolean).sort().join(" ");
-  return wordsA === wordsB;
 }

@@ -50,32 +50,13 @@ const { whatsappNumber, whatsappDisplay } = Astro.props;
 
   <!-- Próximos pasos unificados -->
   <div class="bg-base-100/80 border border-base-content/15 rounded-2xl divide-y divide-base-content/10 max-w-2xl mx-auto">
-    <div id="zona-whatsapp-box" class="hidden p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-      <div class="space-y-0.5">
-        <p class="font-heading text-sm sm:text-base text-base-content">
-          Sumate al WhatsApp de tu zona
-        </p>
-        <p id="zona-whatsapp-label" class="font-sans text-xs text-base-content/75"></p>
-      </div>
-      <a
-        id="btn-whatsapp-zona"
-        href="#"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn btn-sm bg-[#075e54] hover:bg-[#054c44] text-white border-0 rounded-xl font-heading inline-flex items-center gap-2 shrink-0 self-start sm:self-center"
-      >
-        <WhatsappIcon class="w-4 h-4 shrink-0 text-[#25D366]" />
-        Unirme al grupo
-      </a>
-    </div>
-
     <div class="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
       <div class="space-y-0.5">
         <p class="font-heading text-sm sm:text-base text-base-content">
-          Validá tu pago
+          Validá tu pago para confirmar tu inscripción
         </p>
         <p class="font-sans text-xs text-base-content/75">
-          Enviá tu comprobante por WhatsApp al <strong>{whatsappDisplay}</strong>.
+          Recordá que tu inscripción se confirma con el pago de la <strong>seña o el abono total</strong>. Enviá tu comprobante por WhatsApp al <strong>{whatsappDisplay}</strong>.
         </p>
       </div>
       <a

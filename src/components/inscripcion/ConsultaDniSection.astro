@@ -10,87 +10,70 @@ const { whatsappNumber, whatsappDisplay } = Astro.props;
 ---
 
 <div id="consulta-wrapper" role="tabpanel" aria-labelledby="tab-consulta" class="hidden space-y-6">
-  <!-- Tarjeta de Búsqueda Segura -->
-  <div class="card bg-base-200/90 border border-base-content/15 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
-    <div class="flex items-start gap-4">
-      <div class="w-12 h-12 rounded-2xl bg-secondary/15 text-secondary flex items-center justify-center shrink-0 border border-secondary/20 shadow-inner">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-        </svg>
-      </div>
-      <div class="space-y-1">
-        <div class="flex items-center gap-2">
-          <h2 class="font-heading text-xl sm:text-2xl text-secondary">
-            Consulta de inscripción
-          </h2>
-        </div>
-        <p class="text-sm text-base-content/80 leading-relaxed max-w-2xl">
-          Podrás revisar el estado de tu inscripción y subir tu Certificado de Alumno Regular.
-        </p>
-      </div>
+  <!-- Búsqueda de inscripción -->
+  <section class="card bg-base-200/80 border border-base-content/15 rounded-3xl p-5 sm:p-8 shadow-xl space-y-6">
+    <div class="space-y-1.5">
+      <h2 class="font-heading text-2xl sm:text-3xl text-secondary">
+        Consultá tu inscripción
+      </h2>
+      <p class="font-sans text-sm text-base-content/80 leading-relaxed max-w-xl">
+        Ingresá tu DNI y tu nombre completo para ver el estado de tu inscripción y tu pago.
+      </p>
     </div>
 
-    <form id="consulta-form" class="space-y-4 pt-2" novalidate>
+    <form id="consulta-form" class="space-y-5" novalidate>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <!-- Campo DNI -->
-        <div class="space-y-1.5">
-          <label for="consulta-dni" class="font-heading text-xs sm:text-sm text-base-content/90 flex items-center justify-between">
-            <span>Número de DNI</span>
-            <span class="text-[11px] text-base-content/60 font-sans font-normal">Sin puntos ni espacios</span>
-          </label>
-          <div class="relative">
-            <input
-              type="text"
-              inputmode="numeric"
-              id="consulta-dni"
-              name="consulta_dni"
-              class="input input-bordered w-full bg-base-100 rounded-xl pr-10 focus:border-secondary focus:ring-1 focus:ring-secondary transition-all"
-              placeholder="Ej: 43123456"
-              required
-            />
-            <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-base-content/40">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-              </svg>
-            </span>
-          </div>
-        </div>
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend text-base-content font-sans font-bold text-sm">
+            Número de DNI
+          </legend>
+          <input
+            type="text"
+            inputmode="numeric"
+            id="consulta-dni"
+            name="consulta_dni"
+            class="input w-full bg-base-100 rounded-xl focus:border-secondary focus:outline-none"
+            placeholder="Ej: 43123456"
+            required
+          />
+          <p class="label text-xs text-base-content/60">Sin puntos ni espacios</p>
+        </fieldset>
 
-        <!-- Campo Nombre Completo -->
-        <div class="space-y-1.5">
-          <label for="consulta-nombre" class="font-heading text-xs sm:text-sm text-base-content/90 flex items-center justify-between">
-            <span>Nombre completo</span>
-            <span class="text-[11px] text-base-content/60 font-sans font-normal">Tal cual figura en tu DNI</span>
-          </label>
-          <div class="relative">
-            <input
-              type="text"
-              id="consulta-nombre"
-              name="consulta_nombre"
-              class="input input-bordered w-full bg-base-100 rounded-xl pr-10 focus:border-secondary focus:ring-1 focus:ring-secondary transition-all"
-              placeholder="Ej: Lucía Fernández"
-              autocomplete="name"
-              required
-            />
-            <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-base-content/40">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-              </svg>
-            </span>
-          </div>
-        </div>
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend text-base-content font-sans font-bold text-sm">
+            Nombre completo
+          </legend>
+          <input
+            type="text"
+            id="consulta-nombre"
+            name="consulta_nombre"
+            class="input w-full bg-base-100 rounded-xl focus:border-secondary focus:outline-none"
+            placeholder="Ej: Lucía Fernández"
+            autocomplete="name"
+            required
+          />
+          <p class="label text-xs text-base-content/60">Tal como figura en tu DNI</p>
+        </fieldset>
       </div>
 
-      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
-        <p class="text-xs text-base-content/70 font-sans">
-          ¿Dudas con tu nombre o DNI registrado? Escribinos por WhatsApp para recibir asistencia directa.
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-base-content/15">
+        <p class="font-sans text-xs text-base-content/70 leading-relaxed">
+          ¿No encontrás tu registro? Escribinos por{" "}
+          <a
+            href={`https://wa.me/${whatsappNumber}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link link-secondary font-bold"
+          >
+            WhatsApp ({whatsappDisplay})
+          </a>.
         </p>
         <button
           type="submit"
           id="btn-consulta-submit"
-          class="btn btn-secondary text-secondary-content font-heading rounded-2xl px-8 h-12 shrink-0 inline-flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all"
+          class="btn btn-secondary text-secondary-content font-heading rounded-2xl px-7 shrink-0"
         >
-          <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
           </svg>
           <span id="btn-consulta-label">Consultar estado</span>
@@ -98,96 +81,45 @@ const { whatsappNumber, whatsappDisplay } = Astro.props;
       </div>
     </form>
 
-    <div id="consulta-error" role="alert" class="alert alert-error hidden text-sm rounded-2xl flex items-start gap-3">
-      <svg class="w-5 h-5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <div id="consulta-error" role="alert" class="alert alert-error hidden text-sm rounded-2xl">
+      <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
       </svg>
       <span id="consulta-error-text"></span>
     </div>
-  </div>
+  </section>
 
-  <!-- Resultado de Consulta -->
-  <div id="consulta-result" class="hidden card bg-base-200/90 border border-base-content/15 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
-    <!-- Encabezado de la Ficha -->
-    <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 border-b border-base-content/15 pb-5">
+  <!-- Ficha de resultado -->
+  <section id="consulta-result" class="hidden card bg-base-200/80 border-2 border-secondary/40 rounded-3xl p-5 sm:p-8 shadow-2xl space-y-6">
+    <!-- Identidad y estado del pago prioritario -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-base-content/15">
       <div class="space-y-1.5">
-        <div class="flex items-center gap-2 flex-wrap">
-          <span class="badge badge-secondary badge-sm font-heading font-semibold text-secondary-content">
-            Inscripción Registrada
-          </span>
-          <span id="res-badge-estado" class="badge badge-outline badge-sm text-[11px]"></span>
-        </div>
+        <span id="res-badge-estado" class="badge badge-outline badge-sm font-sans"></span>
         <h3 id="res-nombre" class="font-display text-2xl sm:text-3xl text-secondary leading-tight"></h3>
-        <p id="res-detalle" class="text-xs sm:text-sm text-base-content/80 font-sans"></p>
+        <p id="res-detalle" class="font-sans text-xs sm:text-sm text-base-content/80"></p>
       </div>
 
-      <div class="flex flex-wrap sm:flex-col items-start sm:items-end gap-2 shrink-0">
-        <span id="res-badge-cert" class="badge badge-sm font-sans"></span>
-        <span id="res-badge-pago" class="badge badge-sm font-sans"></span>
+      <div class="bg-base-100/80 border border-base-content/15 rounded-2xl px-4 py-3 flex flex-col sm:items-end gap-1.5 shrink-0">
+        <span class="font-sans text-xs text-base-content/70">Estado del pago</span>
+        <span id="res-badge-pago" class="badge badge-md font-heading"></span>
       </div>
     </div>
 
-    <!-- Archivos Subidos -->
-    <div class="space-y-3">
-      <div class="flex items-center justify-between">
-        <h4 class="font-heading text-sm text-secondary uppercase tracking-wider">
-          Documentación adjunta
-        </h4>
-        <span class="text-xs text-base-content/60 font-sans">Historial de archivos</span>
+    <!-- Comprobante de pago (oculto si ya está pagado) -->
+    <div id="consulta-whatsapp-box" class="space-y-3 pt-1">
+      <div class="space-y-1.5">
+        <h4 class="font-heading text-base text-secondary">Comprobante de pago</h4>
+        <p class="font-sans text-xs sm:text-sm text-base-content/75 leading-relaxed max-w-2xl">
+          Enviá tu comprobante de transferencia por WhatsApp al <strong>{whatsappDisplay}</strong>. El mensaje se abre con tu nombre y DNI precargados.
+        </p>
       </div>
-      <div id="res-archivos" class="space-y-2 text-sm"></div>
-    </div>
-
-    <!-- Acciones: Subir Certificado & Comprobante WhatsApp -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-3 border-t border-base-content/15">
-      <!-- Formulario Subir Certificado -->
-      <form id="upload-cert-form" class="bg-base-100/70 border border-base-content/10 p-5 rounded-2xl space-y-3.5 flex flex-col justify-between">
-        <div class="space-y-2">
-          <div class="flex items-center gap-2 text-secondary">
-            <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-            </svg>
-            <h4 class="font-heading text-base font-bold">Certificado de Alumno Regular</h4>
-          </div>
-          <p class="text-xs text-base-content/75 leading-relaxed">
-            Subí una foto o PDF de tu certificado emitido por tu facultad (hasta 8 MB). El equipo de inscripciones lo revisará.
-          </p>
-          <input
-            type="file"
-            id="consulta-cert-file"
-            accept=".pdf,image/*"
-            class="file-input file-input-bordered file-input-sm file-input-secondary w-full bg-base-200 rounded-xl"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          id="btn-upload-cert"
-          class="btn btn-sm btn-secondary text-secondary-content font-heading rounded-xl self-start px-5 mt-2 shadow-sm"
-        >
-          Subir certificado
-        </button>
-      </form>
-
-      <!-- Acción Enviar Comprobante WhatsApp -->
-      <div class="bg-base-100/70 border border-base-content/10 p-5 rounded-2xl space-y-3.5 flex flex-col justify-between">
-        <div class="space-y-2">
-          <div class="flex items-center gap-2 text-secondary">
-            <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6H2.25m0 0v9.75c0 .414.336.75.75.75h.75m0-11.25H12a2.25 2.25 0 0 1 2.25 2.25v7.5A2.25 2.25 0 0 1 12 18H3.75m0-12H15m0 0h4.5A2.25 2.25 0 0 1 21.75 8.25v4.5A2.25 2.25 0 0 1 19.5 15H15" />
-            </svg>
-            <h4 class="font-heading text-base font-bold">Comprobante de Pago</h4>
-          </div>
-          <p class="text-xs text-base-content/75 leading-relaxed">
-            Enviá tu comprobante de transferencia bancaria por WhatsApp al <strong>{whatsappDisplay}</strong>. El botón pre-completa tu nombre y DNI para una confirmación más rápida.
-          </p>
-        </div>
+      <div>
         <a
           id="consulta-whatsapp-btn"
           href={`https://wa.me/${whatsappNumber}`}
           target="_blank"
           rel="noopener noreferrer"
-          class="btn btn-sm bg-[#075e54] hover:bg-[#054c44] text-white border-0 rounded-xl inline-flex items-center gap-2 self-start px-4 shadow-sm"
+          class="btn btn-sm bg-[#075e54] hover:bg-[#054c44] text-white border-0 rounded-xl font-heading inline-flex items-center gap-2 px-4"
         >
           <WhatsappIcon class="w-4 h-4 shrink-0 text-[#25D366]" />
           <span>Enviar comprobante por WhatsApp</span>
@@ -195,11 +127,36 @@ const { whatsappNumber, whatsappDisplay } = Astro.props;
       </div>
     </div>
 
-    <div id="consulta-upload-msg" role="status" class="alert alert-success hidden text-sm rounded-2xl flex items-center gap-3">
-      <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-      </svg>
-      <span id="consulta-upload-text"></span>
+    <!-- Archivos subidos -->
+    <div class="space-y-3 pt-5 border-t border-base-content/15">
+      <h4 class="font-heading text-base text-base-content">Documentación adjunta</h4>
+      <div id="res-archivos" class="space-y-2 text-sm"></div>
+
+      <form id="upload-cert-form" class="hidden bg-base-100/80 border border-base-content/15 p-4 rounded-2xl space-y-3">
+        <p class="font-sans text-xs text-base-content/75">
+          Subí tu certificado de alumno regular o certificado de título en PDF o imagen (hasta 8 MB):
+        </p>
+        <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+          <input
+            type="file"
+            id="consulta-cert-file"
+            accept=".pdf,image/*"
+            class="file-input file-input-sm file-input-secondary w-full sm:flex-1 bg-base-200 rounded-xl"
+            required
+          />
+          <button
+            type="submit"
+            id="btn-upload-cert"
+            class="btn btn-sm btn-secondary text-secondary-content font-heading rounded-xl px-5 shrink-0"
+          >
+            Subir certificado
+          </button>
+        </div>
+      </form>
+
+      <div id="consulta-upload-msg" role="status" class="alert alert-success hidden text-sm rounded-2xl">
+        <span id="consulta-upload-text"></span>
+      </div>
     </div>
-  </div>
+  </section>
 </div>

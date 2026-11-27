@@ -14,30 +14,32 @@ const areasInscripcion = areas.filter((a) => a.slug !== "jovenes-profesionales")
   <div class="bg-base-100/70 p-4 rounded-2xl border border-base-content/10 space-y-2.5">
     <p class="font-heading text-sm sm:text-base">¿Qué tipo de participante sos? *</p>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-      {["Voluntario", "Parte del equipo"].map((tipo) => (
-        <label class="flex items-center gap-2 cursor-pointer bg-base-100/80 px-4 py-3 rounded-xl border border-base-content/10 hover:border-secondary">
+      {[
+        "Estudiante",
+        "Joven Profesional",
+        "Referente de Área",
+        "Equipo Diocesano",
+        "Equipo General del Manos",
+      ].map((tipo) => (
+        <label class="flex items-center gap-2 cursor-pointer bg-base-100/80 px-4 py-3 rounded-xl border border-base-content/10 hover:border-secondary has-[:checked]:border-secondary has-[:checked]:bg-base-100">
           <input type="radio" name="tipo_participante" value={tipo} class="radio radio-secondary radio-sm" required />
           <span class="text-sm">{tipo}</span>
         </label>
       ))}
     </div>
-  </div>
 
-  <div id="subtipo-equipo-wrap" class="hidden bg-base-100/70 p-4 rounded-2xl border border-secondary/30 space-y-2.5">
-    <p class="font-heading text-sm sm:text-base text-secondary">¿Sos Referente o del Equipo General? *</p>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-      {["Referente", "Equipo General"].map((subtipo) => (
-        <label class="flex items-center gap-2 cursor-pointer bg-base-100/80 px-4 py-3 rounded-xl border border-base-content/10 hover:border-secondary">
-          <input type="radio" name="subtipo_equipo" value={subtipo} class="radio radio-secondary radio-sm" />
-          <span class="text-sm">{subtipo}</span>
-        </label>
-      ))}
+    <div
+      id="joven-profesional-banner"
+      role="status"
+      class="hidden bg-secondary/10 border border-secondary/40 rounded-xl px-4 py-3 text-xs sm:text-sm text-base-content/90 leading-relaxed"
+    >
+      🎓 <strong>MUY IMPORTANTE:</strong> recordá que debés subir tu <strong>certificado de título</strong> en el paso anterior («Sobre el MO») para acreditar tu inscripción como Joven Profesional.
     </div>
   </div>
 
-  <div id="proyecto-area-wrap" class="hidden">
+  <div id="proyecto-area-wrap" class="hidden bg-base-100/70 p-4 rounded-2xl border border-secondary/30">
     <fieldset class="fieldset">
-      <legend class="fieldset-legend text-base-content">Proyecto / Área del que serás parte *</legend>
+      <legend class="fieldset-legend text-base-content">Área de la que sos referente *</legend>
       <select name="proyecto_area" class="select w-full bg-base-100">
         <option value="">Seleccioná el proyecto / área</option>
         {areasInscripcion.map((a) => (

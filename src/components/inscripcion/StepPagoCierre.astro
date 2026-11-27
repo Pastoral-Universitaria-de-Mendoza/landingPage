@@ -1,6 +1,5 @@
 ---
 import WhatsappIcon from "./WhatsappIcon.astro";
-import { FECHA_LIMITE_RESTANTE_PAGO } from "../../data/inscripcion-mo";
 
 interface Props {
   whatsappNumber?: string;
@@ -37,7 +36,7 @@ const {
         <input type="radio" name="tipo_inscripcion" value="dia_visita" class="radio radio-secondary radio-sm mt-1 shrink-0" />
         <div class="space-y-0.5 text-sm">
           <span class="font-heading text-base text-base-content block leading-snug">Día de Visita 29/12</span>
-          <span class="text-xs text-base-content/75 block">Asistencia el día 29 de diciembre</span>
+          <span class="text-xs text-base-content/75 block">Asistencia el día 29 de diciembre · Valor: <strong class="text-secondary">$10.000</strong></span>
         </div>
       </label>
     </div>
@@ -48,7 +47,7 @@ const {
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
       <div>
         <span id="cfg-monto-label" class="text-xs text-base-content/70 block">Monto total del Manos</span>
-        <p id="cfg-monto-total" class="font-heading text-2xl sm:text-3xl text-secondary leading-tight mt-0.5">A definir</p>
+        <p id="cfg-monto-total" class="font-heading text-2xl sm:text-3xl text-secondary leading-tight mt-0.5">$30.000</p>
       </div>
 
       <div class="sm:text-right">
@@ -70,6 +69,15 @@ const {
       A nombre de <strong>Lucas Nicolas Gonzales Cortez</strong> — Cuenta de NaranjaX
     </p>
 
+    <div class="bg-secondary/10 border border-secondary/30 rounded-xl px-4 py-3 text-xs sm:text-sm text-base-content/90 leading-relaxed space-y-1.5">
+      <p>
+        💡 <strong>¿Para qué es esto?</strong> La contribución económica está destinada exclusivamente a cubrir los gastos de <strong>comida, seguro de accidentes personales, alojamiento y logística</strong> durante los días del Manos a la Obra.
+      </p>
+      <p>
+        ✅ <strong>Confirmación de cupo:</strong> Tu inscripción queda confirmada al abonar la <strong>seña o el monto total</strong> y enviar el comprobante.
+      </p>
+    </div>
+
     <fieldset id="opcion-pago-fieldset" class="fieldset space-y-2.5 pt-1">
       <legend class="fieldset-legend font-heading text-sm sm:text-base text-base-content">
         ¿Cómo vas a realizar el pago? *
@@ -78,9 +86,9 @@ const {
         <label class="flex items-start gap-3 cursor-pointer bg-base-200/75 p-4 rounded-2xl border border-base-content/15 hover:border-secondary/70 has-[:checked]:border-secondary has-[:checked]:bg-secondary/12 transition-colors">
           <input type="radio" name="opcion_pago" value="total" class="radio radio-secondary radio-sm mt-1 shrink-0" required />
           <div class="space-y-0.5 text-sm">
-            <span class="font-heading text-base text-base-content block leading-snug">Pagar el total ahora</span>
-            <span class="text-xs text-base-content/80 block">
-              Monto total: <strong id="cfg-monto-total-opt" class="text-secondary">A definir</strong>
+            <span class="font-heading text-base text-base-content block leading-snug">Abonar el total</span>
+            <span class="text-xs text-base-content/80 block leading-relaxed">
+              <strong id="cfg-monto-total-opt" class="text-secondary">$30.000</strong> (pagando el importe completo antes del 10/12).
             </span>
           </div>
         </label>
@@ -88,14 +96,32 @@ const {
         <label class="flex items-start gap-3 cursor-pointer bg-base-200/75 p-4 rounded-2xl border border-base-content/15 hover:border-secondary/70 has-[:checked]:border-secondary has-[:checked]:bg-secondary/12 transition-colors">
           <input type="radio" name="opcion_pago" value="sena" class="radio radio-secondary radio-sm mt-1 shrink-0" />
           <div class="space-y-0.5 text-sm">
-            <span class="font-heading text-base text-base-content block leading-snug">Señar ahora y pagar después</span>
+            <span class="font-heading text-base text-base-content block leading-snug">Abonar una seña</span>
             <span class="text-xs text-base-content/80 block leading-relaxed">
-              Seña mínima: <strong id="cfg-monto-sena" class="text-secondary">A definir</strong>
-              <br />
-              Restante hasta el <strong>{FECHA_LIMITE_RESTANTE_PAGO}</strong>
+              <strong id="cfg-monto-sena" class="text-secondary">$10.000</strong> para reservar y congelar tu cupo.
             </span>
           </div>
         </label>
+      </div>
+
+      <div class="bg-base-200/60 border border-base-content/15 rounded-2xl p-4 space-y-3 text-xs sm:text-sm text-base-content/85">
+        <div class="space-y-1.5">
+          <p class="font-heading text-base-content">Cancelación del saldo (para quienes abonaron seña):</p>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>
+              <strong>Si completás el pago antes del 10/12:</strong> el saldo restante es de <strong>$20.000</strong> (total: $30.000).
+            </li>
+            <li>
+              <strong>Si completás el pago después del 10/12:</strong> el saldo restante es de <strong>$25.000</strong> (total: $35.000).
+            </li>
+          </ul>
+        </div>
+        <div class="pt-2 border-t border-base-content/10 space-y-1">
+          <p class="font-heading text-base-content">Inscripciones o pagos posteriores al 10/12:</p>
+          <p>
+            En caso de que queden cupos disponibles a partir de esa fecha, el valor total del arancel será de <strong>$35.000</strong>.
+          </p>
+        </div>
       </div>
     </fieldset>
 
@@ -105,6 +131,7 @@ const {
         <p class="text-xs text-base-content/70">Enviá tu comprobante por WhatsApp al {whatsappDisplay}.</p>
       </div>
       <a
+        id="btn-step-whatsapp"
         href={`https://wa.me/${whatsappNumber}`}
         target="_blank"
         rel="noopener noreferrer"
@@ -114,22 +141,5 @@ const {
         Enviar comprobante
       </a>
     </div>
-  </div>
-
-  <!-- 2. Amigos o conocidos -->
-  <div class="pt-5 border-t border-base-content/15 space-y-2.5">
-    <label for="amigos_grupo" class="font-heading text-lg text-secondary block">
-      ¿Viniste con amigos o conocidos? 🙌
-    </label>
-    <p class="text-sm text-base-content/80 leading-relaxed max-w-2xl">
-      Si hay una o dos personas con las que querés compartir grupo, anotá sus nombres acá. Si venís solo, te asignamos un equipo genial.
-    </p>
-    <input
-      id="amigos_grupo"
-      type="text"
-      name="amigos_grupo"
-      class="input w-full bg-base-100 rounded-xl"
-      placeholder="Nombre y apellido (1 o 2 personas)"
-    />
   </div>
 </div>

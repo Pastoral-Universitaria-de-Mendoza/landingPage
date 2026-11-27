@@ -19,9 +19,10 @@ export const TYC_PUNTOS = [
   "8. Gestión de cupos y lista de espera: El cupo de cada proyecto se completará por estricto orden de inscripción. Quienes excedan la capacidad máxima ingresarán en una lista de espera; en caso de liberarse una vacante o de ser posible, se les propondrá una opción alternativa. Si el equipo coordinador considera indispensable reubicar a un participante por necesidad organizativa, dicha acción se consensuará oportunamente.",
   "9. Responsabilidad por pertenencias: El cuidado, resguardo y seguridad de los objetos personales (tecnología, dinero, equipaje, etc.) es responsabilidad exclusiva de su propietario. La PUM (Pastoral Universitaria) queda exenta de toda responsabilidad ante eventuales daños, hurtos o extravíos dentro o fuera de las sedes.",
   "10. Contribución económica y destino de fondos: La participación en el proyecto requiere el pago de una contribución monetaria obligatoria por parte de todos los inscriptos. Dicho monto está destinado exclusivamente a financiar los costos de alojamiento, alimentación y el seguro de accidentes personales durante los días del evento. La PUM es una organización sin fines de lucro y destina la totalidad de estos ingresos a cubrir los gastos operativos directos que se desprenden del trabajo pastoral del proyecto.",
-  '11. Requisitos obligatorios para efectivizar la inscripción: Para que el registro sea considerado válido, el participante deberá cumplir de forma excluyente con:\n• a. Haber leído, comprendido y prestado conformidad expresa a los documentos: "Criterios, normas y recomendaciones para el trabajo con niños"\n• b. Asistir y completar la instancia de formación virtual previa al evento en la fecha y horario estipulados por la organización.',
+  '11. Requisitos obligatorios para efectivizar la inscripción: Para que el registro sea considerado válido, el participante deberá cumplir de forma excluyente con:\n• a. Haber leído, comprendido y prestado conformidad expresa a los documentos: "Protección de niños, niñas, adolescentes y adultos en situación de vulnerabilidad"\n• b. Asistir y completar la instancia de formación virtual previa al evento en la fecha y horario estipulados por la organización.',
   "12. Derecho de admisión y permanencia: La PUM se reserva el estricto derecho de admisión y permanencia de los inscriptos. El incumplimiento de cualquiera de los puntos establecidos en las presentes Bases y Condiciones, o las conductas que alteren gravemente la convivencia, implicarán la interrupción inmediata de la participación de la persona en el proyecto Manos a la Obra.",
   "13. En caso de que el participante decida no asistir o deba bajarse del proyecto por motivos ajenos a la organización (PUM), el dinero abonado NO será reembolsable bajo ningún concepto, ya que los fondos se comprometen previamente para las compras logísticas y la contratación de seguros individuales.",
+  "14. Se solicitará constancia de sus estudios por medio de un certificado de alumno regular o analítico en caso de ser jóvenes profesionales.",
 ];
 
 export const DEPARTAMENTOS_MENDOZA = [
@@ -134,8 +135,6 @@ export const FORMAS_TRASLADO = [
   "Me llevan, pero después me voy en micro",
 ];
 
-export const VEHICULOS_ESTACIONAMIENTO = ["Auto", "Moto", "Camioneta"];
-
 export const PARENTESCOS_EMERGENCIA = [
   "Madre",
   "Padre",
@@ -173,18 +172,3 @@ export const SALUD_CALENDAR_URL =
     details:
       "¡Sumate a la convivencia de Salud! Antes de salir a terreno, nos juntamos para conocernos y capacitarnos en: RCP, primeros auxilios y abordaje interdisciplinario. No hace falta experiencia previa, ¡aprendemos entre todos!",
   }).toString();
-
-export const ZONAS_WHATSAPP = {
-  zona1: {
-    titulo: "Zona 1 (Bº Huarpes 1 y 2, 3 Estrellas y Fuerza Segura)",
-    areas: ["SOCIALES", "CREATIVA"],
-    url: import.meta.env.PUBLIC_WHATSAPP_ZONA1_URL || "",
-  },
-  zona2: {
-    titulo: "Zona 2 (Bº Los Alerces II y Unión y Fuerza)",
-    areas: ["SALUD", "INGENIO", "PSICO-EDUCACIÓN"],
-    url: import.meta.env.PUBLIC_WHATSAPP_ZONA2_URL || "",
-  },
-} as const;
-
-export const FECHA_LIMITE_RESTANTE_PAGO = "15 de diciembre de 2026";

@@ -6,7 +6,6 @@ import {
   isValidPhone,
   normalizeDni,
 } from "./inscripcion-validation";
-import { ZONAS_WHATSAPP } from "../data/inscripcion-mo";
 
 export function initInscripcionWizard() {
   const root = document.getElementById("inscripcion-root");
@@ -22,6 +21,8 @@ export function initInscripcionWizard() {
   let activeConsultaDni = "";
   let activeConsultaNombre = "";
   let isClosed = false;
+  let montoTotalConfig = "$30.000";
+  const MONTO_DIA_VISITA = "$10.000";
 
   const form = document.getElementById("mo-form") as HTMLFormElement;
   const stepNodes = Array.from(document.querySelectorAll<HTMLElement>("[data-step]"));
@@ -45,10 +46,36 @@ export function initInscripcionWizard() {
   const getRadio = (name: string) =>
     form.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`)?.value ?? "";
 
-  function buildWhatsappUrl(nombre: string, dni: string, opcionPago?: string) {
-    const opcionTxt = opcionPago === "sena" ? " (Opción: Seña)" : opcionPago === "total" ? " (Opción: Pago total)" : "";
+  function buildWhatsappUrl(nombre: string, dni: string, opcionPago?: string, tipoInscripcion?: string) {
+    const opcionTxt =
+      tipoInscripcion === "dia_visita"
+        ? " (Opción: Día de Visita 29/12)"
+        : opcionPago === "sena"
+          ? " (Opción: Seña)"
+          : opcionPago === "total"
+            ? " (Opción: Pago total)"
+            : "";
     const text = `¡Hola! Soy ${nombre || ""} (DNI ${dni || ""}) y me inscribí al Manos a la Obra 2026${opcionTxt}. Te envío mi comprobante de pago.`;
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+  }
+
+  function syncStepWhatsappLink() {
+    const stepWaBtn = document.getElementById("btn-step-whatsapp");
+    if (!stepWaBtn) return;
+    const tipoInscripcion = getRadio("tipo_inscripcion");
+    const opcionPago = tipoInscripcion === "dia_visita" ? "total" : getRadio("opcion_pago");
+    stepWaBtn.setAttribute(
+      "href",
+      buildWhatsappUrl(getVal("nombre_completo"), normalizeDni(getVal("dni")), opcionPago, tipoInscripcion),
+    );
+  }
+
+  const btnOpenContactoModal = document.getElementById("btn-open-contacto-modal");
+  const contactoModal = document.getElementById("contacto-inscripciones-modal") as HTMLDialogElement | null;
+  if (btnOpenContactoModal && contactoModal) {
+    btnOpenContactoModal.addEventListener("click", () => {
+      contactoModal.showModal();
+    });
   }
 
   function switchMode(mode: "nueva" | "consulta") {
@@ -95,6 +122,7 @@ export function initInscripcionWizard() {
     btnPrev.classList.toggle("hidden", currentStep === 0);
     btnNext.classList.toggle("hidden", currentStep === TOTAL_STEPS - 1);
     btnSubmit.classList.toggle("hidden", currentStep !== TOTAL_STEPS - 1);
+    if (currentStep === TOTAL_STEPS - 1) syncStepWhatsappLink();
     showError("");
   }
 
@@ -113,22 +141,15 @@ export function initInscripcionWizard() {
     document.getElementById("dieta-otra-wrap")!.classList.toggle("hidden", dieta !== "Otro");
 
     const tipoParticipante = getRadio("tipo_participante");
-    const subtipoEquipo = getRadio("subtipo_equipo");
-    const esEquipo = tipoParticipante === "Parte del equipo";
-    document.getElementById("subtipo-equipo-wrap")!.classList.toggle("hidden", !esEquipo);
-
-    const mostrarProyecto = esEquipo && subtipoEquipo === "Referente";
-    const mostrarRolGeneral = esEquipo && subtipoEquipo === "Equipo General";
+    const mostrarJovenProf = tipoParticipante === "Joven Profesional";
+    const mostrarProyecto = tipoParticipante === "Referente de Área";
+    const mostrarRolGeneral = tipoParticipante === "Equipo General del Manos";
+    document.getElementById("joven-profesional-banner")?.classList.toggle("hidden", !mostrarJovenProf);
     document.getElementById("proyecto-area-wrap")!.classList.toggle("hidden", !mostrarProyecto);
     document.getElementById("equipo-general-fields")!.classList.toggle("hidden", !mostrarRolGeneral);
 
     const areaSeleccionada = getRadio("area_pertenencia");
     document.getElementById("salud-convivencia-banner")?.classList.toggle("hidden", areaSeleccionada !== "SALUD");
-
-    const esPropia = getRadio("forma_traslado") === "Movilidad propia";
-    document.getElementById("estacionamiento-fields")!.classList.toggle("hidden", !esPropia);
-    const necEst = getRadio("necesita_estacionamiento") === "si";
-    document.getElementById("vehiculo-fields")!.classList.toggle("hidden", !(esPropia && necEst));
 
     const tipoInscripcion = getRadio("tipo_inscripcion");
     document.getElementById("pago-info-section")?.classList.toggle("hidden", !tipoInscripcion);
@@ -138,10 +159,15 @@ export function initInscripcionWizard() {
       montoLabel.textContent =
         tipoInscripcion === "dia_visita" ? "Monto Día de Visita (29/12)" : "Monto total del Manos";
     }
+    const montoTotalEl = document.getElementById("cfg-monto-total");
+    if (montoTotalEl) {
+      montoTotalEl.textContent = tipoInscripcion === "dia_visita" ? MONTO_DIA_VISITA : montoTotalConfig;
+    }
     if (tipoInscripcion === "dia_visita") {
       const totalRadio = form.querySelector<HTMLInputElement>('input[name="opcion_pago"][value="total"]');
       if (totalRadio) totalRadio.checked = true;
     }
+    syncStepWhatsappLink();
   }
 
   function saveDraft() {
@@ -278,6 +304,7 @@ export function initInscripcionWizard() {
     if (stepIdx === 3) {
       if (!getVal("como_se_entero")) return { msg: "Indicá cómo te enteraste del Manos a la Obra.", field: "como_se_entero" };
       if (!getVal("actividad_anual_pum")) return { msg: "Indicá tu participación en actividades de la PUM.", field: "actividad_anual_pum" };
+      if (!getVal("universidad")) return { msg: "Ingresá en qué Universidad estudiás.", field: "universidad" };
       if (!getVal("carrera")) return { msg: "Ingresá tu carrera.", field: "carrera" };
       if (!getRadio("area_pertenencia")) return { msg: "Seleccioná el área a la que pertenecés.", field: "area_pertenencia" };
       if (!getRadio("disponibilidad_hospitalidad")) {
@@ -287,23 +314,16 @@ export function initInscripcionWizard() {
     if (stepIdx === 4) {
       const tipoPart = getRadio("tipo_participante");
       if (!tipoPart) return { msg: "Seleccioná qué tipo de participante sos.", field: "tipo_participante" };
-      if (tipoPart !== "Voluntario") {
-        const subtipo = getRadio("subtipo_equipo");
-        if (!subtipo) return { msg: "Indicá si sos Referente o del Equipo General.", field: "subtipo_equipo" };
-        if (subtipo === "Referente" && !getVal("proyecto_area")) {
-          return { msg: "Seleccioná el proyecto o área del que sos referente.", field: "proyecto_area" };
-        }
-        if (subtipo === "Equipo General" && !getVal("rol_equipo_general")) {
-          return { msg: "Seleccioná tu rol en el Equipo General.", field: "rol_equipo_general" };
-        }
+      if (tipoPart === "Referente de Área" && !getVal("proyecto_area")) {
+        return { msg: "Seleccioná el proyecto o área del que sos referente.", field: "proyecto_area" };
+      }
+      if (tipoPart === "Equipo General del Manos" && !getVal("rol_equipo_general")) {
+        return { msg: "Seleccioná tu rol en el Equipo General.", field: "rol_equipo_general" };
       }
     }
     if (stepIdx === 5) {
       const traslado = getRadio("forma_traslado");
       if (!traslado) return { msg: "Seleccioná cómo vas a trasladarte a la zona.", field: "forma_traslado" };
-      if (traslado === "Movilidad propia" && getRadio("necesita_estacionamiento") === "si" && !getRadio("vehiculo_estacionamiento")) {
-        return { msg: "Indicá qué vehículo necesitás estacionar.", field: "vehiculo_estacionamiento" };
-      }
     }
     if (stepIdx === 6) {
       const tipoInscripcion = getRadio("tipo_inscripcion");
@@ -356,7 +376,7 @@ export function initInscripcionWizard() {
   async function readAndCompressFile(file?: File | null) {
     if (!file) return null;
     if (file.size > MAX_CERT_FILE_BYTES) {
-      throw new Error("El archivo supera el límite de 10 MB.");
+      throw new Error("El archivo supera el límite de 8 MB.");
     }
     if (file.type.startsWith("image/") && file.type !== "image/gif") {
       const img = new Image();
@@ -402,20 +422,23 @@ export function initInscripcionWizard() {
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    if (!FORM_DEV_MODE) {
-      if (isClosed) {
-        showError("Las inscripciones generales se encuentran cerradas por el momento.");
-        return;
+    if (!FORM_DEV_MODE && isClosed) {
+      showError("Las inscripciones generales se encuentran cerradas por el momento.");
+      return;
+    }
+    let firstErr: { step: number; err: ValidationError } | null = null;
+    for (let i = 0; i < TOTAL_STEPS; i++) {
+      const err = validateStep(i);
+      if (err) {
+        firstErr = { step: i, err };
+        break;
       }
-      for (let i = 0; i < TOTAL_STEPS; i++) {
-        const err = validateStep(i);
-        if (err) {
-          currentStep = i;
-          renderStep();
-          showError(err.msg, err.field);
-          return;
-        }
-      }
+    }
+    if (firstErr && !FORM_DEV_MODE) {
+      currentStep = firstErr.step;
+      renderStep();
+      showError(firstErr.err.msg, firstErr.err.field);
+      return;
     }
 
     btnSubmit.disabled = true;
@@ -427,17 +450,12 @@ export function initInscripcionWizard() {
       const certificado = certFile ? await readAndCompressFile(certFile) : null;
 
       const tipoParticipanteVal = getRadio("tipo_participante");
-      const subtipoEquipoVal = getRadio("subtipo_equipo");
-      const esEquipoGeneral = tipoParticipanteVal === "Parte del equipo" && subtipoEquipoVal === "Equipo General";
-      const esVoluntario = tipoParticipanteVal === "Voluntario";
-      const rolProyectoVal = esVoluntario
-        ? "Voluntario"
-        : subtipoEquipoVal === "Referente"
-          ? "Referente"
-          : "Equipo General";
-      const proyectoAreaVal = esVoluntario || esEquipoGeneral
-        ? getRadio("area_pertenencia") || (esEquipoGeneral ? "EQUIPO GENERAL" : "")
-        : getVal("proyecto_area") || getRadio("area_pertenencia");
+      const esEquipoGeneral = tipoParticipanteVal === "Equipo General del Manos";
+      const esReferente = tipoParticipanteVal === "Referente de Área";
+      const rolProyectoVal = tipoParticipanteVal;
+      const proyectoAreaVal = esReferente
+        ? getVal("proyecto_area") || getRadio("area_pertenencia")
+        : getRadio("area_pertenencia") || (esEquipoGeneral ? "EQUIPO GENERAL" : "");
 
       const payload = {
         acepto_tyc: true,
@@ -470,6 +488,7 @@ export function initInscripcionWizard() {
         dieta_otra: getVal("dieta_otra"),
         como_se_entero: getVal("como_se_entero"),
         actividad_anual_pum: getVal("actividad_anual_pum"),
+        universidad: getVal("universidad"),
         carrera: getVal("carrera"),
         area_pertenencia: getRadio("area_pertenencia"),
         disponibilidad_hospitalidad: getRadio("disponibilidad_hospitalidad"),
@@ -479,15 +498,12 @@ export function initInscripcionWizard() {
         tiene_rol_equipo_general: esEquipoGeneral,
         rol_equipo_general: esEquipoGeneral ? getVal("rol_equipo_general") : "",
         forma_traslado: getRadio("forma_traslado"),
-        necesita_estacionamiento: getRadio("necesita_estacionamiento") === "si",
-        vehiculo_estacionamiento: getRadio("vehiculo_estacionamiento"),
-        amigos_grupo: getVal("amigos_grupo"),
         tipo_inscripcion: getRadio("tipo_inscripcion") || "completo",
         opcion_pago: getRadio("tipo_inscripcion") === "dia_visita" ? "total" : (getRadio("opcion_pago") || "total"),
         certificado,
       };
 
-      if (!FORM_DEV_MODE) {
+      if (!firstErr) {
         const res = await fetch(`${API_URL}/api/public/inscripciones`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -500,23 +516,14 @@ export function initInscripcionWizard() {
       }
 
       const waBtn = document.getElementById("btn-whatsapp-comprobante");
-      if (waBtn) waBtn.setAttribute("href", buildWhatsappUrl(payload.nombre_completo, payload.dni, payload.opcion_pago));
-
-      const areaElegida = payload.proyecto_area || payload.area_pertenencia;
-      const zona = Object.values(ZONAS_WHATSAPP).find((z) =>
-        (z.areas as readonly string[]).includes(areaElegida),
-      );
-      const zonaBox = document.getElementById("zona-whatsapp-box");
-      const zonaLabel = document.getElementById("zona-whatsapp-label");
-      const zonaBtn = document.getElementById("btn-whatsapp-zona");
-      if (zona && zona.url && zonaBox && zonaLabel && zonaBtn) {
-        zonaLabel.textContent = `${zona.titulo} · Área ${areaElegida}`;
-        zonaBtn.setAttribute("href", zona.url);
-        zonaBox.classList.remove("hidden");
-      } else {
-        zonaBox?.classList.add("hidden");
+      if (waBtn) {
+        waBtn.setAttribute(
+          "href",
+          buildWhatsappUrl(payload.nombre_completo, payload.dni, payload.opcion_pago, payload.tipo_inscripcion),
+        );
       }
 
+      const areaElegida = payload.proyecto_area || payload.area_pertenencia;
       const esSalud = areaElegida === "SALUD" || payload.area_pertenencia === "SALUD";
       document.getElementById("salud-convivencia-success")?.classList.toggle("hidden", !esSalud);
 
@@ -548,12 +555,19 @@ export function initInscripcionWizard() {
         btnNext.disabled = true;
         btnSubmit.disabled = true;
       }
-      const montoTotalText = cfg.monto_total || "A definir";
-      document.getElementById("cfg-monto-total")!.textContent = montoTotalText;
+      montoTotalConfig =
+        cfg.monto_total && cfg.monto_total !== "A definir" ? cfg.monto_total : "$30.000";
+      document.getElementById("cfg-monto-total")!.textContent =
+        getRadio("tipo_inscripcion") === "dia_visita" ? MONTO_DIA_VISITA : montoTotalConfig;
       const montoTotalOptEl = document.getElementById("cfg-monto-total-opt");
-      if (montoTotalOptEl) montoTotalOptEl.textContent = montoTotalText;
+      if (montoTotalOptEl) montoTotalOptEl.textContent = montoTotalConfig;
       const montoSenaEl = document.getElementById("cfg-monto-sena");
-      if (montoSenaEl) montoSenaEl.textContent = cfg.monto_minimo_sena || "A definir";
+      if (montoSenaEl) {
+        montoSenaEl.textContent =
+          cfg.monto_minimo_sena && cfg.monto_minimo_sena !== "A definir"
+            ? cfg.monto_minimo_sena
+            : "$10.000";
+      }
       document.getElementById("cfg-alias")!.textContent = cfg.alias_pago || "MO2026PUM";
       const titularEl = document.getElementById("cfg-titular")!;
       titularEl.textContent = "A nombre de ";
@@ -631,58 +645,71 @@ export function initInscripcionWizard() {
         );
       }
 
-      const certBadge = document.getElementById("res-badge-cert")!;
-      certBadge.textContent = `Certificado: ${ins.estado_certificado}`;
-      certBadge.className = "badge badge-sm font-sans " + (
-        ins.estado_certificado === "aprobado" ? "badge-success text-success-content" :
-        ins.estado_certificado === "en_revision" ? "badge-warning text-warning-content" :
-        ins.estado_certificado === "rechazado" ? "badge-error text-error-content" :
-        "badge-neutral"
-      );
-
       const pagoBadge = document.getElementById("res-badge-pago")!;
-      const opcionLabel = ins.opcion_pago === "sena" ? "Seña" : "Total";
+      const opcionLabel =
+        ins.tipo_inscripcion === "dia_visita"
+          ? "Día de Visita 29/12"
+          : ins.opcion_pago === "sena"
+            ? "Seña"
+            : "Total";
       const pagoLabel =
         ins.estado_pago === "pagado" ? "Pagado" : ins.estado_pago === "parcial" ? "Señó" : "Pendiente";
-      pagoBadge.textContent = `Pago: ${pagoLabel} (${opcionLabel})`;
-      pagoBadge.className = "badge badge-sm font-sans " + (
+      pagoBadge.textContent = `${pagoLabel} (${opcionLabel})`;
+      pagoBadge.className = "badge badge-md font-heading " + (
         ins.estado_pago === "pagado" ? "badge-success text-success-content" :
         ins.estado_pago === "parcial" ? "badge-warning text-warning-content" :
         "badge-secondary text-secondary-content"
       );
 
+      const consultaWaBox = document.getElementById("consulta-whatsapp-box");
+      consultaWaBox?.classList.toggle("hidden", ins.estado_pago === "pagado");
       const consultaWaBtn = document.getElementById("consulta-whatsapp-btn");
-      if (consultaWaBtn) consultaWaBtn.setAttribute("href", buildWhatsappUrl(ins.nombre_completo, ins.dni, ins.opcion_pago));
+      if (consultaWaBtn) {
+        consultaWaBtn.setAttribute(
+          "href",
+          buildWhatsappUrl(ins.nombre_completo, ins.dni, ins.opcion_pago, ins.tipo_inscripcion),
+        );
+      }
+
+      const archivosList: Array<{
+        tipo: string;
+        cuota_numero?: number;
+        monto_declarado?: number;
+        nombre_archivo: string;
+        estado_revision: string;
+      }> = data.archivos ?? [];
+      const tieneCertSubido = archivosList.some(
+        (a) => a.tipo === "certificado_regular" && a.estado_revision !== "rechazado",
+      );
+      document.getElementById("upload-cert-form")?.classList.toggle("hidden", tieneCertSubido);
 
       const archEl = document.getElementById("res-archivos")!;
       archEl.replaceChildren();
-      if (!data.archivos?.length) {
+      if (!archivosList.length) {
         const emptyP = document.createElement("p");
         emptyP.className = "text-xs sm:text-sm text-base-content/65 italic py-1";
-        emptyP.textContent = "Todavía no subiste tu certificado de alumno regular.";
+        emptyP.textContent = "Todavía no subiste tu certificado de alumno regular o certificado de título.";
         archEl.appendChild(emptyP);
       } else {
-        data.archivos.forEach(
-          (a: { tipo: string; cuota_numero?: number; monto_declarado?: number; nombre_archivo: string; estado_revision: string }) => {
-            const row = document.createElement("div");
-            row.className = "bg-base-100/80 border border-base-content/10 px-3.5 py-2.5 rounded-xl flex justify-between items-center text-xs sm:text-sm";
-            const labelSpan = document.createElement("span");
-            const prefix =
-              a.tipo === "certificado_regular"
-                ? "Certificado Alumno Regular"
-                : `Comprobante Cuota ${a.cuota_numero || 1} ($${a.monto_declarado || 0})`;
-            labelSpan.textContent = `${prefix} — ${a.nombre_archivo}`;
-            const badgeSpan = document.createElement("span");
-            badgeSpan.className = "badge badge-xs " + (
-              a.estado_revision === "aprobado" ? "badge-success text-success-content" :
-              a.estado_revision === "rechazado" ? "badge-error text-error-content" :
-              "badge-warning text-warning-content"
-            );
-            badgeSpan.textContent = a.estado_revision;
-            row.append(labelSpan, badgeSpan);
-            archEl.appendChild(row);
-          },
-        );
+        archivosList.forEach((a) => {
+          const row = document.createElement("div");
+          row.className = "bg-base-100/80 border border-base-content/10 px-3.5 py-2.5 rounded-xl flex justify-between items-center text-xs sm:text-sm";
+          const labelSpan = document.createElement("span");
+          const prefix =
+            a.tipo === "certificado_regular"
+              ? "Certificado Alumno Regular / Título"
+              : `Comprobante Cuota ${a.cuota_numero || 1} ($${a.monto_declarado || 0})`;
+          labelSpan.textContent = `${prefix} — ${a.nombre_archivo}`;
+          const badgeSpan = document.createElement("span");
+          badgeSpan.className = "badge badge-xs " + (
+            a.estado_revision === "aprobado" ? "badge-success text-success-content" :
+            a.estado_revision === "rechazado" ? "badge-error text-error-content" :
+            "badge-warning text-warning-content"
+          );
+          badgeSpan.textContent = a.estado_revision;
+          row.append(labelSpan, badgeSpan);
+          archEl.appendChild(row);
+        });
       }
       resEl.classList.remove("hidden");
       resEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -698,28 +725,28 @@ export function initInscripcionWizard() {
 
   document.getElementById("consulta-form")!.addEventListener("submit", (e) => {
     e.preventDefault();
+    document.getElementById("consulta-upload-msg")?.classList.add("hidden");
     const dniVal = (document.getElementById("consulta-dni") as HTMLInputElement).value;
     const nombreVal = (document.getElementById("consulta-nombre") as HTMLInputElement).value;
     void runConsulta(dniVal, nombreVal);
   });
 
-  document.getElementById("upload-cert-form")!.addEventListener("submit", async (e) => {
+  document.getElementById("upload-cert-form")?.addEventListener("submit", async (e) => {
     e.preventDefault();
     const msgEl = document.getElementById("consulta-upload-msg")!;
     const msgText = document.getElementById("consulta-upload-text") || msgEl;
     const errEl = document.getElementById("consulta-error")!;
     const errText = document.getElementById("consulta-error-text") || errEl;
     const btnUpload = document.getElementById("btn-upload-cert") as HTMLButtonElement | null;
-
-    msgEl.classList.add("hidden");
-    errEl.classList.add("hidden");
     const fileInput = document.getElementById("consulta-cert-file") as HTMLInputElement;
     const file = fileInput.files?.[0];
     if (!file || !activeConsultaDni || !activeConsultaNombre) return;
 
+    msgEl.classList.add("hidden");
+    errEl.classList.add("hidden");
     if (btnUpload) {
       btnUpload.disabled = true;
-      btnUpload.textContent = "Subiendo archivo...";
+      btnUpload.textContent = "Subiendo...";
     }
 
     try {
@@ -735,13 +762,13 @@ export function initInscripcionWizard() {
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Error al subir el archivo");
+      if (!res.ok) throw new Error(data.error || "Error al subir el archivo.");
       fileInput.value = "";
-      msgText.textContent = "¡Archivo subido correctamente! El equipo de inscripciones lo revisará pronto.";
+      msgText.textContent = "¡Certificado subido correctamente! El equipo de inscripciones lo revisará pronto.";
       msgEl.classList.remove("hidden");
       await runConsulta(activeConsultaDni, activeConsultaNombre);
     } catch (err) {
-      errText.textContent = err instanceof Error ? err.message : "Error al subir";
+      errText.textContent = err instanceof Error ? err.message : "Error al subir el certificado.";
       errEl.classList.remove("hidden");
     } finally {
       if (btnUpload) {

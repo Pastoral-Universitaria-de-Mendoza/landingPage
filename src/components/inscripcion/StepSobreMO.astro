@@ -41,18 +41,23 @@ const saludCalendarUrl = SALUD_CALENDAR_URL;
 
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
     <fieldset class="fieldset">
-      <legend class="fieldset-legend text-base-content">¿Qué carrera estudiás? *</legend>
-      <input type="text" name="carrera" required class="input w-full bg-base-100" placeholder="Ej: Medicina, Ingeniería Civil, Derecho..." />
+      <legend class="fieldset-legend text-base-content">¿En qué Universidad estudiás? *</legend>
+      <input type="text" name="universidad" required class="input w-full bg-base-100" placeholder="Ej: UNCuyo, UTN, UM, UCA, UDA..." />
     </fieldset>
 
     <fieldset class="fieldset">
-      <legend class="fieldset-legend text-base-content">Certificado de alumno regular (PDF o imagen)</legend>
-      <input type="file" id="certificado-file" accept=".pdf,image/*" class="file-input file-input-secondary w-full bg-base-100" />
-      <span class="text-xs text-base-content/70 mt-1">
-        Opcional ahora: si no lo tenés a mano, podés inscribirte igual y subirlo después ingresando tu DNI.
-      </span>
+      <legend class="fieldset-legend text-base-content">¿Qué carrera estudiás? *</legend>
+      <input type="text" name="carrera" required class="input w-full bg-base-100" placeholder="Ej: Medicina, Ingeniería Civil, Derecho..." />
     </fieldset>
   </div>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend text-base-content">Certificado de alumno regular o certificado de título (PDF o imagen)</legend>
+    <input type="file" id="certificado-file" accept=".pdf,image/*" class="file-input file-input-secondary w-full bg-base-100" />
+    <span class="text-xs text-base-content/70 mt-1">
+      Opcional ahora: si no tenés tu certificado de alumno regular o de título a mano, podés inscribirte igual y subirlo después ingresando tu DNI.
+    </span>
+  </fieldset>
 
   <!-- Áreas con carreras afines y link en nueva pestaña -->
   <div class="space-y-3">
