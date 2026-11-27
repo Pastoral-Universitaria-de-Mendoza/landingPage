@@ -5,3 +5,6 @@ dist/
 fotos/
 .agent/
 .agents/
+.env
+.env.*
+!.env.example

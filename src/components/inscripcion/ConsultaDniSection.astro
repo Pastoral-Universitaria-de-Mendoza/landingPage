@@ -1,0 +1,162 @@
+---
+import WhatsappIcon from "./WhatsappIcon.astro";
+
+interface Props {
+  whatsappNumber: string;
+  whatsappDisplay: string;
+}
+
+const { whatsappNumber, whatsappDisplay } = Astro.props;
+---
+
+<div id="consulta-wrapper" role="tabpanel" aria-labelledby="tab-consulta" class="hidden space-y-6">
+  <!-- Búsqueda de inscripción -->
+  <section class="card bg-base-200/80 border border-base-content/15 rounded-3xl p-5 sm:p-8 shadow-xl space-y-6">
+    <div class="space-y-1.5">
+      <h2 class="font-heading text-2xl sm:text-3xl text-secondary">
+        Consultá tu inscripción
+      </h2>
+      <p class="font-sans text-sm text-base-content/80 leading-relaxed max-w-xl">
+        Ingresá tu DNI y tu nombre completo para ver el estado de tu inscripción y tu pago.
+      </p>
+    </div>
+
+    <form id="consulta-form" class="space-y-5" novalidate>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend text-base-content font-sans font-bold text-sm">
+            Número de DNI
+          </legend>
+          <input
+            type="text"
+            inputmode="numeric"
+            id="consulta-dni"
+            name="consulta_dni"
+            class="input w-full bg-base-100 rounded-xl focus:border-secondary focus:outline-none"
+            placeholder="Ej: 43123456"
+            required
+          />
+          <p class="label text-xs text-base-content/60">Sin puntos ni espacios</p>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend text-base-content font-sans font-bold text-sm">
+            Nombre completo
+          </legend>
+          <input
+            type="text"
+            id="consulta-nombre"
+            name="consulta_nombre"
+            class="input w-full bg-base-100 rounded-xl focus:border-secondary focus:outline-none"
+            placeholder="Ej: Lucía Fernández"
+            autocomplete="name"
+            required
+          />
+          <p class="label text-xs text-base-content/60">Tal como figura en tu DNI</p>
+        </fieldset>
+      </div>
+
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-base-content/15">
+        <p class="font-sans text-xs text-base-content/70 leading-relaxed">
+          ¿No encontrás tu registro? Escribinos por{" "}
+          <a
+            href={`https://wa.me/${whatsappNumber}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link link-secondary font-bold"
+          >
+            WhatsApp ({whatsappDisplay})
+          </a>.
+        </p>
+        <button
+          type="submit"
+          id="btn-consulta-submit"
+          class="btn btn-secondary text-secondary-content font-heading rounded-2xl px-7 shrink-0"
+        >
+          <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+          </svg>
+          <span id="btn-consulta-label">Consultar estado</span>
+        </button>
+      </div>
+    </form>
+
+    <div id="consulta-error" role="alert" class="alert alert-error hidden text-sm rounded-2xl">
+      <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+      </svg>
+      <span id="consulta-error-text"></span>
+    </div>
+  </section>
+
+  <!-- Ficha de resultado -->
+  <section id="consulta-result" class="hidden card bg-base-200/80 border-2 border-secondary/40 rounded-3xl p-5 sm:p-8 shadow-2xl space-y-6">
+    <!-- Identidad y estado del pago prioritario -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-base-content/15">
+      <div class="space-y-1.5">
+        <span id="res-badge-estado" class="badge badge-outline badge-sm font-sans"></span>
+        <h3 id="res-nombre" class="font-display text-2xl sm:text-3xl text-secondary leading-tight"></h3>
+        <p id="res-detalle" class="font-sans text-xs sm:text-sm text-base-content/80"></p>
+      </div>
+
+      <div class="bg-base-100/80 border border-base-content/15 rounded-2xl px-4 py-3 flex flex-col sm:items-end gap-1.5 shrink-0">
+        <span class="font-sans text-xs text-base-content/70">Estado del pago</span>
+        <span id="res-badge-pago" class="badge badge-md font-heading"></span>
+      </div>
+    </div>
+
+    <!-- Comprobante de pago (oculto si ya está pagado) -->
+    <div id="consulta-whatsapp-box" class="space-y-3 pt-1">
+      <div class="space-y-1.5">
+        <h4 class="font-heading text-base text-secondary">Comprobante de pago</h4>
+        <p class="font-sans text-xs sm:text-sm text-base-content/75 leading-relaxed max-w-2xl">
+          Enviá tu comprobante de transferencia por WhatsApp al <strong>{whatsappDisplay}</strong>. El mensaje se abre con tu nombre y DNI precargados.
+        </p>
+      </div>
+      <div>
+        <a
+          id="consulta-whatsapp-btn"
+          href={`https://wa.me/${whatsappNumber}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-sm bg-[#075e54] hover:bg-[#054c44] text-white border-0 rounded-xl font-heading inline-flex items-center gap-2 px-4"
+        >
+          <WhatsappIcon class="w-4 h-4 shrink-0 text-[#25D366]" />
+          <span>Enviar comprobante por WhatsApp</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Archivos subidos -->
+    <div class="space-y-3 pt-5 border-t border-base-content/15">
+      <h4 class="font-heading text-base text-base-content">Documentación adjunta</h4>
+      <div id="res-archivos" class="space-y-2 text-sm"></div>
+
+      <form id="upload-cert-form" class="hidden bg-base-100/80 border border-base-content/15 p-4 rounded-2xl space-y-3">
+        <p class="font-sans text-xs text-base-content/75">
+          Subí tu certificado de alumno regular o certificado de título en PDF o imagen (hasta 8 MB):
+        </p>
+        <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+          <input
+            type="file"
+            id="consulta-cert-file"
+            accept=".pdf,image/*"
+            class="file-input file-input-sm file-input-secondary w-full sm:flex-1 bg-base-200 rounded-xl"
+            required
+          />
+          <button
+            type="submit"
+            id="btn-upload-cert"
+            class="btn btn-sm btn-secondary text-secondary-content font-heading rounded-xl px-5 shrink-0"
+          >
+            Subir certificado
+          </button>
+        </div>
+      </form>
+
+      <div id="consulta-upload-msg" role="status" class="alert alert-success hidden text-sm rounded-2xl">
+        <span id="consulta-upload-text"></span>
+      </div>
+    </div>
+  </section>
+</div>

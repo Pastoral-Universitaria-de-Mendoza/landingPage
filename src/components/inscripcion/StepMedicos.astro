@@ -1,0 +1,83 @@
+---
+import { GRUPOS_SANGUINEOS, OPCIONES_DIETA } from "../../data/inscripcion-mo";
+---
+
+<div data-step="2" class="hidden space-y-5">
+  <div>
+    <span class="badge badge-secondary font-display text-xs uppercase">Paso 3 de 7</span>
+    <h2 class="font-heading text-2xl sm:text-3xl text-secondary mt-2">Datos Médicos</h2>
+  </div>
+
+  <div class="bg-base-100/70 p-4 rounded-2xl border border-base-content/10 space-y-3">
+    <p class="font-heading text-sm sm:text-base">¿Tenés obra social? *</p>
+    <div class="flex gap-4">
+      <label class="flex items-center gap-2 cursor-pointer">
+        <input type="radio" name="tiene_obra_social" value="si" class="radio radio-secondary" />
+        <span class="text-sm">Sí</span>
+      </label>
+      <label class="flex items-center gap-2 cursor-pointer">
+        <input type="radio" name="tiene_obra_social" value="no" checked class="radio radio-secondary" />
+        <span class="text-sm">No</span>
+      </label>
+    </div>
+    <div id="obra-social-fields" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+      <input type="text" name="obra_social_nombre" class="input w-full bg-base-100" placeholder="¿Cuál obra social? (Ej: OSEP, OSDE) *" />
+      <input type="text" name="obra_social_afiliado" class="input w-full bg-base-100" placeholder="Número de afiliado *" />
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend text-base-content">Grupo y factor sanguíneo *</legend>
+      <select name="grupo_sanguineo" required class="select w-full bg-base-100">
+        <option value="">Seleccioná una opción</option>
+        {GRUPOS_SANGUINEOS.map((g) => (
+          <option value={g}>{g}</option>
+        ))}
+      </select>
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend text-base-content">Opciones de dieta y alimentación *</legend>
+      <select name="dieta_tipo" required class="select w-full bg-base-100">
+        {OPCIONES_DIETA.map((d) => (
+          <option value={d}>{d}</option>
+        ))}
+      </select>
+    </fieldset>
+  </div>
+
+  <div id="dieta-otra-wrap" class="hidden">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend text-base-content">Especificá tu dieta o restricción alimentaria *</legend>
+      <input type="text" name="dieta_otra" class="input w-full bg-base-100" placeholder="Detallá tu alimentación" />
+    </fieldset>
+  </div>
+
+  <div class="bg-base-100/70 p-4 rounded-2xl border border-base-content/10 space-y-3">
+    <p class="font-heading text-sm sm:text-base">¿Tenés alergias? *</p>
+    <div class="flex gap-4">
+      <label class="flex items-center gap-2 cursor-pointer">
+        <input type="radio" name="tiene_alergias" value="si" class="radio radio-secondary" />
+        <span class="text-sm">Sí</span>
+      </label>
+      <label class="flex items-center gap-2 cursor-pointer">
+        <input type="radio" name="tiene_alergias" value="no" checked class="radio radio-secondary" />
+        <span class="text-sm">No</span>
+      </label>
+    </div>
+    <div id="alergias-fields" class="hidden">
+      <input type="text" name="alergias_detalle" class="input w-full bg-base-100" placeholder="¿A qué sos alérgico/a? (alimentos, medicamentos, etc.) *" />
+    </div>
+  </div>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend text-base-content">¿Alguna enfermedad crónica o condición de salud relevante al día de hoy?</legend>
+    <textarea name="enfermedad_cronica" rows={2} class="textarea w-full bg-base-100" placeholder="Si no tenés ninguna, podés dejarlo vacío o escribir 'Ninguna'"></textarea>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend text-base-content">Medicamento recurrente o que estés tomando actualmente</legend>
+    <textarea name="medicamento_actual" rows={2} class="textarea w-full bg-base-100" placeholder="Nombre y dosis si corresponde, o 'Ninguno'"></textarea>
+  </fieldset>
+</div>

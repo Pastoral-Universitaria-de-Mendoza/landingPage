@@ -1,0 +1,161 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import InscripcionHeader from "../../components/inscripcion/InscripcionHeader.astro";
+import WizardSteps from "../../components/inscripcion/WizardSteps.astro";
+import StepBases from "../../components/inscripcion/StepBases.astro";
+import StepPersonales from "../../components/inscripcion/StepPersonales.astro";
+import StepMedicos from "../../components/inscripcion/StepMedicos.astro";
+import StepSobreMO from "../../components/inscripcion/StepSobreMO.astro";
+import StepParticipacion from "../../components/inscripcion/StepParticipacion.astro";
+import StepMovilidad from "../../components/inscripcion/StepMovilidad.astro";
+import StepPagoCierre from "../../components/inscripcion/StepPagoCierre.astro";
+import SuccessScreen from "../../components/inscripcion/SuccessScreen.astro";
+import ConsultaDniSection from "../../components/inscripcion/ConsultaDniSection.astro";
+import WhatsappIcon from "../../components/inscripcion/WhatsappIcon.astro";
+import { DEFAULT_API_URL } from "../../data/inscripcion-mo";
+
+const stepTitles = [
+  "Bases",
+  "Personales",
+  "Médicos",
+  "Participación",
+  "Sobre el MO",
+  "Movilidad",
+  "Pago y Cierre",
+];
+
+const FORM_DEV_MODE = import.meta.env.PUBLIC_FORM_DEV_MODE === "true";
+const WHATSAPP_COMPROBANTES_NUMBER = "5492634757235";
+const WHATSAPP_COMPROBANTES_DISPLAY = "+54 9 2634 75-7235";
+const contactosInscripcion = [
+  { nombre: "Abril", numero: "5492634757235", display: "+54 9 2634 75-7235" },
+  { nombre: "Marianela", numero: "5492615731464", display: "+54 9 2615 73-1464" },
+];
+---
+
+<Layout title="INSCRIPCIÓN MANOS A LA OBRA 2026" favicon="/images/logo-manos.png">
+  <section
+    id="inscripcion-root"
+    data-api-url={DEFAULT_API_URL}
+    data-dev-mode={String(FORM_DEV_MODE)}
+    data-whatsapp={WHATSAPP_COMPROBANTES_NUMBER}
+    class="bg-base-100 text-base-content py-10 sm:py-14 px-4 sm:px-8 flex-1"
+  >
+    <div class="max-w-4xl mx-auto space-y-6">
+      <InscripcionHeader />
+
+      <div id="wizard-wrapper" role="tabpanel" aria-labelledby="tab-nueva" class="space-y-6">
+        {FORM_DEV_MODE && (
+          <div class="alert alert-info text-xs sm:text-sm rounded-2xl">
+            <span>Modo DEV activo</span>
+          </div>
+        )}
+
+        <WizardSteps stepTitles={stepTitles} devMode={FORM_DEV_MODE} />
+
+        <div id="wizard-error" role="alert" class="alert alert-error hidden rounded-2xl text-sm">
+          <span id="wizard-error-text"></span>
+        </div>
+
+        <form id="mo-form" class="card bg-base-200/80 border border-base-content/15 rounded-3xl p-5 sm:p-8 shadow-xl space-y-6" novalidate>
+          <StepBases />
+          <StepPersonales />
+          <StepMedicos />
+          <StepParticipacion />
+          <StepSobreMO />
+          <StepMovilidad />
+          <StepPagoCierre whatsappNumber={WHATSAPP_COMPROBANTES_NUMBER} whatsappDisplay={WHATSAPP_COMPROBANTES_DISPLAY} />
+
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-4 border-t border-base-content/15">
+            <button type="button" id="btn-prev" class="btn btn-ghost rounded-2xl px-3 sm:px-4 text-sm sm:text-base hidden">
+              ← Anterior
+            </button>
+            <div class="ml-auto flex gap-2 sm:gap-3">
+              <button type="button" id="btn-next" class="btn btn-secondary text-secondary-content font-heading rounded-2xl px-5 sm:px-6 text-sm sm:text-base">
+                Siguiente →
+              </button>
+              <button type="submit" id="btn-submit" class="btn btn-secondary text-secondary-content font-heading rounded-2xl px-4 sm:px-7 text-sm sm:text-base hidden">
+                Enviar Inscripción 🎒✨
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <SuccessScreen whatsappNumber={WHATSAPP_COMPROBANTES_NUMBER} whatsappDisplay={WHATSAPP_COMPROBANTES_DISPLAY} />
+      <ConsultaDniSection whatsappNumber={WHATSAPP_COMPROBANTES_NUMBER} whatsappDisplay={WHATSAPP_COMPROBANTES_DISPLAY} />
+
+      <!-- Semi-footer de dudas o inconvenientes visible en todo momento -->
+      <div class="pt-4 border-t border-base-content/15 text-center">
+        <p class="font-sans text-xs sm:text-sm text-base-content/80">
+          ¿Dudas o inconvenientes respecto a la inscripción?{" "}
+          <button
+            type="button"
+            id="btn-open-contacto-modal"
+            class="link link-secondary font-heading font-semibold cursor-pointer"
+          >
+            Comunicate con el equipo de inscripciones
+          </button>
+        </p>
+      </div>
+    </div>
+
+    <dialog
+      id="contacto-inscripciones-modal"
+      aria-labelledby="contacto-inscripciones-title"
+      class="modal"
+    >
+      <div class="modal-box bg-base-200 border border-secondary/40 rounded-3xl max-w-md space-y-5">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <h1 id="contacto-inscripciones-title" class="font-heading text-xl text-secondary">
+              Equipo de Inscripciones
+            </h1>
+            <p class="font-sans text-xs sm:text-sm text-base-content/75 mt-1">
+              Escribinos por WhatsApp si tenés dudas o algún inconveniente con tu inscripción:
+            </p>
+          </div>
+          <form method="dialog">
+            <button type="submit" class="btn btn-sm btn-circle btn-ghost" aria-label="Cerrar">
+              ✕
+            </button>
+          </form>
+        </div>
+
+        <div class="space-y-3">
+          {contactosInscripcion.map((c) => (
+            <div class="bg-base-100 border border-base-content/15 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="min-w-0">
+                <p class="font-heading text-base text-base-content">{c.nombre}</p>
+                <p class="font-mono text-xs text-base-content/75 whitespace-nowrap">{c.display}</p>
+              </div>
+              <a
+                href={`https://wa.me/${c.numero}?text=Hola%20${c.nombre}!%20Tengo%20una%20consulta%20sobre%20la%20inscripci%C3%B3n%20al%20Manos%20a%20la%20Obra%202026.`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-sm bg-[#075e54] hover:bg-[#054c44] text-white border-0 rounded-xl font-heading inline-flex items-center justify-center gap-2 shrink-0 w-full sm:w-auto"
+              >
+                <WhatsappIcon class="w-4 h-4 shrink-0 text-[#25D366]" />
+                Escribir a {c.nombre}
+              </a>
+            </div>
+          ))}
+        </div>
+
+        <div class="modal-action pt-1">
+          <form method="dialog">
+            <button type="submit" class="btn btn-ghost btn-sm rounded-xl">Cerrar</button>
+          </form>
+        </div>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button type="submit">Cerrar</button>
+      </form>
+    </dialog>
+  </section>
+
+  <script>
+    import { initInscripcionWizard } from "../../scripts/inscripcion-wizard";
+    initInscripcionWizard();
+  </script>
+</Layout>

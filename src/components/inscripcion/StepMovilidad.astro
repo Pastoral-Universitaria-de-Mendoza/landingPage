@@ -1,0 +1,22 @@
+---
+import { FORMAS_TRASLADO } from "../../data/inscripcion-mo";
+---
+
+<div data-step="5" class="hidden space-y-5">
+  <div>
+    <span class="badge badge-secondary font-display text-xs uppercase">Paso 6 de 7</span>
+    <h2 class="font-heading text-2xl sm:text-3xl text-secondary mt-2">Sección Movilidad</h2>
+  </div>
+
+  <div class="space-y-2.5">
+    <p class="font-heading text-sm sm:text-base">¿Cómo vas a trasladarte a la zona? *</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {FORMAS_TRASLADO.map((forma) => (
+        <label class="flex items-center gap-3 cursor-pointer bg-base-100/75 p-4 rounded-2xl border border-base-content/10 hover:border-secondary">
+          <input type="radio" name="forma_traslado" value={forma} class="radio radio-secondary radio-sm" required />
+          <span class="text-sm">{forma}</span>
+        </label>
+      ))}
+    </div>
+  </div>
+</div>
