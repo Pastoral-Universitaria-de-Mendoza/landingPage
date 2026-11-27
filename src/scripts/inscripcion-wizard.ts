@@ -145,6 +145,7 @@ export function initInscripcionWizard() {
     const mostrarProyecto = tipoParticipante === "Referente de Área";
     const mostrarRolGeneral = tipoParticipante === "Equipo General del Manos";
     document.getElementById("estudiante-academico-fields")?.classList.toggle("hidden", mostrarJovenProf);
+    document.getElementById("certificado-alumno-regular-wrap")?.classList.toggle("hidden", mostrarJovenProf);
     document.getElementById("joven-profesional-fields")?.classList.toggle("hidden", !mostrarJovenProf);
     document.getElementById("proyecto-area-wrap")!.classList.toggle("hidden", !mostrarProyecto);
     document.getElementById("equipo-general-fields")!.classList.toggle("hidden", !mostrarRolGeneral);

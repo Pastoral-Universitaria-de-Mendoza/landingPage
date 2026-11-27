@@ -20,7 +20,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
 
 <!doctype html>
-<html lang="es" data-theme="pum" class="scroll-smooth">
+<html lang="es" data-theme="pum" class="scroll-smooth overscroll-y-none">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -30,7 +30,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     <link rel="preload" href="/fonts/pum-sans-bold.woff" as="font" type="font/woff" crossorigin />
     <link rel="preload" href="/fonts/pum-display.woff" as="font" type="font/woff" crossorigin />
   </head>
-  <body class="bg-base-100 text-base-content font-sans antialiased min-h-dvh flex flex-col selection:bg-secondary selection:text-secondary-content">
+  <body class="bg-base-100 text-base-content font-sans antialiased min-h-dvh flex flex-col overscroll-y-none selection:bg-secondary selection:text-secondary-content">
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-secondary focus:text-secondary-content focus:rounded-lg focus:shadow-lg focus:outline-hidden"

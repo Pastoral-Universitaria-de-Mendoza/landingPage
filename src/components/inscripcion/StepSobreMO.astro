@@ -39,25 +39,15 @@ const saludCalendarUrl = SALUD_CALENDAR_URL;
     </fieldset>
   </div>
 
-  <div id="estudiante-academico-fields" class="space-y-5">
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
-      <fieldset class="fieldset">
-        <legend class="fieldset-legend text-base-content">¿En qué Universidad estudiás? *</legend>
-        <input type="text" name="universidad" required class="input w-full bg-base-100" placeholder="Ej: UNCuyo, UTN, UM, UCA, UDA..." />
-      </fieldset>
-
-      <fieldset class="fieldset">
-        <legend class="fieldset-legend text-base-content">¿Qué carrera estudiás? *</legend>
-        <input type="text" name="carrera" required class="input w-full bg-base-100" placeholder="Ej: Medicina, Ingeniería Civil, Derecho..." />
-      </fieldset>
-    </div>
+  <div id="estudiante-academico-fields" class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend text-base-content">¿En qué Universidad estudiás? *</legend>
+      <input type="text" name="universidad" required class="input w-full bg-base-100" placeholder="Ej: UNCuyo, UTN, UM, UCA, UDA..." />
+    </fieldset>
 
     <fieldset class="fieldset">
-      <legend class="fieldset-legend text-base-content">Certificado de alumno regular o certificado de título (PDF o imagen)</legend>
-      <input type="file" id="certificado-file" accept=".pdf,image/*" class="file-input file-input-secondary w-full bg-base-100" />
-      <span class="text-xs text-base-content/70 mt-1">
-        Opcional ahora: si no tenés tu certificado de alumno regular o de título a mano, podés inscribirte igual y subirlo después ingresando tu DNI.
-      </span>
+      <legend class="fieldset-legend text-base-content">¿Qué carrera estudiás? *</legend>
+      <input type="text" name="carrera" required class="input w-full bg-base-100" placeholder="Ej: Medicina, Ingeniería Civil, Derecho..." />
     </fieldset>
   </div>
 
@@ -85,15 +75,34 @@ const saludCalendarUrl = SALUD_CALENDAR_URL;
     </fieldset>
   </div>
 
-  <fieldset class="fieldset">
-    <legend class="fieldset-legend text-base-content">
-      Certificado del taller «Protección de niños, niñas, adolescentes y adultos en situación de vulnerabilidad» (PDF o imagen)
-    </legend>
-    <input type="file" id="certificado-taller-file" accept=".pdf,image/*" class="file-input file-input-secondary w-full bg-base-100" />
-    <span class="text-xs text-base-content/70 mt-1">
-      Opcional ahora: si todavía no tenés el certificado del taller a mano, podés inscribirte igual y subirlo después.
-    </span>
-  </fieldset>
+  <section aria-labelledby="certificados-heading" class="rounded-2xl border-2 border-secondary/60 bg-secondary/5 p-4 sm:p-5 space-y-4 shadow-sm">
+    <div class="space-y-2">
+      <h3 id="certificados-heading" class="font-heading text-lg text-secondary">Carga de certificados</h3>
+      <div role="alert" class="alert alert-soft alert-warning text-xs sm:text-sm rounded-xl">
+        <span>
+          <strong>Importante:</strong> La carga de ambos certificados es obligatoria para la confirmación de tu inscripción. De no subirlos se dará por rechazada tu inscripción.
+        </span>
+      </div>
+    </div>
+
+    <fieldset id="certificado-alumno-regular-wrap" class="fieldset">
+      <legend class="fieldset-legend text-base-content">Certificado de alumno regular (PDF o imagen)</legend>
+      <input type="file" id="certificado-file" accept=".pdf,image/*" class="file-input file-input-secondary w-full bg-base-100" />
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend text-base-content">
+        Certificado del taller «Protección de niños, niñas, adolescentes y adultos en situación de vulnerabilidad» (PDF o imagen)
+      </legend>
+      <input type="file" id="certificado-taller-file" accept=".pdf,image/*" class="file-input file-input-secondary w-full bg-base-100" />
+    </fieldset>
+
+    <div class="rounded-xl bg-base-100/80 border border-base-content/10 p-3 sm:p-3.5 text-xs sm:text-sm text-base-content/80">
+      <p>
+        <strong class="text-base-content">¿No tenés los documentos a mano ahora?</strong> Si actualmente no contás con estos certificados, podés enviar igualmente tu inscripción sin adjuntarlos en este momento. Luego, vas a poder consultar tu inscripción con tu DNI desde esta misma página y cargar ambos certificados para completarla.
+      </p>
+    </div>
+  </section>
 
   <!-- Áreas con carreras afines y link en nueva pestaña -->
   <div class="space-y-3">
