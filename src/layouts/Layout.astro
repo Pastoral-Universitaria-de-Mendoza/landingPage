@@ -5,18 +5,28 @@ import Footer from "../components/Footer.astro";
 
 interface Props {
   title: string;
+  description?: string;
   favicon?: string;
+  ogImage?: string;
   showNav?: boolean;
   showFooter?: boolean;
 }
 
 const {
   title,
+  description,
   favicon = "/images/logo-pum.png",
+  ogImage,
   showNav = true,
   showFooter = true,
 } = Astro.props;
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const fullTitle = `${title} — Pastoral Universitaria de Mendoza`;
+const resolvedOgImage = ogImage
+  ? Astro.site
+    ? new URL(ogImage, Astro.site).href
+    : ogImage
+  : undefined;
 ---
 
 <!doctype html>
@@ -24,7 +34,16 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} — Pastoral Universitaria de Mendoza</title>
+    <title>{fullTitle}</title>
+    {description && <meta name="description" content={description} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    {description && <meta property="og:description" content={description} />}
+    {resolvedOgImage && <meta property="og:image" content={resolvedOgImage} />}
+    <meta name="twitter:card" content={resolvedOgImage ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={fullTitle} />
+    {description && <meta name="twitter:description" content={description} />}
+    {resolvedOgImage && <meta name="twitter:image" content={resolvedOgImage} />}
     <link rel="icon" type="image/png" href={favicon} />
     <link rel="preload" href="/fonts/pum-sans-regular.woff" as="font" type="font/woff" crossorigin />
     <link rel="preload" href="/fonts/pum-sans-bold.woff" as="font" type="font/woff" crossorigin />
